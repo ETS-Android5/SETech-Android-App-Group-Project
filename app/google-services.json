@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "91852722902",
+    "project_id": "setech-76ac6",
+    "storage_bucket": "setech-76ac6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91852722902:android:99ed8921b44af78000af77",
+        "android_client_info": {
+          "package_name": "com.project.setech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91852722902-ak90la2co3ooaqe8jg17iu1t1r7r3k9h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGhY0dn5KCv5vNq48VsQ86Uc48Cxrpx2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91852722902-ak90la2co3ooaqe8jg17iu1t1r7r3k9h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
