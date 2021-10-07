@@ -4,13 +4,11 @@ import java.util.List;
 
 public abstract class Item implements IItem {
     private final String name;
-    private final String description;
-    private final List<String> images;
-    private final float price;
+    private final List<Integer> images;
+    private final String price;
 
-    public Item(String name, String description, List<String> images, float price) {
+    public Item(String name, List<Integer> images, String price) {
         this.name = name;
-        this.description = description;
         this.images = images;
         this.price = price;
     }
@@ -18,13 +16,10 @@ public abstract class Item implements IItem {
     public String getName() {
         return name;
     }
-    public String getDescription() {
-        return description;
-    }
-    public List<String> getImages() {
+    public List<Integer> getImages() {
         return images;
     }
-    public float getPrice() {
+    public String getPrice() {
         return price;
     }
 }

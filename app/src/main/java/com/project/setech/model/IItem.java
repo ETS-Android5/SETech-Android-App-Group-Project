@@ -4,7 +4,6 @@ import java.util.List;
 
 public interface IItem {
     public String getName();
-    public String getDescription();
-    public List<String> getImages();
-    public float getPrice();
+    public List<Integer> getImages();
+    public String getPrice();
 }
