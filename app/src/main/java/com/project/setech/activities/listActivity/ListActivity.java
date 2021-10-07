@@ -42,7 +42,7 @@ public class ListActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
     }
 
     @Override
@@ -55,16 +55,24 @@ public class ListActivity extends AppCompatActivity {
                 if (!queryDocumentSnapshots.isEmpty()) {
                     for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
                         // Turn object into the type we need
+                        // Testing as CPU for now
                         Log.d("Items", items.get("name").toString());
 
                         Map<String, String> specifications = (Map<String, String>) items.get("specifications");
 
                         assert specifications != null;
 
+                        List<String> imageReferences = (List<String>) items.get("images");
+                        List<Integer> formatedReferences = new ArrayList<>();
+
+                        for (String i : imageReferences) {
+                            formatedReferences.add(getResources().getIdentifier(i,"drawable",getPackageName()));
+                        }
+
                         CPU newCPU = new CPU(
                                 items.getString("name"),
-                                (List<String>) items.get("images"),
-                                Float.parseFloat(items.getString("price")),
+                                formatedReferences,
+                                items.getString("price"),
                                 specifications.get("cpuFamily"),
                                 specifications.get("numCores"),
                                 specifications.get("cpuSocket"),
@@ -74,11 +82,13 @@ public class ListActivity extends AppCompatActivity {
 
                         itemsList.add(newCPU);
 
-                        Log.d("Items", newCPU.toString());
-
                         // Create recycler view
+                        listViewAdapter =  new ListViewAdapter(ListActivity.this,itemsList,CPU.class);
+                        recyclerView.setAdapter(listViewAdapter);
+                        listViewAdapter.notifyDataSetChanged();
                     }
                 } else {
+                    // No objects were found
                     Log.d("Items", "empty");
                 }
             }

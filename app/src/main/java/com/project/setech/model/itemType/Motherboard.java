@@ -15,8 +15,8 @@ public class Motherboard extends Item {
     private final String fourPinRgbHeader;
 
     public Motherboard(String name,
-                       List<String> images,
-                       float price, String mbSocket,
+                       List<Integer> images,
+                       String price, String mbSocket,
                        String wifi, String chipset,
                        String formFactor,
                        String multiGpuSupport,
