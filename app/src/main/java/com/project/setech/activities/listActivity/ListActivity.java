@@ -21,6 +21,7 @@ import com.project.setech.model.itemType.CPU;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ListActivity extends AppCompatActivity {
 
@@ -28,7 +29,7 @@ public class ListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ListViewAdapter listViewAdapter;
 
-    private List<IItem> items;
+    private List<IItem> itemsList;
 
     private CollectionReference collectionReference = db.collection("Items");
 
@@ -37,7 +38,7 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        items = new ArrayList<>();
+        itemsList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -53,11 +54,32 @@ public class ListActivity extends AppCompatActivity {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (!queryDocumentSnapshots.isEmpty()) {
                     for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
-                        Log.d("Items",items.get("name").toString());
+                        // Turn object into the type we need
+                        Log.d("Items", items.get("name").toString());
+
+                        Map<String, String> specifications = (Map<String, String>) items.get("specifications");
+
+                        assert specifications != null;
+
+                        CPU newCPU = new CPU(
+                                items.getString("name"),
+                                (List<String>) items.get("images"),
+                                Float.parseFloat(items.getString("price")),
+                                specifications.get("cpuFamily"),
+                                specifications.get("numCores"),
+                                specifications.get("cpuSocket"),
+                                specifications.get("clockSpeed"),
+                                specifications.get("boostClockSpeed")
+                        );
+
+                        itemsList.add(newCPU);
+
+                        Log.d("Items", newCPU.toString());
+
+                        // Create recycler view
                     }
-                }
-                else {
-                    Log.d("Items","empty");
+                } else {
+                    Log.d("Items", "empty");
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
