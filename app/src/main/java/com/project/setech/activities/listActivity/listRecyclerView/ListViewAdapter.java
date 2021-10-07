@@ -12,17 +12,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.setech.R;
+import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.BaseItemViewHolder;
+import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.CPUViewHolder;
 import com.project.setech.model.IItem;
 import com.project.setech.model.itemType.CPU;
+import com.project.setech.util.CategoryType;
 
 import java.util.List;
 
-public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHandler> {
+public class ListViewAdapter extends RecyclerView.Adapter{
     private Context context;
     private List<IItem> itemList;
-    private Class<com.project.setech.model.itemType.CPU> type;
+    private CategoryType type;
 
-    public ListViewAdapter(Context context, List<IItem> itemList, Class<com.project.setech.model.itemType.CPU> type) {
+    public ListViewAdapter(Context context, List<IItem> itemList, CategoryType type) {
         this.context = context;
         this.itemList = itemList;
         this.type = type;
@@ -30,22 +33,17 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHa
 
     @NonNull
     @Override
-    public ViewHandler onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Create view depending on type but test CPU for now
-        View view = LayoutInflater.from(context).inflate(R.layout.cpu_row_view, parent, false);
-
-        return new ViewHandler(view, context);
+        return new CPUViewHolder(parent);
+//        View view = LayoutInflater.from(context).inflate(R.layout.cpu_row_view, parent, false);
+//
+//        return new ViewHandler(view, context);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHandler holder, int position) {
-        CPU cpu = (CPU) itemList.get(position);
-
-        holder.itemName.setText(cpu.getName());
-        holder.itemPrice.setText(cpu.getPrice());
-        holder.itemCores.setText(cpu.getNumCores());
-        holder.itemClockSpeed.setText(cpu.getClockSpeed());
-        holder.itemImage.setImageResource(cpu.getImages().get(0));
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        ((BaseItemViewHolder) holder).bind(itemList.get(position));
     }
 
     @Override
