@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="8dp"
+    app:cardUseCompatPadding="true"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/motherboardImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/mbdgbm57201a" />
+
+        <LinearLayout
+            android:id="@+id/MotherboardPrice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/motherboardName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name" />
+
+            <TextView
+                android:id="@+id/motherboardFormFactor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Form Factor" />
+
+            <TextView
+                android:id="@+id/motherboardSocket"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MB Socket" />
+
+            <TextView
+                android:id="@+id/motherboardChipset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chipset" />
+
+            <TextView
+                android:id="@+id/motherboardPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Price" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

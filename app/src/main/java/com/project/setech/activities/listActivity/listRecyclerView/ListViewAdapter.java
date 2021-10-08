@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.project.setech.R;
 import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.BaseItemViewHolder;
 import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.CPUViewHolder;
+import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.GPUViewHolder;
+import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.MotherboardViewHolder;
 import com.project.setech.model.IItem;
 import com.project.setech.model.itemType.CPU;
 import com.project.setech.util.CategoryType;
@@ -35,10 +37,16 @@ public class ListViewAdapter extends RecyclerView.Adapter{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Create view depending on type but test CPU for now
-        return new CPUViewHolder(parent);
-//        View view = LayoutInflater.from(context).inflate(R.layout.cpu_row_view, parent, false);
-//
-//        return new ViewHandler(view, context);
+        switch (type) {
+            case CPU:
+                return new CPUViewHolder(parent);
+            case GPU:
+                return new GPUViewHolder(parent);
+            case Motherboard:
+                return new MotherboardViewHolder(parent);
+            default:
+                throw new IllegalArgumentException("Unsupported category type passed into list view adapter!");
+        }
     }
 
     @Override
@@ -49,21 +57,5 @@ public class ListViewAdapter extends RecyclerView.Adapter{
     @Override
     public int getItemCount() {
         return itemList.size();
-    }
-
-    public class ViewHandler extends RecyclerView.ViewHolder {
-        public TextView itemName, itemPrice, itemCores, itemClockSpeed;
-        public ImageView itemImage;
-
-        public ViewHandler(@NonNull View itemView, Context ctx) {
-            super(itemView);
-
-            itemName = itemView.findViewById(R.id.itemName);
-            itemPrice = itemView.findViewById(R.id.itemPrice);
-            itemCores = itemView.findViewById(R.id.itemCores);
-            itemClockSpeed = itemView.findViewById(R.id.itemClockSpeed);
-
-            itemImage = itemView.findViewById(R.id.itemImage);
-        }
     }
 }

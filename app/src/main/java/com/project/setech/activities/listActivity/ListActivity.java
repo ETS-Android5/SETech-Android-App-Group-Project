@@ -18,6 +18,7 @@ import com.project.setech.R;
 import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
 import com.project.setech.model.IItem;
 import com.project.setech.model.itemType.CPU;
+import com.project.setech.model.itemType.GPU;
 import com.project.setech.model.itemType.Motherboard;
 import com.project.setech.util.CategoryType;
 
@@ -50,6 +51,58 @@ public class ListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        collectionReference.whereEqualTo("category", db.collection("Categories").document("GPU")).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
+                        // Turn object into the type we need
+                        // Testing as CPU for now
+                        Log.d("Items", items.get("name").toString());
+
+                        Map<String, String> specifications = (Map<String, String>) items.get("specifications");
+
+                        assert specifications != null;
+                        List<String> imageReferences = (List<String>) items.get("images");
+                        List<Integer> formatedReferences = new ArrayList<>();
+
+                        for (String i : imageReferences) {
+                            formatedReferences.add(getResources().getIdentifier(i,"drawable",getPackageName()));
+                        }
+
+                        GPU newCPU = new GPU(
+                                items.getString("name"),
+                                formatedReferences,
+                                items.getString("price"),
+                                specifications.get("productModel"),
+                                specifications.get("memSize"),
+                                specifications.get("baseClockSpeed"),
+                                specifications.get("boostClockSpeed"),
+                                specifications.get("maxDisplays"),
+                                specifications.get("length"),
+                                specifications.get("dispPorts"),
+                                specifications.get("hdmiPorts")
+                        );
+
+                        itemsList.add(newCPU);
+
+                        // Create recycler view
+                        listViewAdapter =  new ListViewAdapter(ListActivity.this,itemsList, CategoryType.GPU);
+                        recyclerView.setAdapter(listViewAdapter);
+                        listViewAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    // No objects were found
+                    Log.d("Items", "empty");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
 
 //        collectionReference.whereEqualTo("category", db.collection("Categories").document("Motherboard")).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 //            @Override
@@ -103,53 +156,53 @@ public class ListActivity extends AppCompatActivity {
 //            }
 //        });
 
-        collectionReference.whereEqualTo("category", db.collection("Categories").document("CPU")).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
-                        // Turn object into the type we need
-                        // Testing as CPU for now
-                        Log.d("Items", items.get("name").toString());
-
-                        Map<String, String> specifications = (Map<String, String>) items.get("specifications");
-
-                        assert specifications != null;
-                        List<String> imageReferences = (List<String>) items.get("images");
-                        List<Integer> formatedReferences = new ArrayList<>();
-
-                        for (String i : imageReferences) {
-                            formatedReferences.add(getResources().getIdentifier(i,"drawable",getPackageName()));
-                        }
-
-                        CPU newCPU = new CPU(
-                                items.getString("name"),
-                                formatedReferences,
-                                items.getString("price"),
-                                specifications.get("cpuFamily"),
-                                specifications.get("numCores"),
-                                specifications.get("cpuSocket"),
-                                specifications.get("clockSpeed"),
-                                specifications.get("boostClockSpeed")
-                        );
-
-                        itemsList.add(newCPU);
-
-                        // Create recycler view
-                        listViewAdapter =  new ListViewAdapter(ListActivity.this,itemsList, CategoryType.CPU);
-                        recyclerView.setAdapter(listViewAdapter);
-                        listViewAdapter.notifyDataSetChanged();
-                    }
-                } else {
-                    // No objects were found
-                    Log.d("Items", "empty");
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
+//        collectionReference.whereEqualTo("category", db.collection("Categories").document("CPU")).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//            @Override
+//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                if (!queryDocumentSnapshots.isEmpty()) {
+//                    for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
+//                        // Turn object into the type we need
+//                        // Testing as CPU for now
+//                        Log.d("Items", items.get("name").toString());
+//
+//                        Map<String, String> specifications = (Map<String, String>) items.get("specifications");
+//
+//                        assert specifications != null;
+//                        List<String> imageReferences = (List<String>) items.get("images");
+//                        List<Integer> formatedReferences = new ArrayList<>();
+//
+//                        for (String i : imageReferences) {
+//                            formatedReferences.add(getResources().getIdentifier(i,"drawable",getPackageName()));
+//                        }
+//
+//                        CPU newCPU = new CPU(
+//                                items.getString("name"),
+//                                formatedReferences,
+//                                items.getString("price"),
+//                                specifications.get("cpuFamily"),
+//                                specifications.get("numCores"),
+//                                specifications.get("cpuSocket"),
+//                                specifications.get("clockSpeed"),
+//                                specifications.get("boostClockSpeed")
+//                        );
+//
+//                        itemsList.add(newCPU);
+//
+//                        // Create recycler view
+//                        listViewAdapter =  new ListViewAdapter(ListActivity.this,itemsList, CategoryType.CPU);
+//                        recyclerView.setAdapter(listViewAdapter);
+//                        listViewAdapter.notifyDataSetChanged();
+//                    }
+//                } else {
+//                    // No objects were found
+//                    Log.d("Items", "empty");
+//                }
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//
+//            }
+//        });
     }
 }
