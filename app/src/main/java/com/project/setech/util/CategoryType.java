@@ -1,7 +1,22 @@
 package com.project.setech.util;
 
 public enum CategoryType {
-    CPU,
-    Motherboard,
-    GPU
+    CPU {
+        @Override
+        public String toString() {
+            return "CPU";
+        }
+    },
+    Motherboard {
+        @Override
+        public String toString() {
+            return "Motherboard";
+        }
+    },
+    GPU {
+        @Override
+        public String toString() {
+            return "GPU";
+        }
+    }
 }
