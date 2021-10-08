@@ -61,6 +61,10 @@ public class ListActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        if (!itemsList.isEmpty()) {
+            return;
+        }
+
         ItemFactory itemFactory = new ItemFactory();
         CategoryType type = (CategoryType) getIntent().getSerializableExtra("CategoryType");
 
