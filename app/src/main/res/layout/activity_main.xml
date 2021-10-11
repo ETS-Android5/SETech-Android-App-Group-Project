@@ -6,39 +6,117 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-    <Button
-        android:id="@+id/cpuButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CPU"
+    <ImageView
+        android:id="@+id/gpuMainImage"
+        android:layout_width="134dp"
+        android:layout_height="105dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="216dp"
+        android:contentDescription="TODO"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.423" />
-
-    <Button
-        android:id="@+id/gpuButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="GPU"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cpuButton"
-        app:layout_constraintVertical_bias="0.083" />
+        app:srcCompat="@drawable/gpuimage" />
 
     <Button
         android:id="@+id/motherboardButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Motherboard"
+        android:text="@string/motherboard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.641"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gpuButton"
-        app:layout_constraintVertical_bias="0.133" />
+        app:layout_constraintVertical_bias="0.286" />
+
+    <Button
+        android:id="@+id/gpuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/gpu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cpuButton"
+        app:layout_constraintVertical_bias="0.18" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="239dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="165dp"
+        android:layout_marginTop="350dp"
+        android:text="@string/cpuDescription"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="234dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="458dp"
+        android:text="@string/gpuDescription"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/cpuMainImage"
+        android:layout_width="135dp"
+        android:layout_height="102dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="324dp"
+        android:contentDescription="TODO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/cpuimage" />
+
+    <Button
+        android:id="@+id/cpuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cpu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.442" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="229dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="572dp"
+        android:text="@string/motherboardDescription"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="103dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="265dp"
+        android:text="@string/categories"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/motherboardMainImage"
+        android:layout_width="134dp"
+        android:layout_height="91dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="116dp"
+        android:contentDescription="TODO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/motherboardimage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
