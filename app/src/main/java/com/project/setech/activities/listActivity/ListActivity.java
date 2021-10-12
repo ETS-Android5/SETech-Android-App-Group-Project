@@ -2,11 +2,18 @@ package com.project.setech.activities.listActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
+import android.opengl.Visibility;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,6 +41,17 @@ public class ListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ListViewAdapter listViewAdapter;
 
+    private Button sortByOpenButton;
+
+    private Button priceSortButton;
+    private Button nameSortButton;
+    private Button viewsSortButton;
+
+    private Button increasingSortButton;
+    private Button decreasingSortButton;
+
+    private LinearLayout sortByExpandedLayout;
+
     private List<IItem> itemsList;
 
     private CollectionReference collectionReference = db.collection("Items");
@@ -55,6 +73,92 @@ public class ListActivity extends AppCompatActivity {
         }
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, columns));
+
+        sortByOpenButton = findViewById(R.id.sortByOpenButton);
+
+        priceSortButton = findViewById(R.id.priceButton);
+        nameSortButton = findViewById(R.id.nameButton);
+        viewsSortButton = findViewById(R.id.viewsButton);
+
+        increasingSortButton = findViewById(R.id.increasingButton);
+        decreasingSortButton = findViewById(R.id.decreasingButton);
+
+        selectSortButton(priceSortButton);
+        selectOrderSortButton(increasingSortButton);
+
+        sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
+
+        sortByOpenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sortByExpandedLayout.getVisibility() == View.GONE) {
+                    sortByExpandedLayout.setVisibility(View.VISIBLE);
+                }
+                else {
+                    sortByExpandedLayout.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        priceSortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectSortButton(priceSortButton);
+
+                // Sort the itemList by price
+            }
+        });
+
+        nameSortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectSortButton(nameSortButton);
+
+                // Sort the itemList by name
+            }
+        });
+
+        viewsSortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectSortButton(viewsSortButton);
+
+                // Sort the itemList by views
+            }
+        });
+
+        increasingSortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectOrderSortButton(increasingSortButton);
+
+                // Sort the itemList by views
+            }
+        });
+
+        decreasingSortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectOrderSortButton(decreasingSortButton);
+
+                // Sort the itemList by views
+            }
+        });
+    }
+
+    private void selectSortButton(Button sortBtn) {
+        DrawableCompat.setTint(priceSortButton.getBackground(), Color.WHITE);
+        DrawableCompat.setTint(nameSortButton.getBackground(), Color.WHITE);
+        DrawableCompat.setTint(viewsSortButton.getBackground(), Color.WHITE);
+
+        DrawableCompat.setTint(sortBtn.getBackground(), Color.RED);
+    }
+
+    private void selectOrderSortButton(Button sortBtn) {
+        DrawableCompat.setTint(increasingSortButton.getBackground(), Color.WHITE);
+        DrawableCompat.setTint(decreasingSortButton.getBackground(), Color.WHITE);
+
+        DrawableCompat.setTint(sortBtn.getBackground(), Color.RED);
     }
 
     @Override
