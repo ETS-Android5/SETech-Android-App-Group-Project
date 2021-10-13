@@ -87,6 +87,7 @@ public class ListActivity extends AppCompatActivity {
         selectOrderSortButton(increasingSortButton);
 
         sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
+        sortByExpandedLayout.setVisibility(View.GONE);
 
         sortByOpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
