@@ -48,90 +48,128 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            tools:visibility="gone">
+            tools:visibility="visible">
 
             <Button
                 android:id="@+id/sortByOpenButton"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Sort By" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:backgroundTint="#FFFFFF"
+                android:drawableRight="@drawable/arrow_down"
+                android:fontFamily="@font/roboto"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:text="Sort By"
+                android:textAllCaps="false"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="5dp"
+                />
 
             <LinearLayout
                 android:id="@+id/sortByExpandedLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
                 android:orientation="vertical"
                 android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/border_bottom"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp">
 
                     <Button
                         android:id="@+id/priceButton"
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="#FFFFFF"
-                        android:checkable="true"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/sort_button_border_not_highlighted"
+                        android:fontFamily="@font/roboto"
                         android:text="Price"
-                        android:textColor="#000000" />
+                        android:textAllCaps="false"
+                        android:textColor="#535353"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@null" />
 
                     <Button
                         android:id="@+id/nameButton"
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="#FFFFFF"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/sort_button_border_not_highlighted"
+                        android:fontFamily="@font/roboto"
                         android:text="Name"
-                        android:textColor="#000000" />
+                        android:textAllCaps="false"
+                        android:textColor="#535353"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@null" />
 
                     <Button
                         android:id="@+id/viewsButton"
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="#FFFFFF"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/sort_button_border_not_highlighted"
+                        android:fontFamily="@font/roboto"
                         android:text="Views"
-                        android:textColor="#000000" />
+                        android:textAllCaps="false"
+                        android:textColor="#535353"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@null" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp">
 
                     <Button
                         android:id="@+id/increasingButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
                         android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="#FFFFFF"
+                        android:background="@drawable/sort_button_border_not_highlighted"
+                        android:fontFamily="@font/roboto"
                         android:text="Increasing"
-                        android:textColor="#000000" />
+                        android:textAllCaps="false"
+                        android:textColor="#535353"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@null" />
 
                     <Button
                         android:id="@+id/decreasingButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="#FFFFFF"
+                        android:background="@drawable/sort_button_border_not_highlighted"
+                        android:fontFamily="@font/roboto"
                         android:text="Decreasing"
-                        android:textColor="#000000" />
+                        android:textAllCaps="false"
+                        android:textColor="#535353"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@null" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -140,8 +178,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="23dp">
+            android:layout_height="wrap_content">
 
         </androidx.recyclerview.widget.RecyclerView>
 

@@ -2,11 +2,13 @@ package com.project.setech.activities.listActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.opengl.Visibility;
 import android.os.Bundle;
 import android.text.Layout;
@@ -94,9 +96,11 @@ public class ListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (sortByExpandedLayout.getVisibility() == View.GONE) {
                     sortByExpandedLayout.setVisibility(View.VISIBLE);
+                    sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_up),null);
                 }
                 else {
                     sortByExpandedLayout.setVisibility(View.GONE);
+                    sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_down),null);
                 }
             }
         });
@@ -148,18 +152,27 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private void selectSortButton(Button sortBtn) {
-        DrawableCompat.setTint(priceSortButton.getBackground(), Color.WHITE);
-        DrawableCompat.setTint(nameSortButton.getBackground(), Color.WHITE);
-        DrawableCompat.setTint(viewsSortButton.getBackground(), Color.WHITE);
+        priceSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
+        nameSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
+        viewsSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
 
-        DrawableCompat.setTint(sortBtn.getBackground(), Color.RED);
+        priceSortButton.setTextColor(AppCompatResources.getColorStateList(this,R.color.grey));
+        nameSortButton.setTextColor(AppCompatResources.getColorStateList(this,R.color.grey));
+        viewsSortButton.setTextColor(AppCompatResources.getColorStateList(this,R.color.grey));
+
+        sortBtn.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_highlighted));
+        sortBtn.setTextColor(AppCompatResources.getColorStateList(this,R.color.black));
     }
 
     private void selectOrderSortButton(Button sortBtn) {
-        DrawableCompat.setTint(increasingSortButton.getBackground(), Color.WHITE);
-        DrawableCompat.setTint(decreasingSortButton.getBackground(), Color.WHITE);
+        increasingSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
+        decreasingSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
 
-        DrawableCompat.setTint(sortBtn.getBackground(), Color.RED);
+        increasingSortButton.setTextColor(AppCompatResources.getColorStateList(this,R.color.grey));
+        decreasingSortButton.setTextColor(AppCompatResources.getColorStateList(this,R.color.grey));
+
+        sortBtn.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_highlighted));
+        sortBtn.setTextColor(AppCompatResources.getColorStateList(this,R.color.black));
     }
 
     @Override
