@@ -34,7 +34,7 @@ public class MotherboardViewHolder extends BaseItemViewHolder{
         Motherboard motherboard = (Motherboard) item;
 
         motherboardName.setText(motherboard.getName());
-        motherboardPrice.setText(motherboard.getPrice());
+        motherboardPrice.setText("$"+motherboard.getPrice());
         motherBoardFormFactor.setText(motherboard.getFormFactor());
         motherboardSocket.setText(motherboard.getMbSocket());
         motherBoardChipset.setText(motherboard.getChipset());
