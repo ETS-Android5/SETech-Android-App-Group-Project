@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.project.setech.R;
 import com.project.setech.model.IItem;
-import com.project.setech.model.itemType.CPU;
 import com.project.setech.model.itemType.Motherboard;
 
 public class MotherboardViewHolder extends BaseItemViewHolder{
@@ -22,7 +21,7 @@ public class MotherboardViewHolder extends BaseItemViewHolder{
         this.parent = parent;
 
         motherboardName = itemView.findViewById(R.id.motherboardName);
-        motherboardPrice = itemView.findViewById(R.id.motherboardPrice);
+        motherboardPrice = itemView.findViewById(R.id.gpuPrice);
         motherBoardFormFactor = itemView.findViewById(R.id.motherboardFormFactor);
         motherboardSocket = itemView.findViewById(R.id.motherboardSocket);
         motherBoardChipset = itemView.findViewById(R.id.motherboardChipset);
