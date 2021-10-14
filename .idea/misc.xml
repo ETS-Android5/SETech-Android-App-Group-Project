@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.2552083333333333" />
         <entry key="..\:/Users/danil/Desktop/306/App/app/src/main/res/layout/activity_list.xml" value="0.5457427536231884" />
         <entry key="..\:/Users/danil/Desktop/306/App/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/Users/danil/Desktop/306/App/app/src/main/res/layout/cpu_row_view.xml" value="0.5457427536231884" />
@@ -11,10 +12,11 @@
         <entry key="app/src/main/res/layout/activity_list.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11428571428571428" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.15070921985815602" />
+        <entry key="app/src/main/res/layout/all_items_view.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/layout/cpu_row_view.xml" value="0.15070921985815602" />
-        <entry key="app/src/main/res/layout/gpu_row_view.xml" value="0.15070921985815602" />
+        <entry key="app/src/main/res/layout/gpu_row_view.xml" value="0.29669862504728206" />
         <entry key="app/src/main/res/layout/motherboard_row_view.xml" value="0.15070921985815602" />
-        <entry key="app/src/main/res/menu/menu.xml" value="0.165" />
+        <entry key="app/src/main/res/menu/menu.xml" value="0.1" />
       </map>
     </option>
   </component>
