@@ -13,6 +13,7 @@ import android.opengl.Visibility;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.setech.R;
 import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
+import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
 import com.project.setech.model.IItem;
 import com.project.setech.model.ItemFactory;
 import com.project.setech.model.itemType.CPU;
@@ -90,6 +92,18 @@ public class ListActivity extends AppCompatActivity {
 
         sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
         sortByExpandedLayout.setVisibility(View.GONE);
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(ListActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Log.d("test", "onItemClick: "+itemsList.get(position).getName());
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        Log.d("test", "onItemClick: "+itemsList.get(position).getName()+" long");
+                    }
+                })
+        );
 
         sortByOpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
