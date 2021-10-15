@@ -13,7 +13,10 @@
             android:name=".activities.listActivity.ListActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.mainActivity.MainActivity"
+            android:name=".activities.searchActivity.SearchActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

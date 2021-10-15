@@ -3,7 +3,7 @@ package com.project.setech.activities.listActivity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,8 +11,10 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.opengl.Visibility;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
+import android.text.Layout;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -96,7 +98,7 @@ public class ListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (sortByExpandedLayout.getVisibility() == View.GONE) {
                     sortByExpandedLayout.setVisibility(View.VISIBLE);
-                    sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_up),null);
+                    sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null, AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_up),null);
                 }
                 else {
                     sortByExpandedLayout.setVisibility(View.GONE);
@@ -165,23 +167,23 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private void selectOrderSortButton(Button sortBtn) {
-        increasingSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
-        decreasingSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
+        increasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
+        decreasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
 
-        increasingSortButton.setTextColor(AppCompatResources.getColorStateList(this,R.color.grey));
-        decreasingSortButton.setTextColor(AppCompatResources.getColorStateList(this,R.color.grey));
+        increasingSortButton.setTextColor(AppCompatResources.getColorStateList(this, R.color.grey));
+        decreasingSortButton.setTextColor(AppCompatResources.getColorStateList(this, R.color.grey));
 
-        sortBtn.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_highlighted));
-        sortBtn.setTextColor(AppCompatResources.getColorStateList(this,R.color.black));
+        sortBtn.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_highlighted));
+        sortBtn.setTextColor(AppCompatResources.getColorStateList(this, R.color.black));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        if (!itemsList.isEmpty()) {
-            return;
-        }
+            if (!itemsList.isEmpty()) {
+                return;
+            }
 
         ItemFactory itemFactory = new ItemFactory();
         CategoryType type = (CategoryType) getIntent().getSerializableExtra("CategoryType");
@@ -208,5 +210,30 @@ public class ListActivity extends AppCompatActivity {
                 Log.d("Items", "empty");
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Type here to search");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                listViewAdapter.getFilter().filter(query.toString());
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 }
