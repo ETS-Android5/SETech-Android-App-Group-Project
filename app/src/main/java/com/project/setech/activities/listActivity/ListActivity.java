@@ -2,14 +2,22 @@ package com.project.setech.activities.listActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,6 +45,17 @@ public class ListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ListViewAdapter listViewAdapter;
 
+    private Button sortByOpenButton;
+
+    private Button priceSortButton;
+    private Button nameSortButton;
+    private Button viewsSortButton;
+
+    private Button increasingSortButton;
+    private Button decreasingSortButton;
+
+    private LinearLayout sortByExpandedLayout;
+
     private List<IItem> itemsList;
 
     private CollectionReference collectionReference = db.collection("Items");
@@ -58,11 +77,113 @@ public class ListActivity extends AppCompatActivity {
         }
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, columns));
+
+        sortByOpenButton = findViewById(R.id.sortByOpenButton);
+
+        priceSortButton = findViewById(R.id.priceButton);
+        nameSortButton = findViewById(R.id.nameButton);
+        viewsSortButton = findViewById(R.id.viewsButton);
+
+        increasingSortButton = findViewById(R.id.increasingButton);
+        decreasingSortButton = findViewById(R.id.decreasingButton);
+
+        selectSortButton(priceSortButton);
+        selectOrderSortButton(increasingSortButton);
+
+        sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
+        sortByExpandedLayout.setVisibility(View.GONE);
+
+        sortByOpenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sortByExpandedLayout.getVisibility() == View.GONE) {
+                    sortByExpandedLayout.setVisibility(View.VISIBLE);
+                    sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null, AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_up),null);
+                }
+                else {
+                    sortByExpandedLayout.setVisibility(View.GONE);
+                    sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_down),null);
+                }
+            }
+        });
+
+        priceSortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectSortButton(priceSortButton);
+
+                // Sort the itemList by price
+            }
+        });
+
+        nameSortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectSortButton(nameSortButton);
+
+                // Sort the itemList by name
+            }
+        });
+
+        viewsSortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectSortButton(viewsSortButton);
+
+                // Sort the itemList by views
+            }
+        });
+
+        increasingSortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectOrderSortButton(increasingSortButton);
+
+                // Sort the itemList by views
+            }
+        });
+
+        decreasingSortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectOrderSortButton(decreasingSortButton);
+
+                // Sort the itemList by views
+            }
+        });
+    }
+
+    private void selectSortButton(Button sortBtn) {
+        priceSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
+        nameSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
+        viewsSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
+
+        priceSortButton.setTextColor(AppCompatResources.getColorStateList(this,R.color.grey));
+        nameSortButton.setTextColor(AppCompatResources.getColorStateList(this,R.color.grey));
+        viewsSortButton.setTextColor(AppCompatResources.getColorStateList(this,R.color.grey));
+
+        sortBtn.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_highlighted));
+        sortBtn.setTextColor(AppCompatResources.getColorStateList(this,R.color.black));
+    }
+
+    private void selectOrderSortButton(Button sortBtn) {
+        increasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
+        decreasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
+
+        increasingSortButton.setTextColor(AppCompatResources.getColorStateList(this, R.color.grey));
+        decreasingSortButton.setTextColor(AppCompatResources.getColorStateList(this, R.color.grey));
+
+        sortBtn.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_highlighted));
+        sortBtn.setTextColor(AppCompatResources.getColorStateList(this, R.color.black));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+            if (!itemsList.isEmpty()) {
+                return;
+            }
 
         ItemFactory itemFactory = new ItemFactory();
         CategoryType type = (CategoryType) getIntent().getSerializableExtra("CategoryType");
