@@ -7,4 +7,5 @@ public interface IItem {
     public String getName();
     public List<Integer> getImages();
     public String getPrice();
+    public String getViewCount();
 }

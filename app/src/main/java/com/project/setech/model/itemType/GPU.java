@@ -14,8 +14,8 @@ public class GPU extends Item {
     private final String dispPorts;
     private final String hdmiPorts;
 
-    public GPU(String id,String name, List<Integer> images, String price, String productModel, String memSize, String baseClockSpeed, String boostClockSpeed, String maxDisplays, String length, String dispPorts, String hdmiPorts) {
-        super(id, name, images, price);
+    public GPU(String id,String name, List<Integer> images, String price, String viewCount, String productModel, String memSize, String baseClockSpeed, String boostClockSpeed, String maxDisplays, String length, String dispPorts, String hdmiPorts) {
+        super(id, name, images, price, viewCount);
         this.productModel = productModel;
         this.memSize = memSize;
         this.baseClockSpeed = baseClockSpeed;

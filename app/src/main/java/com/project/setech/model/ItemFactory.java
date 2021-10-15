@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemFactory {
-    public IItem createItem(String id,String name, List<Integer> images, String price, Map<String, String> specifications,CategoryType type) {
+    public IItem createItem(String id,String name, List<Integer> images, String price, String viewCount, Map<String, String> specifications,CategoryType type) {
 
         switch (type) {
             case Motherboard:
@@ -21,6 +21,7 @@ public class ItemFactory {
                         name,
                         images,
                         price,
+                        viewCount,
                         specifications.get("mbSocket"),
                         specifications.get("wifi"),
                         specifications.get("chipset"),
@@ -36,6 +37,7 @@ public class ItemFactory {
                         name,
                         images,
                         price,
+                        viewCount,
                         specifications.get("productModel"),
                         specifications.get("memSize"),
                         specifications.get("baseClockSpeed"),
@@ -51,6 +53,7 @@ public class ItemFactory {
                         name,
                         images,
                         price,
+                        viewCount,
                         specifications.get("cpuFamily"),
                         specifications.get("numCores"),
                         specifications.get("cpuSocket"),

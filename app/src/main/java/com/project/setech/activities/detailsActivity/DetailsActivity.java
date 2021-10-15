@@ -86,12 +86,17 @@ public class DetailsActivity extends AppCompatActivity {
                             Map<String,String> specifications = (Map<String, String>) itemDoc.get("specifications");
 
                             categoryType = CategoryType.valueOf(categoryDoc.getId());
-                            item = itemFactory.createItem(itemDoc.getId(),itemDoc.getString("name"),formattedImagePaths,itemDoc.getString("price"),specifications, categoryType);
+                            item = itemFactory.createItem(itemDoc.getId(),itemDoc.getString("name"),formattedImagePaths,itemDoc.getString("price"),itemDoc.getString("viewCount"),specifications, categoryType);
 
                             itemImage.setImageResource(item.getImages().get(0));
                             itemTitle.setText(item.getName());
                             itemCategory.setText(categoryType.toString());
                             itemPrice.setText("$"+item.getPrice());
+
+                            // Increment view count
+                            Map<String,Object> data = itemDoc.getData();
+                            data.put("viewCount",Integer.toString(Integer.parseInt(itemDoc.getString("viewCount"))+1));
+                            itemDocRef.set(data);
                         }
                     });
                 }

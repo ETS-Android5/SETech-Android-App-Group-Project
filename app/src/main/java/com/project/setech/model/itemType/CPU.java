@@ -13,8 +13,8 @@ public class CPU extends Item {
     private final String clockSpeed;
     private final String boostClockSpeed;
 
-    public CPU(String id,String name, List<Integer> images, String price, String cpuFamily, String numCores, String cpuSocket, String clockSpeed, String boostClockSpeed) {
-        super(id, name, images, price);
+    public CPU(String id,String name, List<Integer> images, String price,String viewCount, String cpuFamily, String numCores, String cpuSocket, String clockSpeed, String boostClockSpeed) {
+        super(id, name, images, price, viewCount);
         this.cpuFamily = cpuFamily;
         this.numCores = numCores;
         this.cpuSocket = cpuSocket;

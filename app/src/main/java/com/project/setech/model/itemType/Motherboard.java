@@ -17,14 +17,17 @@ public class Motherboard extends Item {
     public Motherboard(String id,
                        String name,
                        List<Integer> images,
-                       String price, String mbSocket,
-                       String wifi, String chipset,
+                       String price,
+                       String viewCount,
+                       String mbSocket,
+                       String wifi,
+                       String chipset,
                        String formFactor,
                        String multiGpuSupport,
                        String memType,
                        String pciSlots,
                        String fourPinRgbHeader) {
-        super(id, name, images, price);
+        super(id, name, images, price, viewCount);
         this.mbSocket = mbSocket;
         this.wifi = wifi;
         this.chipset = chipset;
