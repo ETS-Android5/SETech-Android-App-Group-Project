@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private Button cpuButton;
     private Button gpuButton;
     private Button motherboardButton;
+    private ImageView cpuMainImage;
+    private ImageView gpuMainImage;
+    private ImageView motherboardMainImage;
 
     private RecyclerView recyclerView;
     private MainListViewAdapter mainViewAdapter;
@@ -42,32 +46,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        cpuButton = findViewById(R.id.cpuButton);
-        gpuButton = findViewById(R.id.gpuButton);
-        motherboardButton = findViewById(R.id.motherboardButton);
+        cpuMainImage= findViewById(R.id.cpuMainImage);
+        gpuMainImage= findViewById(R.id.gpuMainImage);
+        motherboardMainImage= findViewById(R.id.motherboardMainImage);
 
         topItemsList= new ArrayList<>();
 
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
         int columns= 2;
 
-        cpuButton.setOnClickListener(new View.OnClickListener() {
+        cpuMainImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToListActivity(CategoryType.CPU);
             }
         });
 
-        gpuButton.setOnClickListener(new View.OnClickListener() {
+        gpuMainImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToListActivity(CategoryType.GPU);
             }
         });
 
-        motherboardButton.setOnClickListener(new View.OnClickListener() {
+        motherboardMainImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToListActivity(CategoryType.Motherboard);
