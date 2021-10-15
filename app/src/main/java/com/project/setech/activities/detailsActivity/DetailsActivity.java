@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.DocumentReference;
@@ -33,6 +34,8 @@ public class DetailsActivity extends AppCompatActivity {
     private IItem item;
     private CategoryType categoryType;
 
+    private LinearLayout parentLayout;
+
     private ImageButton leftButton;
     private ImageButton rightButton;
 
@@ -49,12 +52,17 @@ public class DetailsActivity extends AppCompatActivity {
 
     private TextView itemPrice;
 
+    private ProgressBar progressBar;
+
     private int currentlySelectedImageIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        parentLayout = findViewById(R.id.parentLayout);
+        parentLayout.setVisibility(View.GONE);
 
         leftButton = findViewById(R.id.leftDetailsButton);
         rightButton = findViewById(R.id.rightDetailsButton);
@@ -72,6 +80,8 @@ public class DetailsActivity extends AppCompatActivity {
 
         itemPrice = findViewById(R.id.detailsItemPrice);
 
+        progressBar = findViewById(R.id.detailsProgressBar);
+
         // Fetch item with Id
         String itemId = (String) getIntent().getSerializableExtra("ItemId");
         DocumentReference itemDocRef = db.collection("Items").document(itemId);
@@ -87,6 +97,9 @@ public class DetailsActivity extends AppCompatActivity {
                     // figure out which item type it is and cast it through item factor
                     itemDoc.getDocumentReference("category").get().addOnCompleteListener(categoryTask -> {
                         if (categoryTask.isSuccessful()) {
+                            progressBar.setVisibility(View.GONE);
+                            parentLayout.setVisibility(View.VISIBLE);
+
                             DocumentSnapshot categoryDoc = categoryTask.getResult();
 
                             List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) itemDoc.get("images"), DetailsActivity.this);
