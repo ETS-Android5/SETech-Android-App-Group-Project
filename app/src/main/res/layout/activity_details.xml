@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#FFFFFF"
-                app:srcCompat="@drawable/ic_arrow_left_hollow" />
+                app:srcCompat="@drawable/ic_arrow_left_filled" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

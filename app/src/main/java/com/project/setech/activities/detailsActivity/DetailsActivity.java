@@ -1,6 +1,7 @@
 package com.project.setech.activities.detailsActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.setech.R;
+import com.project.setech.activities.listActivity.ListActivity;
 import com.project.setech.model.IItem;
 import com.project.setech.model.ItemFactory;
 import com.project.setech.util.CategoryType;
@@ -46,6 +48,8 @@ public class DetailsActivity extends AppCompatActivity {
     private LinearLayout specificationsLayout;
 
     private TextView itemPrice;
+
+    private int currentlySelectedImageIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,11 +95,12 @@ public class DetailsActivity extends AppCompatActivity {
                             categoryType = CategoryType.valueOf(categoryDoc.getId());
                             item = itemFactory.createItem(itemDoc.getId(),itemDoc.getString("name"),formattedImagePaths,itemDoc.getString("price"),itemDoc.getString("viewCount"),specifications, categoryType);
 
-                            itemImage.setImageResource(item.getImages().get(0));
+                            itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
                             itemTitle.setText(item.getName());
                             itemCategory.setText(categoryType.toString());
                             itemPrice.setText("$"+item.getPrice());
 
+                            // Populate specifications data layout
                             assert specifications != null;
                             for (String key : specifications.keySet()) {
 
@@ -111,6 +116,27 @@ public class DetailsActivity extends AppCompatActivity {
                                 specificationsLayout.addView(specRow);
                             }
 
+                            // Add on click handlers to Left, Right and circle buttons
+                            rightButton.setOnClickListener(view -> {
+                                onImageArrowClick();
+                            });
+
+                            leftButton.setOnClickListener(view -> {
+                                onImageArrowClick();
+                            });
+
+                            circle1.setOnClickListener(view -> {
+                                onImageButtonClick(0);
+                            });
+
+                            circle2.setOnClickListener(view -> {
+                                onImageButtonClick(1);
+                            });
+
+                            circle3.setOnClickListener(view -> {
+                                onImageButtonClick(2);
+                            });
+
                             // Increment view count
                             Map<String,Object> data = itemDoc.getData();
                             data.put("viewCount",Integer.toString(Integer.parseInt(itemDoc.getString("viewCount"))+1));
@@ -123,5 +149,35 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void onImageArrowClick() {
+        currentlySelectedImageIndex = (currentlySelectedImageIndex+1) % 3;
+        itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
+        highlightImageCircle();
+    }
+
+    private void onImageButtonClick(int index) {
+        currentlySelectedImageIndex = index;
+        itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
+        highlightImageCircle();
+    }
+
+    private void highlightImageCircle() {
+        if (currentlySelectedImageIndex == 0) {
+            circle1.setImageResource(R.drawable.ic_circle_filled);
+            circle2.setImageResource(R.drawable.ic_circle_hollow);
+            circle3.setImageResource(R.drawable.ic_circle_hollow);
+        }
+        else if (currentlySelectedImageIndex == 1) {
+            circle1.setImageResource(R.drawable.ic_circle_hollow);
+            circle2.setImageResource(R.drawable.ic_circle_filled);
+            circle3.setImageResource(R.drawable.ic_circle_hollow);
+        }
+        else if (currentlySelectedImageIndex == 2) {
+            circle1.setImageResource(R.drawable.ic_circle_hollow);
+            circle2.setImageResource(R.drawable.ic_circle_hollow);
+            circle3.setImageResource(R.drawable.ic_circle_filled);
+        }
     }
 }
