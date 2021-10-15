@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -92,6 +95,21 @@ public class DetailsActivity extends AppCompatActivity {
                             itemTitle.setText(item.getName());
                             itemCategory.setText(categoryType.toString());
                             itemPrice.setText("$"+item.getPrice());
+
+                            assert specifications != null;
+                            for (String key : specifications.keySet()) {
+
+                                LayoutInflater li = LayoutInflater.from(DetailsActivity.this);
+                                View specRow = li.inflate(R.layout.specifications_row,null,false);
+
+                                TextView specName = specRow.findViewById(R.id.specName);
+                                specName.setText(Util.splitCamelCase(key));
+
+                                TextView specValue = specRow.findViewById(R.id.specValue);
+                                specValue.setText(specifications.get(key));
+
+                                specificationsLayout.addView(specRow);
+                            }
 
                             // Increment view count
                             Map<String,Object> data = itemDoc.getData();
