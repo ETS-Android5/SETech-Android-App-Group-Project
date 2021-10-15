@@ -31,7 +31,7 @@ public class GPUViewHolder extends BaseItemViewHolder{
         GPU gpu = (GPU) item;
 
         gpuName.setText(gpu.getName());
-        gpuPrice.setText(gpu.getPrice());
+        gpuPrice.setText("$"+gpu.getPrice());
         gpuImage.setImageResource(gpu.getImages().get(0));
     }
 }

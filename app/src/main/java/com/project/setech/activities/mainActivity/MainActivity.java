@@ -1,6 +1,7 @@
 package com.project.setech.activities.mainActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,12 +29,16 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button cpuButton;
-    private Button gpuButton;
-    private Button motherboardButton;
+
     private ImageView cpuMainImage;
     private ImageView gpuMainImage;
     private ImageView motherboardMainImage;
+    private TextView cpuMain;
+    private TextView gpuMain;
+    private TextView motherboardMain;
+    private TextView cpuMainDescription;
+    private TextView gpuMainDescription;
+    private TextView motherboardMainDescription;
 
     private RecyclerView recyclerView;
     private MainListViewAdapter mainViewAdapter;
@@ -49,15 +55,35 @@ public class MainActivity extends AppCompatActivity {
         cpuMainImage= findViewById(R.id.cpuMainImage);
         gpuMainImage= findViewById(R.id.gpuMainImage);
         motherboardMainImage= findViewById(R.id.motherboardMainImage);
+        cpuMain= findViewById(R.id.cpuMain);
+        gpuMain= findViewById(R.id.gpuMain);
+        motherboardMain=findViewById(R.id.motherboardMain);
+        cpuMainDescription=findViewById(R.id.cpuMainDescription);
+        gpuMainDescription=findViewById(R.id.gpuMainDescription);
+        motherboardMainDescription=findViewById(R.id.motherboardMainDescription);
 
         topItemsList= new ArrayList<>();
 
         recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
+        //recyclerView.setHasFixedSize(true);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //set up adapter
         int columns= 2;
 
         cpuMainImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToListActivity(CategoryType.CPU);
+            }
+        });
+        cpuMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToListActivity(CategoryType.CPU);
+            }
+        });
+        cpuMainDescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToListActivity(CategoryType.CPU);
@@ -70,8 +96,32 @@ public class MainActivity extends AppCompatActivity {
                 goToListActivity(CategoryType.GPU);
             }
         });
+        gpuMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToListActivity(CategoryType.GPU);
+            }
+        });
+        gpuMainDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToListActivity(CategoryType.GPU);
+            }
+        });
 
         motherboardMainImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToListActivity(CategoryType.Motherboard);
+            }
+        });
+        motherboardMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToListActivity(CategoryType.Motherboard);
+            }
+        });
+        motherboardMainDescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToListActivity(CategoryType.Motherboard);
@@ -108,10 +158,4 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-   // public List<Item> retrieveTopItems(){
-        //return topItems;
-        // add a counter every time an item gets clicked and then return the top 3 items
-        // that has been clicked the most. Maybe in ListActivity?
-
-    //}
 }

@@ -35,7 +35,7 @@ public class CPUViewHolder extends BaseItemViewHolder{
         CPU cpu = (CPU) item;
 
         itemName.setText(cpu.getName());
-        itemPrice.setText(cpu.getPrice());
+        itemPrice.setText("$"+cpu.getPrice());
         itemCores.setText(cpu.getNumCores());
         itemClockSpeed.setText(cpu.getClockSpeed());
         itemImage.setImageResource(cpu.getImages().get(0));
