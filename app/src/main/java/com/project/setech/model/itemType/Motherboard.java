@@ -14,7 +14,8 @@ public class Motherboard extends Item {
     private final String pciSlots;
     private final String fourPinRgbHeader;
 
-    public Motherboard(String name,
+    public Motherboard(String id,
+                       String name,
                        List<Integer> images,
                        String price, String mbSocket,
                        String wifi, String chipset,
@@ -23,7 +24,7 @@ public class Motherboard extends Item {
                        String memType,
                        String pciSlots,
                        String fourPinRgbHeader) {
-        super(name, images, price);
+        super(id, name, images, price);
         this.mbSocket = mbSocket;
         this.wifi = wifi;
         this.chipset = chipset;

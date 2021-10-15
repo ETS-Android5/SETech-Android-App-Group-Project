@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 import com.project.setech.model.Item;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class CPU extends Item {
@@ -14,8 +13,8 @@ public class CPU extends Item {
     private final String clockSpeed;
     private final String boostClockSpeed;
 
-    public CPU(String name, List<Integer> images, String price, String cpuFamily, String numCores, String cpuSocket, String clockSpeed, String boostClockSpeed) {
-        super(name, images, price);
+    public CPU(String id,String name, List<Integer> images, String price, String cpuFamily, String numCores, String cpuSocket, String clockSpeed, String boostClockSpeed) {
+        super(id, name, images, price);
         this.cpuFamily = cpuFamily;
         this.numCores = numCores;
         this.cpuSocket = cpuSocket;

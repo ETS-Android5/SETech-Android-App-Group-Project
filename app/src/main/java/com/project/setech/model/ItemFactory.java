@@ -12,11 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemFactory {
-    public IItem createItem(String name, List<Integer> images, String price, Map<String, String> specifications,CategoryType type) {
+    public IItem createItem(String id,String name, List<Integer> images, String price, Map<String, String> specifications,CategoryType type) {
 
         switch (type) {
             case Motherboard:
                 return new Motherboard(
+                        id,
                         name,
                         images,
                         price,
@@ -31,6 +32,7 @@ public class ItemFactory {
                 );
             case GPU:
                 return new GPU(
+                        id,
                         name,
                         images,
                         price,
@@ -45,6 +47,7 @@ public class ItemFactory {
                 );
             case CPU:
                 return new CPU(
+                        id,
                         name,
                         images,
                         price,

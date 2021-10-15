@@ -7,6 +7,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.opengl.Visibility;
@@ -25,6 +26,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.setech.R;
+import com.project.setech.activities.MainActivity;
+import com.project.setech.activities.detailsActivity.DetailsActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
 import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
 import com.project.setech.model.IItem;
@@ -96,12 +99,17 @@ public class ListActivity extends AppCompatActivity {
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(ListActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        Log.d("test", "onItemClick: "+itemsList.get(position).getName());
+                        Log.d("test", "onItemClick: "+itemsList.get(position).getId());
+
+                        Intent newIntent = new Intent(ListActivity.this, DetailsActivity.class);
+                        newIntent.putExtra("ItemId", itemsList.get(position).getId());
+                        startActivity(newIntent);
+                        finish();
                     }
 
-                    @Override public void onLongItemClick(View view, int position) {
-                        Log.d("test", "onItemClick: "+itemsList.get(position).getName()+" long");
-                    }
+//                    @Override public void onLongItemClick(View view, int position) {
+//                        Log.d("test", "onItemClick: "+itemsList.get(position).getName()+" long");
+//                    }
                 })
         );
 
@@ -208,7 +216,7 @@ public class ListActivity extends AppCompatActivity {
                     List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"),ListActivity.this);
                     Map<String,String> specifications = (Map<String, String>) items.get("specifications");
 
-                    IItem newItem = itemFactory.createItem(items.getString("name"),formattedImagePaths,items.getString("price"),specifications,type);
+                    IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"),formattedImagePaths,items.getString("price"),specifications,type);
 
                     itemsList.add(newItem);
 

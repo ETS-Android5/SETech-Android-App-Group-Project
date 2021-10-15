@@ -169,7 +169,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/gpuPrice"
+                    android:id="@+id/detailsItemPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
