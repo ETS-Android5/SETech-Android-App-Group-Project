@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11428571428571428" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/all_items_view.xml" value="0.23233695652173914" />
+        <entry key="app/src/main/res/layout/all_view.xml" value="0.20364583333333333" />
         <entry key="app/src/main/res/layout/cpu_row_view.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/gpu_row_view.xml" value="0.29669862504728206" />
         <entry key="app/src/main/res/layout/motherboard_row_view.xml" value="0.15070921985815602" />
