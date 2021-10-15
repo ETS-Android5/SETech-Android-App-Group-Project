@@ -68,7 +68,7 @@ public class SearchActivity extends AppCompatActivity {
                     System.out.println("ITEM NAME: "+newItem.getName());
                     itemsList.add(newItem);
                 }
-                System.out.println("SIZE: "+itemsList.size());
+
                 // Create recycler view
                 searchViewAdapter = new SearchViewAdapter(SearchActivity.this, itemsList, CategoryType.ALL);
                 searchViewAdapter.getFilter().filter(searchString.toString());
