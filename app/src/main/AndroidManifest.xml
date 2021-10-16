@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SETECH">
         <activity
+            android:name=".activities.detailsActivity.DetailsActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.listActivity.ListActivity"
             android:exported="true" />
         <activity
