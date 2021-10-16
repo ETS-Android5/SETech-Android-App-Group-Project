@@ -19,8 +19,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.project.setech.R;
+import com.project.setech.activities.detailsActivity.DetailsActivity;
 import com.project.setech.activities.listActivity.ListActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
+import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
 import com.project.setech.activities.mainActivity.MainActivity;
 import com.project.setech.activities.searchActivity.searchRecyclerView.SearchViewAdapter;
 import com.project.setech.model.IItem;
@@ -81,6 +83,19 @@ public class SearchActivity extends AppCompatActivity {
 
         sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
         sortByExpandedLayout.setVisibility(View.GONE);
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(SearchActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Log.d("test", "onItemClick: "+itemsList.get(position).getId());
+
+                        Intent newIntent = new Intent(SearchActivity.this, DetailsActivity.class);
+                        newIntent.putExtra("ItemId", itemsList.get(position).getId());
+                        startActivity(newIntent);
+                        finish();
+                    }
+                })
+        );
 
         sortByOpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
