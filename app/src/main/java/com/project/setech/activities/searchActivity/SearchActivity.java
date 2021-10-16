@@ -1,5 +1,6 @@
 package com.project.setech.activities.searchActivity;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SearchView;
@@ -59,6 +60,13 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        //actionbar
+        ActionBar actionBar = getSupportActionBar();
+
+        //set back button
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
         itemsList = new ArrayList<>();
 
@@ -245,5 +253,18 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent newIntent = new Intent(SearchActivity.this, MainActivity.class);
+        startActivity(newIntent);
+        finish();
     }
 }
