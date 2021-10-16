@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.setech.R;
@@ -19,16 +20,17 @@ import com.project.setech.model.IItem;
 import com.project.setech.model.itemType.CPU;
 import com.project.setech.util.CategoryType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainListViewAdapter extends RecyclerView.Adapter{
     private Context context;
-    private List<IItem> itemList;
+    private List<IItem> topItemsList;
     private CategoryType type;
 
     public MainListViewAdapter(Context context, List<IItem> itemList, CategoryType type) {
         this.context = context;
-        this.itemList = itemList;
+        this.topItemsList = itemList;
         this.type = type;
     }
 
@@ -40,11 +42,11 @@ public class MainListViewAdapter extends RecyclerView.Adapter{
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((BaseItemViewHolder) holder).bind(itemList.get(position));
+        ((BaseItemViewHolder) holder).bind(topItemsList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return itemList.size();
+        return topItemsList.size();
     }
 }

@@ -1,12 +1,17 @@
 package com.project.setech.activities.mainActivity;
 
+import static com.project.setech.util.CategoryType.ALL;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,13 +19,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.core.OrderBy;
 import com.project.setech.R;
 import com.project.setech.activities.listActivity.ListActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
 import com.project.setech.activities.mainActivity.mainRecyclerView.MainListViewAdapter;
 import com.project.setech.activities.searchActivity.SearchActivity;
+import com.project.setech.activities.searchActivity.searchRecyclerView.SearchViewAdapter;
 import com.project.setech.model.IItem;
 import com.project.setech.model.Item;
 import com.project.setech.model.ItemFactory;
@@ -49,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private List<IItem> topItemsList;
 
     private FirebaseFirestore db= FirebaseFirestore.getInstance();
-    private CollectionReference ref = db.collection("Categories");
+    private CollectionReference ref = db.collection("Items");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +81,10 @@ public class MainActivity extends AppCompatActivity {
         motherboardMainDescription=findViewById(R.id.motherboardMainDescription);
 
         topItemsList= new ArrayList<>();
-
-        recyclerView = findViewById(R.id.recycler_view);
-        //recyclerView.setHasFixedSize(true);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        //set up adapter
-        int columns= 2;
+        recyclerView = findViewById(R.id.recycler_view);;
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
 
         cpuMainImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,20 +150,27 @@ public class MainActivity extends AppCompatActivity {
         if(!topItemsList.isEmpty()){
             return;
         }
-        ItemFactory itemFactory= new ItemFactory();
-        CategoryType type= (CategoryType) getIntent().getSerializableExtra("CategoryType");
-        /*List<Item> topItems = retrieveTopItems();
-        for(Item i: topItems){
-            List<Integer> formattedImagePaths= Util.formatDrawableStringList((List<String>) i.get("images"),MainActivity.this);
-            Map<String,String> specifications = (Map<String, String>) i.get("specifications");
-            IItem newItem = itemFactory.createItem(i.getString("name"), formattedImagePaths,i.getString("price"),specifications,type);
+         ItemFactory itemFactory= new ItemFactory();
+        CategoryType type= ALL;
+        ref.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if (!queryDocumentSnapshots.isEmpty()) {
+                for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
 
-        itemsList.add(newItem);
+                    List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"), MainActivity.this);
+                    Map<String, String> specifications = (Map<String, String>) items.get("specifications");
 
-        mainViewAdapter = new MainListViewAdapter(MainActivity.this, itemsList,type);
-        recyclerView.setAdapter(mainViewAdapter);
-        mainViewAdapter.notifyDataSetChanged();
-        }*/
+                    IItem newItem = itemFactory.createItem(items.getString("name"), formattedImagePaths, items.getString("price"), specifications, type);
+                    topItemsList.add(newItem);
+                    Log.d("items", items.getId());
+                }
+
+                // Create recycler view
+                mainViewAdapter = new MainListViewAdapter(MainActivity.this, topItemsList, CategoryType.ALL);
+                recyclerView.setAdapter(mainViewAdapter);
+                mainViewAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
     public void goToListActivity(CategoryType type) {

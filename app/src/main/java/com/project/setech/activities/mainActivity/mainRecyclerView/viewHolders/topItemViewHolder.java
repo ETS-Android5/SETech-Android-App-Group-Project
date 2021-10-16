@@ -7,10 +7,11 @@ import android.widget.TextView;
 
 
 import com.project.setech.R;
+import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.BaseItemViewHolder;
 import com.project.setech.model.IItem;
 import com.project.setech.model.Item;
 
-public class topItemViewHolder extends BaseMainViewHolder{
+public class topItemViewHolder extends BaseItemViewHolder {
     public ViewGroup parent;
 
     public TextView itemName, itemPrice;
