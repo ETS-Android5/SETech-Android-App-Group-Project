@@ -1,4 +1,4 @@
-package com.project.setech.activities.listActivity.listRecyclerView;
+package com.project.setech.activities.searchActivity.searchRecyclerView;
 
 import android.content.Context;
 import android.util.Log;
@@ -27,13 +27,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
-public class ListViewAdapter extends RecyclerView.Adapter implements Filterable {
+public class SearchViewAdapter extends RecyclerView.Adapter implements Filterable{
     private Context context;
     private List<IItem> itemList;
     private CategoryType type;
     private List<IItem> itemListFull;
 
-    public ListViewAdapter(Context context, List<IItem> itemList, CategoryType type) {
+    public SearchViewAdapter(Context context, List<IItem> itemList, CategoryType type) {
         this.context = context;
         this.itemList = itemList;
         this.type = type;
@@ -45,12 +45,8 @@ public class ListViewAdapter extends RecyclerView.Adapter implements Filterable 
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Create view depending on type but test CPU for now
         switch (type) {
-            case CPU:
-                return new CPUViewHolder(parent);
-            case GPU:
-                return new GPUViewHolder(parent);
-            case Motherboard:
-                return new MotherboardViewHolder(parent);
+            case ALL:
+                return new ALLViewHolder(parent);
             default:
                 throw new IllegalArgumentException("Unsupported category type passed into list view adapter!");
         }

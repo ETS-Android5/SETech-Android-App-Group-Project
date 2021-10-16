@@ -36,12 +36,6 @@
                 android:text="Header titile"
                 android:textAlignment="center" />
 
-            <ImageView
-                android:id="@+id/searchSvg"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_search" />
         </LinearLayout>
 
         <LinearLayout

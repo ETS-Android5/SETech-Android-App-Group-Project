@@ -60,6 +60,12 @@ public class ItemFactory {
                         specifications.get("clockSpeed"),
                         specifications.get("boostClockSpeed")
                 );
+            case ALL:
+                return new Item(
+                        name,
+                        images,
+                        price
+                );
             default:
                 throw new IllegalArgumentException("Unsupported item fetched from the database!");
         }

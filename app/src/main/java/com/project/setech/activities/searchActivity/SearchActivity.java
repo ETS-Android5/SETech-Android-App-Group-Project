@@ -1,6 +1,5 @@
-package com.project.setech.activities.listActivity;
+package com.project.setech.activities.searchActivity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SearchView;
@@ -8,36 +7,24 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.opengl.Visibility;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.project.setech.R;
-import com.project.setech.activities.MainActivity;
-import com.project.setech.activities.detailsActivity.DetailsActivity;
+import com.project.setech.activities.listActivity.ListActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
-import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
+import com.project.setech.activities.mainActivity.MainActivity;
+import com.project.setech.activities.searchActivity.searchRecyclerView.SearchViewAdapter;
 import com.project.setech.model.IItem;
 import com.project.setech.model.ItemFactory;
-import com.project.setech.model.itemType.CPU;
-import com.project.setech.model.itemType.GPU;
-import com.project.setech.model.itemType.Motherboard;
 import com.project.setech.util.CategoryType;
 import com.project.setech.util.Util;
 
@@ -45,11 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ListActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private RecyclerView recyclerView;
-    private ListViewAdapter listViewAdapter;
+    private SearchViewAdapter searchViewAdapter;
 
     private Button sortByOpenButton;
 
@@ -63,7 +50,7 @@ public class ListActivity extends AppCompatActivity {
     private LinearLayout sortByExpandedLayout;
 
     private List<IItem> itemsList;
-
+    private String searchString;
     private CollectionReference collectionReference = db.collection("Items");
 
     @Override
@@ -77,10 +64,6 @@ public class ListActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         int columns = 2;
-
-        if ((CategoryType) getIntent().getSerializableExtra("CategoryType") == CategoryType.Motherboard) {
-            columns = 1;
-        }
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, columns));
 
@@ -99,33 +82,16 @@ public class ListActivity extends AppCompatActivity {
         sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
         sortByExpandedLayout.setVisibility(View.GONE);
 
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(ListActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        Log.d("test", "onItemClick: "+itemsList.get(position).getId());
-
-                        Intent newIntent = new Intent(ListActivity.this, DetailsActivity.class);
-                        newIntent.putExtra("ItemId", itemsList.get(position).getId());
-                        startActivity(newIntent);
-                        finish();
-                    }
-
-//                    @Override public void onLongItemClick(View view, int position) {
-//                        Log.d("test", "onItemClick: "+itemsList.get(position).getName()+" long");
-//                    }
-                })
-        );
-
         sortByOpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (sortByExpandedLayout.getVisibility() == View.GONE) {
                     sortByExpandedLayout.setVisibility(View.VISIBLE);
-                    sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_up),null);
+                    sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null, AppCompatResources.getDrawable(SearchActivity.this,R.drawable.arrow_up),null);
                 }
                 else {
                     sortByExpandedLayout.setVisibility(View.GONE);
-                    sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_down),null);
+                    sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(SearchActivity.this,R.drawable.arrow_down),null);
                 }
             }
         });
@@ -190,14 +156,14 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private void selectOrderSortButton(Button sortBtn) {
-        increasingSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
-        decreasingSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
+        increasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
+        decreasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
 
-        increasingSortButton.setTextColor(AppCompatResources.getColorStateList(this,R.color.grey));
-        decreasingSortButton.setTextColor(AppCompatResources.getColorStateList(this,R.color.grey));
+        increasingSortButton.setTextColor(AppCompatResources.getColorStateList(this, R.color.grey));
+        decreasingSortButton.setTextColor(AppCompatResources.getColorStateList(this, R.color.grey));
 
-        sortBtn.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_highlighted));
-        sortBtn.setTextColor(AppCompatResources.getColorStateList(this,R.color.black));
+        sortBtn.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_highlighted));
+        sortBtn.setTextColor(AppCompatResources.getColorStateList(this, R.color.black));
     }
 
     @Override
@@ -208,31 +174,38 @@ public class ListActivity extends AppCompatActivity {
             return;
         }
 
-        ItemFactory itemFactory = new ItemFactory();
-        CategoryType type = (CategoryType) getIntent().getSerializableExtra("CategoryType");
+        searchString = (String) getIntent().getSerializableExtra("SearchString");
 
-        collectionReference.whereEqualTo("category", db.collection("Categories").document(type.toString())).get().addOnSuccessListener(queryDocumentSnapshots -> {
+        ItemFactory itemFactory = new ItemFactory();
+
+        CategoryType type = CategoryType.ALL;
+
+        collectionReference.get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
-                    // Turn object into the type we need
 
-                    List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"),ListActivity.this);
-                    Map<String,String> specifications = (Map<String, String>) items.get("specifications");
+                    List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"), SearchActivity.this);
+                    Map<String, String> specifications = (Map<String, String>) items.get("specifications");
 
-                    IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"),formattedImagePaths,items.getString("price"),items.getString("viewCount"),specifications,type);
-
+                    IItem newItem = itemFactory.createItem(items.getString("name"), formattedImagePaths, items.getString("price"), specifications, type);
+                    System.out.println("ITEM NAME: "+newItem.getName());
                     itemsList.add(newItem);
-
-                    // Create recycler view
-                    listViewAdapter = new ListViewAdapter(ListActivity.this, itemsList, type);
-                    recyclerView.setAdapter(listViewAdapter);
-                    listViewAdapter.notifyDataSetChanged();
                 }
-            } else {
-                // No objects were found
-                Log.d("Items", "empty");
+
+                // Create recycler view
+                searchViewAdapter = new SearchViewAdapter(SearchActivity.this, itemsList, CategoryType.ALL);
+                searchViewAdapter.getFilter().filter(searchString.toString());
+                recyclerView.setAdapter(searchViewAdapter);
+                searchViewAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    public void goToSearchActivity(String searchString) {
+        Intent newIntent = new Intent(SearchActivity.this, SearchActivity.class);
+        newIntent.putExtra("SearchString", searchString);
+        startActivity(newIntent);
+        finish();
     }
 
     @Override
@@ -247,7 +220,7 @@ public class ListActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                listViewAdapter.getFilter().filter(query.toString());
+                goToSearchActivity(query);
                 return false;
             }
 

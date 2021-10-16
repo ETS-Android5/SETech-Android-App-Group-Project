@@ -18,5 +18,11 @@ public enum CategoryType {
         public String toString() {
             return "GPU";
         }
+    },
+    ALL {
+        @Override
+        public String toString() {
+            return "ALL";
+        }
     }
 }

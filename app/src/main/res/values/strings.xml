@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">SETECH</string>
+    <string name="categories">Categories</string>
+    <string name="cpu">CPUs</string>
+    <string name="gpu">GPUs</string>
+    <string name="motherboard">Motherboards</string>
+    <string name="cpuDescription">The central processing unit (CPU) is the part of the computer that makes the computer run by carrying out instructions. </string>
+    <string name="gpuDescription">Graphics cards take data from the CPU and turn it into quality pictures. Graphic cards are the key to high performance and excellent colours. </string>
+    <string name="motherboardDescription">Motherboards bring together a unique blend of features and technologies that offer users the absolute ultimate platform for their computing needs. </string>
+    <string name="hint_search">Search for an item...</string>
 </resources>
