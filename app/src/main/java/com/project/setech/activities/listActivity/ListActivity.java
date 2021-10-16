@@ -1,6 +1,7 @@
 package com.project.setech.activities.listActivity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SearchView;
@@ -32,6 +33,8 @@ import com.project.setech.R;
 import com.project.setech.activities.detailsActivity.DetailsActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
 import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
+import com.project.setech.activities.mainActivity.MainActivity;
+import com.project.setech.activities.searchActivity.SearchActivity;
 import com.project.setech.model.IItem;
 import com.project.setech.model.ItemFactory;
 import com.project.setech.model.itemType.CPU;
@@ -69,6 +72,13 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        //actionbar
+        ActionBar actionBar = getSupportActionBar();
+
+        //set back button
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
         itemsList = new ArrayList<>();
 
@@ -259,5 +269,18 @@ public class ListActivity extends AppCompatActivity {
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent newIntent = new Intent(ListActivity.this, MainActivity.class);
+        startActivity(newIntent);
+        finish();
     }
 }
