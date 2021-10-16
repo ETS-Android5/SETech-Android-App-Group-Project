@@ -246,12 +246,14 @@ public class ListActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                listViewAdapter.getFilter().filter(query.toString());
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if(!newText.isEmpty()) {
+                    listViewAdapter.getFilter().filter(newText);
+                }
                 return false;
             }
         });
