@@ -62,9 +62,11 @@ public class ItemFactory {
                 );
             case ALL:
                 return new Item(
+                        id,
                         name,
                         images,
-                        price
+                        price,
+                        viewCount
                 );
             default:
                 throw new IllegalArgumentException("Unsupported item fetched from the database!");

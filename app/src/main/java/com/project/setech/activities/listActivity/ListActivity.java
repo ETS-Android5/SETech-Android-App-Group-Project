@@ -29,7 +29,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.setech.R;
-import com.project.setech.activities.MainActivity;
 import com.project.setech.activities.detailsActivity.DetailsActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
 import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
