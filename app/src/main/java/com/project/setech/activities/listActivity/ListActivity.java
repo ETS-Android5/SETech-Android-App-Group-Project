@@ -115,6 +115,8 @@ public class ListActivity extends AppCompatActivity {
 
                         Intent newIntent = new Intent(ListActivity.this, DetailsActivity.class);
                         newIntent.putExtra("ItemId", itemsList.get(position).getId());
+                        newIntent.putExtra("SearchBoolean", false);
+                        newIntent.putExtra("QueryString", "");
                         startActivity(newIntent);
                         finish();
                     }

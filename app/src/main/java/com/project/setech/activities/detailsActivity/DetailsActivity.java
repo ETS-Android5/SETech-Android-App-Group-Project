@@ -1,8 +1,10 @@
 package com.project.setech.activities.detailsActivity;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +21,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.setech.R;
 import com.project.setech.activities.listActivity.ListActivity;
+import com.project.setech.activities.mainActivity.MainActivity;
+import com.project.setech.activities.searchActivity.SearchActivity;
 import com.project.setech.model.IItem;
 import com.project.setech.model.ItemFactory;
 import com.project.setech.util.CategoryType;
@@ -30,6 +34,9 @@ import java.util.Map;
 public class DetailsActivity extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private boolean searchBoolean = false;
+    private String queryString;
 
     private IItem item;
     private CategoryType categoryType;
@@ -61,6 +68,13 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        //actionbar
+        ActionBar actionBar = getSupportActionBar();
+
+        //set back button
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+
         parentLayout = findViewById(R.id.parentLayout);
         parentLayout.setVisibility(View.GONE);
 
@@ -84,6 +98,10 @@ public class DetailsActivity extends AppCompatActivity {
 
         // Fetch item with Id
         String itemId = (String) getIntent().getSerializableExtra("ItemId");
+
+        searchBoolean = (boolean) getIntent().getSerializableExtra("SearchBoolean");
+        queryString = (String) getIntent().getSerializableExtra("QueryString");
+
         DocumentReference itemDocRef = db.collection("Items").document(itemId);
 
         ItemFactory itemFactory = new ItemFactory();
@@ -192,5 +210,26 @@ public class DetailsActivity extends AppCompatActivity {
             circle2.setImageResource(R.drawable.ic_circle_hollow);
             circle3.setImageResource(R.drawable.ic_circle_filled);
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent newIntent;
+        if (searchBoolean == true) {
+            newIntent = new Intent(DetailsActivity.this, SearchActivity.class);
+            newIntent.putExtra("SearchString", queryString);
+        } else {
+            newIntent = new Intent(DetailsActivity.this, ListActivity.class);
+            newIntent.putExtra("CategoryType", categoryType);
+        }
+        startActivity(newIntent);
+        finish();
     }
 }

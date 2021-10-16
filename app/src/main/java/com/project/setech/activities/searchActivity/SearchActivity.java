@@ -41,6 +41,8 @@ public class SearchActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private SearchViewAdapter searchViewAdapter;
 
+    private String queryString;
+
     private Button sortByOpenButton;
 
     private Button priceSortButton;
@@ -99,6 +101,8 @@ public class SearchActivity extends AppCompatActivity {
 
                         Intent newIntent = new Intent(SearchActivity.this, DetailsActivity.class);
                         newIntent.putExtra("ItemId", itemsList.get(position).getId());
+                        newIntent.putExtra("SearchBoolean", true);
+                        newIntent.putExtra("QueryString", queryString);
                         startActivity(newIntent);
                         finish();
                     }
@@ -198,6 +202,7 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         searchString = (String) getIntent().getSerializableExtra("SearchString");
+        queryString = searchString;
 
         ItemFactory itemFactory = new ItemFactory();
 
@@ -242,7 +247,8 @@ public class SearchActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                goToSearchActivity(query);
+                queryString = query;
+                goToSearchActivity(queryString);
                 return false;
             }
 
