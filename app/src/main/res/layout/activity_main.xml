@@ -3,18 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".activities.mainActivity.MainActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,170 +17,240 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:scrollbars="none" />
 
-        <androidx.cardview.widget.CardView
+        <TextView
+            android:id="@+id/categoriesMain"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4.9">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/categories"
+            android:textColor="#990071C5"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/categoriesMain"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/categories"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-        </androidx.cardview.widget.CardView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:orientation="vertical"
+            android:paddingBottom="10dp">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:padding="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="12dp">
-
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="5dp"
+                app:cardBackgroundColor="#0071C5"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="3dp"
+                app:contentPadding="1dp">
 
-                <ImageView
-                    android:id="@+id/cpuMainImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    app:srcCompat="@drawable/cpuimage" />
-
-                <LinearLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/motherboardCard"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    app:cardCornerRadius="5dp">
 
-                    <TextView
-                        android:id="@+id/cpuMain"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="sans-serif"
-                        android:gravity="left|center_vertical"
-                        android:text="@string/cpu"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/cpuMainDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="left|center_vertical"
-                        android:text="@string/cpuDescription"
-                        android:textSize="16sp" />
-                </LinearLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                        <ImageView
+                            android:id="@+id/motherboardMainImage"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:rotation="90"
+                            app:srcCompat="@drawable/motherboardimage" />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:padding="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="12dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
-            <LinearLayout
+                            <TextView
+                                android:id="@+id/motherboardMain"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto"
+                                android:paddingRight="10dp"
+                                android:paddingBottom="6dp"
+                                android:text="@string/motherboard"
+                                android:textColor="#000000"
+                                android:textSize="14dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/motherboardMainDescription"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto"
+                                android:gravity="center|left"
+                                android:paddingRight="15dp"
+                                android:text="@string/motherboardDescription"
+                                android:textColor="#000000"
+                                android:textSize="11dp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="5dp"
+                app:cardBackgroundColor="#0071C5"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="3dp"
+                app:contentPadding="1dp">
 
-                <ImageView
-                    android:id="@+id/gpuMainImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:rotation="90"
-                    app:srcCompat="@drawable/gpuimage" />
-
-                <LinearLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/gpuCard"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    app:cardCornerRadius="5dp">
 
-                    <TextView
-                        android:id="@+id/gpuMain"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/gpu"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/gpuMainDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="center|left"
-                        android:text="@string/gpuDescription"
-                        android:textSize="16sp" />
+                        <ImageView
+                            android:id="@+id/gpuMainImage"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:rotation="0"
+                            app:srcCompat="@drawable/gpuimage" />
 
-                </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                            <TextView
+                                android:id="@+id/gpuMain"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto"
+                                android:paddingRight="10dp"
+                                android:paddingBottom="6dp"
+                                android:text="@string/gpu"
+                                android:textColor="#000000"
+                                android:textSize="14dp"
+                                android:textStyle="bold" />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:padding="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="12dp">
+                            <TextView
+                                android:id="@+id/gpuMainDescription"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto"
+                                android:gravity="center|left"
+                                android:paddingRight="15dp"
+                                android:text="@string/gpuDescription"
+                                android:textColor="#000000"
+                                android:textSize="11dp" />
 
-            <LinearLayout
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="5dp"
+                app:cardBackgroundColor="#0071C5"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="3dp"
+                app:contentPadding="1dp">
 
-                <ImageView
-                    android:id="@+id/motherboardMainImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    app:srcCompat="@drawable/motherboardimage" />
-
-                <LinearLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cpuCard"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    app:cardCornerRadius="5dp">
 
-                    <TextView
-                        android:id="@+id/motherboardMain"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/motherboard"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/motherboardMainDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="center|left"
-                        android:text="@string/motherboardDescription"
-                        android:textSize="16sp" />
+                        <ImageView
+                            android:id="@+id/cpuMainImage"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginBottom="10dp"
+                            app:srcCompat="@drawable/cpuimage" />
 
-                </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                            <TextView
+                                android:id="@+id/cpuMain"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto"
+                                android:gravity="left|center_vertical"
+                                android:paddingRight="10dp"
+                                android:paddingBottom="6dp"
+                                android:text="@string/cpu"
+                                android:textColor="#000000"
+                                android:textSize="14dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/cpuMainDescription"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto"
+                                android:gravity="left|center_vertical"
+                                android:paddingRight="15dp"
+                                android:text="@string/cpuDescription"
+                                android:textColor="#000000"
+                                android:textSize="11dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
     </LinearLayout>
 
