@@ -73,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
         gpuCard = findViewById(R.id.gpuCard);
         cpuCard = findViewById(R.id.cpuCard);
 
+        mostViewedButton = findViewById(R.id.mostViewedButton);
+        newestAdditionButton = findViewById(R.id.newestAdditionButton);
+
         topItemsList= new ArrayList<>();
         recyclerView = findViewById(R.id.recycler_view);;
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -92,6 +95,20 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
         );
+
+        mostViewedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        newestAdditionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
 
         // CPU on CLICK
