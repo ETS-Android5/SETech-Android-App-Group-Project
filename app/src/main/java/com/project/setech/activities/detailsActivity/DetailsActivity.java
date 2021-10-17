@@ -187,11 +187,11 @@ public class DetailsActivity extends AppCompatActivity {
 
                             // Add on click handlers to Left, Right and circle buttons
                             rightButton.setOnClickListener(view -> {
-                                onImageArrowClick();
+                                onImageRightArrowClick();
                             });
 
                             leftButton.setOnClickListener(view -> {
-                                onImageArrowClick();
+                                onImageLeftArrowClick();
                             });
 
                             circle1.setOnClickListener(view -> {
@@ -252,8 +252,17 @@ public class DetailsActivity extends AppCompatActivity {
 
     }
 
-    private void onImageArrowClick() {
+    private void onImageRightArrowClick() {
         currentlySelectedImageIndex = (currentlySelectedImageIndex+1) % 3;
+        itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
+        highlightImageCircle();
+    }
+
+    private void onImageLeftArrowClick() {
+        currentlySelectedImageIndex = (currentlySelectedImageIndex-1) % 3;
+        if (currentlySelectedImageIndex < 0) {
+            currentlySelectedImageIndex = 2;
+        }
         itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
         highlightImageCircle();
     }
