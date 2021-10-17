@@ -1,8 +1,12 @@
 package com.project.setech.activities.detailsActivity;
 
+import static com.project.setech.util.CategoryType.ALL;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,18 +20,23 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.project.setech.R;
 import com.project.setech.activities.listActivity.ListActivity;
+import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
 import com.project.setech.activities.mainActivity.MainActivity;
+import com.project.setech.activities.mainActivity.mainRecyclerView.MainListViewAdapter;
 import com.project.setech.activities.searchActivity.SearchActivity;
 import com.project.setech.model.IItem;
 import com.project.setech.model.ItemFactory;
 import com.project.setech.util.CategoryType;
 import com.project.setech.util.Util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +70,10 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView itemPrice;
 
     private ProgressBar progressBar;
+
+    private RecyclerView recyclerView;
+    private MainListViewAdapter mainViewAdapter;
+    private List<IItem> topItemsList;
 
     private int currentlySelectedImageIndex = 0;
 
@@ -97,6 +110,12 @@ public class DetailsActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.detailsProgressBar);
 
+        topItemsList= new ArrayList<>();
+        recyclerView = findViewById(R.id.detailsRecyclerView);;
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+
         // Fetch item with Id
         String itemId = (String) getIntent().getSerializableExtra("ItemId");
 
@@ -106,6 +125,20 @@ public class DetailsActivity extends AppCompatActivity {
         if (getIntent().getExtras().containsKey("FromMainScreen")) {
             fromMainScreen = (boolean) getIntent().getExtras().getBoolean("FromMainScreen");
         }
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(DetailsActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent newIntent = new Intent(DetailsActivity.this, DetailsActivity.class);
+                        newIntent.putExtra("ItemId", topItemsList.get(position).getId());
+                        newIntent.putExtra("SearchBoolean", searchBoolean);
+                        newIntent.putExtra("QueryString", queryString);
+                        newIntent.putExtra("FromMainScreen",fromMainScreen);
+                        startActivity(newIntent);
+                        finish();
+                    }
+                })
+        );
 
         DocumentReference itemDocRef = db.collection("Items").document(itemId);
 
@@ -185,6 +218,38 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    protected void onStart() {
+        super.onStart();
+
+        if(!topItemsList.isEmpty()){
+            return;
+        }
+
+        ItemFactory itemFactory= new ItemFactory();
+        CategoryType type= ALL;
+
+        CollectionReference ref = db.collection("Items");
+
+        ref.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if (!queryDocumentSnapshots.isEmpty()) {
+                for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
+
+                    List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"), DetailsActivity.this);
+                    Map<String, String> specifications = (Map<String, String>) items.get("specifications");
+
+                    IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"), formattedImagePaths, items.getString("price"),items.getString("viewCount"), specifications, type);
+                    topItemsList.add(newItem);
+                }
+
+                // Create recycler view
+                mainViewAdapter = new MainListViewAdapter(DetailsActivity.this, topItemsList, type);
+                recyclerView.setAdapter(mainViewAdapter);
+                mainViewAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
     private void onImageArrowClick() {
