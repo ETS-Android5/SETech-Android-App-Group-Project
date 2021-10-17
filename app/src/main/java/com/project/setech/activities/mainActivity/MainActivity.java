@@ -5,6 +5,7 @@ import static com.project.setech.util.CategoryType.ALL;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView gpuMainDescription;
     private TextView motherboardMainDescription;
 
+    private CardView motherboardCard;
+    private CardView gpuCard;
+    private CardView cpuCard;
+
     private RecyclerView recyclerView;
     private MainListViewAdapter mainViewAdapter;
     private List<IItem> topItemsList;
@@ -80,63 +85,35 @@ public class MainActivity extends AppCompatActivity {
         gpuMainDescription=findViewById(R.id.gpuMainDescription);
         motherboardMainDescription=findViewById(R.id.motherboardMainDescription);
 
+        motherboardCard = findViewById(R.id.motherboardCard);
+        gpuCard = findViewById(R.id.gpuCard);
+        cpuCard = findViewById(R.id.cpuCard);
+
         topItemsList= new ArrayList<>();
         recyclerView = findViewById(R.id.recycler_view);;
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        cpuMainImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.CPU);
-            }
-        });
-        cpuMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.CPU);
-            }
-        });
-        cpuMainDescription.setOnClickListener(new View.OnClickListener() {
+
+        // CPU on CLICK
+        cpuCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToListActivity(CategoryType.CPU);
             }
         });
 
-        gpuMainImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.GPU);
-            }
-        });
-        gpuMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.GPU);
-            }
-        });
-        gpuMainDescription.setOnClickListener(new View.OnClickListener() {
+        // GPU on CLICK
+        gpuCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToListActivity(CategoryType.GPU);
             }
         });
 
-        motherboardMainImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.Motherboard);
-            }
-        });
-        motherboardMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.Motherboard);
-            }
-        });
-        motherboardMainDescription.setOnClickListener(new View.OnClickListener() {
+        // Motherboard on CLICK
+        motherboardCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToListActivity(CategoryType.Motherboard);
