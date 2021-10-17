@@ -115,7 +115,7 @@ public class ListViewAdapter extends RecyclerView.Adapter implements Filterable 
     Comparator<IItem> compareByPrice = new Comparator<IItem>() {
         @Override
         public int compare(IItem o1, IItem o2) {
-            return o1.getPrice().compareTo(o2.getPrice());
+            return Float.compare(Float.parseFloat(o1.getPrice()), (Float.parseFloat(o2.getPrice())));
         }
     };
 
@@ -129,7 +129,7 @@ public class ListViewAdapter extends RecyclerView.Adapter implements Filterable 
     Comparator<IItem> compareByView = new Comparator<IItem>() {
         @Override
         public int compare(IItem o1, IItem o2) {
-            return o1.getViewCount().compareTo(o2.getViewCount());
+            return Integer.parseInt(o1.getViewCount()) - Integer.parseInt(o2.getViewCount());
         }
     };
 
