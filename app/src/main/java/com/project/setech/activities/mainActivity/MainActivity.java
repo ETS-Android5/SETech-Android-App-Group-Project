@@ -1,12 +1,18 @@
 package com.project.setech.activities.mainActivity;
 
+import static com.project.setech.util.CategoryType.ALL;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,13 +20,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.core.OrderBy;
 import com.project.setech.R;
+import com.project.setech.activities.detailsActivity.DetailsActivity;
 import com.project.setech.activities.listActivity.ListActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
+import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
 import com.project.setech.activities.mainActivity.mainRecyclerView.MainListViewAdapter;
 import com.project.setech.activities.searchActivity.SearchActivity;
+import com.project.setech.activities.searchActivity.searchRecyclerView.SearchViewAdapter;
 import com.project.setech.model.IItem;
 import com.project.setech.model.Item;
 import com.project.setech.model.ItemFactory;
@@ -33,99 +50,85 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    private ImageView cpuMainImage;
-    private ImageView gpuMainImage;
-    private ImageView motherboardMainImage;
-    private TextView cpuMain;
-    private TextView gpuMain;
-    private TextView motherboardMain;
-    private TextView cpuMainDescription;
-    private TextView gpuMainDescription;
-    private TextView motherboardMainDescription;
+    private CardView motherboardCard;
+    private CardView gpuCard;
+    private CardView cpuCard;
 
     private RecyclerView recyclerView;
     private MainListViewAdapter mainViewAdapter;
     private List<IItem> topItemsList;
 
+    private Button mostViewedButton;
+    private Button newestAdditionButton;
+
     private FirebaseFirestore db= FirebaseFirestore.getInstance();
-    private CollectionReference ref = db.collection("Categories");
+    private CollectionReference ref = db.collection("Items");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        cpuMainImage= findViewById(R.id.cpuMainImage);
-        gpuMainImage= findViewById(R.id.gpuMainImage);
-        motherboardMainImage= findViewById(R.id.motherboardMainImage);
-        cpuMain= findViewById(R.id.cpuMain);
-        gpuMain= findViewById(R.id.gpuMain);
-        motherboardMain=findViewById(R.id.motherboardMain);
-        cpuMainDescription=findViewById(R.id.cpuMainDescription);
-        gpuMainDescription=findViewById(R.id.gpuMainDescription);
-        motherboardMainDescription=findViewById(R.id.motherboardMainDescription);
+        motherboardCard = findViewById(R.id.motherboardCard);
+        gpuCard = findViewById(R.id.gpuCard);
+        cpuCard = findViewById(R.id.cpuCard);
+
+        mostViewedButton = findViewById(R.id.mostViewedButton);
+        newestAdditionButton = findViewById(R.id.newestAdditionButton);
 
         topItemsList= new ArrayList<>();
+        recyclerView = findViewById(R.id.recycler_view);;
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
 
-        recyclerView = findViewById(R.id.recycler_view);
-        //recyclerView.setHasFixedSize(true);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(MainActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent newIntent = new Intent(MainActivity.this, DetailsActivity.class);
+                        newIntent.putExtra("ItemId", topItemsList.get(position).getId());
+                        newIntent.putExtra("SearchBoolean", false);
+                        newIntent.putExtra("QueryString", "");
+                        newIntent.putExtra("FromMainScreen",true);
+                        startActivity(newIntent);
+                        finish();
+                    }
+                })
+        );
 
-        //set up adapter
-        int columns= 2;
+        mostViewedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        cpuMainImage.setOnClickListener(new View.OnClickListener() {
+            }
+        });
+
+        newestAdditionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+        // CPU on CLICK
+        cpuCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToListActivity(CategoryType.CPU);
             }
         });
-        cpuMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.CPU);
-            }
-        });
-        cpuMainDescription.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.CPU);
-            }
-        });
 
-        gpuMainImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.GPU);
-            }
-        });
-        gpuMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.GPU);
-            }
-        });
-        gpuMainDescription.setOnClickListener(new View.OnClickListener() {
+        // GPU on CLICK
+        gpuCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToListActivity(CategoryType.GPU);
             }
         });
 
-        motherboardMainImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.Motherboard);
-            }
-        });
-        motherboardMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.Motherboard);
-            }
-        });
-        motherboardMainDescription.setOnClickListener(new View.OnClickListener() {
+        // Motherboard on CLICK
+        motherboardCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToListActivity(CategoryType.Motherboard);
@@ -139,20 +142,28 @@ public class MainActivity extends AppCompatActivity {
         if(!topItemsList.isEmpty()){
             return;
         }
+
         ItemFactory itemFactory= new ItemFactory();
-        CategoryType type= (CategoryType) getIntent().getSerializableExtra("CategoryType");
-        /*List<Item> topItems = retrieveTopItems();
-        for(Item i: topItems){
-            List<Integer> formattedImagePaths= Util.formatDrawableStringList((List<String>) i.get("images"),MainActivity.this);
-            Map<String,String> specifications = (Map<String, String>) i.get("specifications");
-            IItem newItem = itemFactory.createItem(i.getString("name"), formattedImagePaths,i.getString("price"),specifications,type);
+        CategoryType type= ALL;
 
-        itemsList.add(newItem);
+        ref.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if (!queryDocumentSnapshots.isEmpty()) {
+                for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
 
-        mainViewAdapter = new MainListViewAdapter(MainActivity.this, itemsList,type);
-        recyclerView.setAdapter(mainViewAdapter);
-        mainViewAdapter.notifyDataSetChanged();
-        }*/
+                    List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"), MainActivity.this);
+                    Map<String, String> specifications = (Map<String, String>) items.get("specifications");
+
+                    IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"), formattedImagePaths, items.getString("price"),items.getString("viewCount"), specifications, type);
+                    topItemsList.add(newItem);
+                }
+
+                // Create recycler view
+                mainViewAdapter = new MainListViewAdapter(MainActivity.this, topItemsList, type);
+                recyclerView.setAdapter(mainViewAdapter);
+                mainViewAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
     public void goToListActivity(CategoryType type) {
