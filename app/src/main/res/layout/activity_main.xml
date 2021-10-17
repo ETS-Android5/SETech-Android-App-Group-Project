@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".activities.mainActivity.MainActivity">
 
     <LinearLayout
@@ -18,11 +18,11 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginBottom="15dp"
-            android:scrollbars="horizontal" />
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:scrollbars="none" />
 
         <TextView
             android:id="@+id/categoriesMain"
@@ -40,7 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="10dp">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
