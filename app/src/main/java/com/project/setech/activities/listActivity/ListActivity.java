@@ -113,9 +113,6 @@ public class ListActivity extends AppCompatActivity {
         increasingSortButton = findViewById(R.id.increasingButton);
         decreasingSortButton = findViewById(R.id.decreasingButton);
 
-        selectSortButton(priceSortButton);
-        selectOrderSortButton(increasingSortButton);
-
         sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
         sortByExpandedLayout.setVisibility(View.GONE);
 
@@ -131,10 +128,6 @@ public class ListActivity extends AppCompatActivity {
                         startActivity(newIntent);
                         finish();
                     }
-
-//                    @Override public void onLongItemClick(View view, int position) {
-//                        Log.d("test", "onItemClick: "+itemsList.get(position).getName()+" long");
-//                    }
                 })
         );
 
@@ -192,8 +185,8 @@ public class ListActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                 order = "decrease";
-                 selectOrderSortButton(decreasingSortButton, false);
+                order = "decrease";
+                selectOrderSortButton(decreasingSortButton, false);
             }
         });
     }
@@ -246,8 +239,27 @@ public class ListActivity extends AppCompatActivity {
 
         sortBtn.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_highlighted));
         sortBtn.setTextColor(AppCompatResources.getColorStateList(this,R.color.black));
+
+        orderClicked = sortBtn;
+
+        if(!first) {
+
+            if (clicked == nameSortButton) {
+                listViewAdapter.sortName(order);
+            } else if (clicked == priceSortButton) {
+                listViewAdapter.sortPrice(order);
+            } else if (clicked == viewsSortButton) {
+                listViewAdapter.sortView(order);
+            }
+        } else {
+            order = "increase";
+            clicked = nameSortButton;
+            clickedString = "name";
+            listViewAdapter.sortName(order);
+        }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onStart() {
         super.onStart();
@@ -260,26 +272,27 @@ public class ListActivity extends AppCompatActivity {
         CategoryType type = (CategoryType) getIntent().getSerializableExtra("CategoryType");
 
         collectionReference.whereEqualTo("category", db.collection("Categories").document(type.toString())).get().addOnSuccessListener(queryDocumentSnapshots -> {
-            if (!queryDocumentSnapshots.isEmpty()) {                // Create recycler view
-                listViewAdapter = new ListViewAdapter(ListActivity.this, itemsList, type);
-                recyclerView.setAdapter(listViewAdapter);
-
+            if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
                     // Turn object into the type we need
-                    Log.d("Items", items.getString("name"));
                     try {
                         List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"),ListActivity.this);
                         Map<String,String> specifications = (Map<String, String>) items.get("specifications");
 
                         IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"),formattedImagePaths,items.getString("price"),items.getString("viewCount"),specifications,type);
 
-                    itemsList.add(newItem);
-
-                    // Create recycler view
-                    listViewAdapter = new ListViewAdapter(ListActivity.this, itemsList, type);
-                    recyclerView.setAdapter(listViewAdapter);
-                    listViewAdapter.notifyDataSetChanged();
+                        itemsList.add(newItem);
+                    } catch (Exception e) {
+                        Log.d("Item loading", items.getString("name") + " failed to be loaded.");
+                    }
                 }
+                // Create recycler view
+                listViewAdapter = new ListViewAdapter(ListActivity.this, itemsList, type);
+                recyclerView.setAdapter(listViewAdapter);
+                listViewAdapter.notifyDataSetChanged();
+
+                selectSortButton(nameSortButton, true);
+                selectOrderSortButton(increasingSortButton, true);
             } else {
                 // No objects were found
                 Log.d("Items", "empty");
@@ -305,6 +318,7 @@ public class ListActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if(!newText.isEmpty()) {
+                    listViewAdapter.setButtonAndString(order, clickedString);
                     listViewAdapter.getFilter().filter(newText);
                 }
                 return false;
