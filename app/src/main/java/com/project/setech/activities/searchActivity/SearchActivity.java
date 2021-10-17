@@ -1,5 +1,6 @@
 package com.project.setech.activities.searchActivity;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SearchView;
@@ -19,8 +20,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.project.setech.R;
+import com.project.setech.activities.detailsActivity.DetailsActivity;
 import com.project.setech.activities.listActivity.ListActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
+import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
 import com.project.setech.activities.mainActivity.MainActivity;
 import com.project.setech.activities.searchActivity.searchRecyclerView.SearchViewAdapter;
 import com.project.setech.model.IItem;
@@ -37,6 +40,8 @@ public class SearchActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private RecyclerView recyclerView;
     private SearchViewAdapter searchViewAdapter;
+
+    private String queryString;
 
     private Button sortByOpenButton;
 
@@ -57,6 +62,13 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        //actionbar
+        ActionBar actionBar = getSupportActionBar();
+
+        //set back button
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
         itemsList = new ArrayList<>();
 
@@ -81,6 +93,21 @@ public class SearchActivity extends AppCompatActivity {
 
         sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
         sortByExpandedLayout.setVisibility(View.GONE);
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(SearchActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Log.d("test", "onItemClick: "+itemsList.get(position).getId());
+
+                        Intent newIntent = new Intent(SearchActivity.this, DetailsActivity.class);
+                        newIntent.putExtra("ItemId", itemsList.get(position).getId());
+                        newIntent.putExtra("SearchBoolean", true);
+                        newIntent.putExtra("QueryString", queryString);
+                        startActivity(newIntent);
+                        finish();
+                    }
+                })
+        );
 
         sortByOpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,6 +202,7 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         searchString = (String) getIntent().getSerializableExtra("SearchString");
+        queryString = searchString;
 
         ItemFactory itemFactory = new ItemFactory();
 
@@ -187,8 +215,7 @@ public class SearchActivity extends AppCompatActivity {
                     List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"), SearchActivity.this);
                     Map<String, String> specifications = (Map<String, String>) items.get("specifications");
 
-                    IItem newItem = itemFactory.createItem(items.getString("name"), formattedImagePaths, items.getString("price"), specifications, type);
-                    System.out.println("ITEM NAME: "+newItem.getName());
+                    IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"), formattedImagePaths, items.getString("price"),items.getString("viewCount"), specifications, type);
                     itemsList.add(newItem);
                 }
 
@@ -220,7 +247,8 @@ public class SearchActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                goToSearchActivity(query);
+                queryString = query;
+                goToSearchActivity(queryString);
                 return false;
             }
 
@@ -231,5 +259,18 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent newIntent = new Intent(SearchActivity.this, MainActivity.class);
+        startActivity(newIntent);
+        finish();
     }
 }

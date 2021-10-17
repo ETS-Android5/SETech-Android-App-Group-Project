@@ -21,8 +21,8 @@ public class MotherboardViewHolder extends BaseItemViewHolder{
         this.parent = parent;
 
         motherboardName = itemView.findViewById(R.id.motherboardName);
-        motherboardPrice = itemView.findViewById(R.id.gpuPrice);
-        motherBoardFormFactor = itemView.findViewById(R.id.motherboardFormFactor);
+        motherboardPrice = itemView.findViewById(R.id.detailsItemPrice);
+        motherBoardFormFactor = itemView.findViewById(R.id.specValue);
         motherboardSocket = itemView.findViewById(R.id.motherboardSocket);
         motherBoardChipset = itemView.findViewById(R.id.motherboardChipset);
         motherboardImage = itemView.findViewById(R.id.motherboardImage);

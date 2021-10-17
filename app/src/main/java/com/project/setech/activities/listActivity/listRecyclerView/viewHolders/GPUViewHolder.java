@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.project.setech.R;
 import com.project.setech.model.IItem;
-import com.project.setech.model.itemType.CPU;
 import com.project.setech.model.itemType.GPU;
 
 public class GPUViewHolder extends BaseItemViewHolder{
@@ -22,7 +21,7 @@ public class GPUViewHolder extends BaseItemViewHolder{
         this.parent = parent;
 
         gpuName = itemView.findViewById(R.id.gpuName);
-        gpuPrice = itemView.findViewById(R.id.gpuPrice);
+        gpuPrice = itemView.findViewById(R.id.detailsItemPrice);
         gpuImage = itemView.findViewById(R.id.gpuImage);
     }
 

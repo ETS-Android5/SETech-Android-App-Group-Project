@@ -12,14 +12,16 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemFactory {
-    public IItem createItem(String name, List<Integer> images, String price, Map<String, String> specifications,CategoryType type) {
+    public IItem createItem(String id,String name, List<Integer> images, String price, String viewCount, Map<String, String> specifications,CategoryType type) {
 
         switch (type) {
             case Motherboard:
                 return new Motherboard(
+                        id,
                         name,
                         images,
                         price,
+                        viewCount,
                         specifications.get("mbSocket"),
                         specifications.get("wifi"),
                         specifications.get("chipset"),
@@ -31,9 +33,11 @@ public class ItemFactory {
                 );
             case GPU:
                 return new GPU(
+                        id,
                         name,
                         images,
                         price,
+                        viewCount,
                         specifications.get("productModel"),
                         specifications.get("memSize"),
                         specifications.get("baseClockSpeed"),
@@ -45,9 +49,11 @@ public class ItemFactory {
                 );
             case CPU:
                 return new CPU(
+                        id,
                         name,
                         images,
                         price,
+                        viewCount,
                         specifications.get("cpuFamily"),
                         specifications.get("numCores"),
                         specifications.get("cpuSocket"),
@@ -56,9 +62,11 @@ public class ItemFactory {
                 );
             case ALL:
                 return new Item(
+                        id,
                         name,
                         images,
-                        price
+                        price,
+                        viewCount
                 );
             default:
                 throw new IllegalArgumentException("Unsupported item fetched from the database!");

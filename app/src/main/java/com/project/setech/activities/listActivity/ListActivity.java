@@ -1,17 +1,21 @@
 package com.project.setech.activities.listActivity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.opengl.Visibility;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +30,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.setech.R;
+import com.project.setech.activities.detailsActivity.DetailsActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
+import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
+import com.project.setech.activities.mainActivity.MainActivity;
+import com.project.setech.activities.searchActivity.SearchActivity;
 import com.project.setech.model.IItem;
 import com.project.setech.model.ItemFactory;
 import com.project.setech.model.itemType.CPU;
@@ -65,6 +73,13 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
+        //actionbar
+        ActionBar actionBar = getSupportActionBar();
+
+        //set back button
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+
         itemsList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -93,12 +108,31 @@ public class ListActivity extends AppCompatActivity {
         sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
         sortByExpandedLayout.setVisibility(View.GONE);
 
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(ListActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Log.d("test", "onItemClick: "+itemsList.get(position).getId());
+
+                        Intent newIntent = new Intent(ListActivity.this, DetailsActivity.class);
+                        newIntent.putExtra("ItemId", itemsList.get(position).getId());
+                        newIntent.putExtra("SearchBoolean", false);
+                        newIntent.putExtra("QueryString", "");
+                        startActivity(newIntent);
+                        finish();
+                    }
+
+//                    @Override public void onLongItemClick(View view, int position) {
+//                        Log.d("test", "onItemClick: "+itemsList.get(position).getName()+" long");
+//                    }
+                })
+        );
+
         sortByOpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (sortByExpandedLayout.getVisibility() == View.GONE) {
                     sortByExpandedLayout.setVisibility(View.VISIBLE);
-                    sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null, AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_up),null);
+                    sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_up),null);
                 }
                 else {
                     sortByExpandedLayout.setVisibility(View.GONE);
@@ -167,14 +201,14 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private void selectOrderSortButton(Button sortBtn) {
-        increasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
-        decreasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
+        increasingSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
+        decreasingSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
 
-        increasingSortButton.setTextColor(AppCompatResources.getColorStateList(this, R.color.grey));
-        decreasingSortButton.setTextColor(AppCompatResources.getColorStateList(this, R.color.grey));
+        increasingSortButton.setTextColor(AppCompatResources.getColorStateList(this,R.color.grey));
+        decreasingSortButton.setTextColor(AppCompatResources.getColorStateList(this,R.color.grey));
 
-        sortBtn.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_highlighted));
-        sortBtn.setTextColor(AppCompatResources.getColorStateList(this, R.color.black));
+        sortBtn.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_highlighted));
+        sortBtn.setTextColor(AppCompatResources.getColorStateList(this,R.color.black));
     }
 
     @Override
@@ -196,7 +230,7 @@ public class ListActivity extends AppCompatActivity {
                     List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"),ListActivity.this);
                     Map<String,String> specifications = (Map<String, String>) items.get("specifications");
 
-                    IItem newItem = itemFactory.createItem(items.getString("name"),formattedImagePaths,items.getString("price"),specifications,type);
+                    IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"),formattedImagePaths,items.getString("price"),items.getString("viewCount"),specifications,type);
 
                     itemsList.add(newItem);
 
@@ -224,16 +258,31 @@ public class ListActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                listViewAdapter.getFilter().filter(query.toString());
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if(!newText.isEmpty()) {
+                    listViewAdapter.getFilter().filter(newText);
+                }
                 return false;
             }
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent newIntent = new Intent(ListActivity.this, MainActivity.class);
+        startActivity(newIntent);
+        finish();
     }
 }

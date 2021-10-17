@@ -21,12 +21,12 @@ public class ALLViewHolder extends BaseItemViewHolder {
 
 
     public ALLViewHolder(ViewGroup parent) {
-        super(LayoutInflater.from(parent.getContext()).inflate(R.layout.all_view, parent, false));
+        super(LayoutInflater.from(parent.getContext()).inflate(R.layout.gpu_row_view, parent, false));
         this.parent = parent;
 
-        itemName = itemView.findViewById(R.id.name);
-        itemPrice = itemView.findViewById(R.id.price);
-        itemImage = itemView.findViewById(R.id.image);
+        itemName = itemView.findViewById(R.id.gpuName);
+        itemPrice = itemView.findViewById(R.id.detailsItemPrice);
+        itemImage = itemView.findViewById(R.id.gpuImage);
     }
 
     @Override
