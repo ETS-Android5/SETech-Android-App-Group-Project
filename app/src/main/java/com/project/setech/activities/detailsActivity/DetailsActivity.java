@@ -110,8 +110,9 @@ public class DetailsActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.detailsProgressBar);
 
-        topItemsList= new ArrayList<>();
-        recyclerView = findViewById(R.id.detailsRecyclerView);;
+        topItemsList = new ArrayList<>();
+        recyclerView = findViewById(R.id.detailsRecyclerView);
+        ;
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -127,13 +128,14 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(DetailsActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
+                new RecyclerItemClickListener(DetailsActivity.this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
                         Intent newIntent = new Intent(DetailsActivity.this, DetailsActivity.class);
                         newIntent.putExtra("ItemId", topItemsList.get(position).getId());
                         newIntent.putExtra("SearchBoolean", searchBoolean);
                         newIntent.putExtra("QueryString", queryString);
-                        newIntent.putExtra("FromMainScreen",fromMainScreen);
+                        newIntent.putExtra("FromMainScreen", fromMainScreen);
                         startActivity(newIntent);
                         finish();
                     }
@@ -159,22 +161,22 @@ public class DetailsActivity extends AppCompatActivity {
                             DocumentSnapshot categoryDoc = categoryTask.getResult();
 
                             List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) itemDoc.get("images"), DetailsActivity.this);
-                            Map<String,String> specifications = (Map<String, String>) itemDoc.get("specifications");
+                            Map<String, String> specifications = (Map<String, String>) itemDoc.get("specifications");
 
                             categoryType = CategoryType.valueOf(categoryDoc.getId());
-                            item = itemFactory.createItem(itemDoc.getId(),itemDoc.getString("name"),formattedImagePaths,itemDoc.getString("price"),itemDoc.getString("viewCount"),specifications, categoryType);
+                            item = itemFactory.createItem(itemDoc.getId(), itemDoc.getString("name"), formattedImagePaths, itemDoc.getString("price"), itemDoc.getString("viewCount"), specifications, categoryType);
 
                             itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
                             itemTitle.setText(item.getName());
                             itemCategory.setText(categoryType.toString());
-                            itemPrice.setText("$"+item.getPrice());
+                            itemPrice.setText("$" + item.getPrice());
 
                             // Populate specifications data layout
                             assert specifications != null;
                             for (String key : specifications.keySet()) {
 
                                 LayoutInflater li = LayoutInflater.from(DetailsActivity.this);
-                                View specRow = li.inflate(R.layout.specifications_row,null,false);
+                                View specRow = li.inflate(R.layout.specifications_row, null, false);
 
                                 TextView specName = specRow.findViewById(R.id.specName);
                                 specName.setText(Util.splitCamelCase(key));
@@ -207,14 +209,13 @@ public class DetailsActivity extends AppCompatActivity {
                             });
 
                             // Increment view count
-                            Map<String,Object> data = itemDoc.getData();
-                            data.put("viewCount",Integer.toString(Integer.parseInt(itemDoc.getString("viewCount"))+1));
+                            Map<String, Object> data = itemDoc.getData();
+                            data.put("viewCount", Integer.toString(Integer.parseInt(itemDoc.getString("viewCount")) + 1));
                             itemDocRef.set(data);
                         }
                     });
-                }
-                else {
-                    Log.d("DetailsActivity", "No item with id "+itemId+" found!");
+                } else {
+                    Log.d("DetailsActivity", "No item with id " + itemId + " found!");
                 }
             }
         });
@@ -223,12 +224,12 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if(!topItemsList.isEmpty()){
+        if (!topItemsList.isEmpty()) {
             return;
         }
 
-        ItemFactory itemFactory= new ItemFactory();
-        CategoryType type= ALL;
+        ItemFactory itemFactory = new ItemFactory();
+        CategoryType type = ALL;
 
         CollectionReference ref = db.collection("Items");
 
@@ -236,11 +237,15 @@ public class DetailsActivity extends AppCompatActivity {
             if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
 
-                    List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"), DetailsActivity.this);
-                    Map<String, String> specifications = (Map<String, String>) items.get("specifications");
+                    try {
+                        List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"), DetailsActivity.this);
+                        Map<String, String> specifications = (Map<String, String>) items.get("specifications");
 
-                    IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"), formattedImagePaths, items.getString("price"),items.getString("viewCount"), specifications, type);
-                    topItemsList.add(newItem);
+                        IItem newItem = itemFactory.createItem(items.getId(), items.getString("name"), formattedImagePaths, items.getString("price"), items.getString("viewCount"), specifications, type);
+                        topItemsList.add(newItem);
+                    } catch (Exception e) {
+                        Log.d("Item loading", items.getString("name") + " failed to be loaded.");
+                    }
                 }
 
                 // Create recycler view
@@ -253,13 +258,13 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void onImageRightArrowClick() {
-        currentlySelectedImageIndex = (currentlySelectedImageIndex+1) % 3;
+        currentlySelectedImageIndex = (currentlySelectedImageIndex + 1) % 3;
         itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
         highlightImageCircle();
     }
 
     private void onImageLeftArrowClick() {
-        currentlySelectedImageIndex = (currentlySelectedImageIndex-1) % 3;
+        currentlySelectedImageIndex = (currentlySelectedImageIndex - 1) % 3;
         if (currentlySelectedImageIndex < 0) {
             currentlySelectedImageIndex = 2;
         }
@@ -278,13 +283,11 @@ public class DetailsActivity extends AppCompatActivity {
             circle1.setImageResource(R.drawable.ic_circle_filled);
             circle2.setImageResource(R.drawable.ic_circle_hollow);
             circle3.setImageResource(R.drawable.ic_circle_hollow);
-        }
-        else if (currentlySelectedImageIndex == 1) {
+        } else if (currentlySelectedImageIndex == 1) {
             circle1.setImageResource(R.drawable.ic_circle_hollow);
             circle2.setImageResource(R.drawable.ic_circle_filled);
             circle3.setImageResource(R.drawable.ic_circle_hollow);
-        }
-        else if (currentlySelectedImageIndex == 2) {
+        } else if (currentlySelectedImageIndex == 2) {
             circle1.setImageResource(R.drawable.ic_circle_hollow);
             circle2.setImageResource(R.drawable.ic_circle_hollow);
             circle3.setImageResource(R.drawable.ic_circle_filled);
@@ -303,8 +306,7 @@ public class DetailsActivity extends AppCompatActivity {
         Intent newIntent;
         if (fromMainScreen) {
             newIntent = new Intent(DetailsActivity.this, MainActivity.class);
-        }
-        else if (searchBoolean) {
+        } else if (searchBoolean) {
             newIntent = new Intent(DetailsActivity.this, SearchActivity.class);
             newIntent.putExtra("SearchString", queryString);
         } else {

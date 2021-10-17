@@ -223,21 +223,26 @@ public class ListActivity extends AppCompatActivity {
         CategoryType type = (CategoryType) getIntent().getSerializableExtra("CategoryType");
 
         collectionReference.whereEqualTo("category", db.collection("Categories").document(type.toString())).get().addOnSuccessListener(queryDocumentSnapshots -> {
-            if (!queryDocumentSnapshots.isEmpty()) {
+            if (!queryDocumentSnapshots.isEmpty()) {                // Create recycler view
+                listViewAdapter = new ListViewAdapter(ListActivity.this, itemsList, type);
+                recyclerView.setAdapter(listViewAdapter);
+
                 for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
                     // Turn object into the type we need
+                    Log.d("Items", items.getString("name"));
+                    try {
+                        List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"),ListActivity.this);
+                        Map<String,String> specifications = (Map<String, String>) items.get("specifications");
 
-                    List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"),ListActivity.this);
-                    Map<String,String> specifications = (Map<String, String>) items.get("specifications");
+                        IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"),formattedImagePaths,items.getString("price"),items.getString("viewCount"),specifications,type);
 
-                    IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"),formattedImagePaths,items.getString("price"),items.getString("viewCount"),specifications,type);
+                        itemsList.add(newItem);
 
-                    itemsList.add(newItem);
-
-                    // Create recycler view
-                    listViewAdapter = new ListViewAdapter(ListActivity.this, itemsList, type);
-                    recyclerView.setAdapter(listViewAdapter);
-                    listViewAdapter.notifyDataSetChanged();
+                        listViewAdapter.notifyItemChanged(itemsList.size()-1);
+                    }
+                    catch (Exception e) {
+                        Log.d("Item loading", items.getString("name") + " failed to be loaded.");
+                    }
                 }
             } else {
                 // No objects were found

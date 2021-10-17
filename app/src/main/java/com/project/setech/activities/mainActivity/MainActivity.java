@@ -150,11 +150,16 @@ public class MainActivity extends AppCompatActivity {
             if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
 
-                    List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"), MainActivity.this);
-                    Map<String, String> specifications = (Map<String, String>) items.get("specifications");
+                    try {
+                        List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"), MainActivity.this);
+                        Map<String, String> specifications = (Map<String, String>) items.get("specifications");
 
-                    IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"), formattedImagePaths, items.getString("price"),items.getString("viewCount"), specifications, type);
-                    topItemsList.add(newItem);
+                        IItem newItem = itemFactory.createItem(items.getId(), items.getString("name"), formattedImagePaths, items.getString("price"), items.getString("viewCount"), specifications, type);
+                        topItemsList.add(newItem);
+                    }
+                    catch (Exception e) {
+                        Log.d("Item loading", items.getString("name") + " failed to be loaded.");
+                    }
                 }
 
                 // Create recycler view
