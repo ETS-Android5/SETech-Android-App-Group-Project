@@ -13,7 +13,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -29,19 +29,18 @@
             android:id="@+id/itemName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ellipsize="none"
             android:fontFamily="@font/roboto"
+            android:maxLines="100"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:scrollHorizontally="false"
             android:text="Item name"
             android:textAlignment="textStart"
             android:textColor="#000000"
             android:textSize="10dp"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:ellipsize="none"
-            android:maxLines="100"
-            android:scrollHorizontally="false"
-            />
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
