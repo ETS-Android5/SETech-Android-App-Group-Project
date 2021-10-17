@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -305,9 +306,28 @@ public class ListActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.menu, menu);
 
+
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Type here to search");
+
+        View closeButton = searchView.findViewById(R.id.search_close_btn);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                listViewAdapter.setButtonAndString(order, clickedString);
+                listViewAdapter.backToFull();
+
+                EditText et = (EditText) findViewById(R.id.search_src_text);
+                et.setText("");
+
+                //Clear query
+                searchView.setQuery("", false);
+                searchView.onActionViewCollapsed();
+                menuItem.collapseActionView();
+            }
+        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

@@ -170,4 +170,17 @@ public class ListViewAdapter extends RecyclerView.Adapter implements Filterable 
         order = s;
         clickedString = c;
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void backToFull() {
+        itemList.clear();
+        itemList.addAll(itemListFull);
+        if(clickedString == "price") {
+            sortPrice(order);
+        } else if(clickedString == "name") {
+            sortName(order);
+        } else if(clickedString == "view") {
+            sortView(order);
+        }
+    }
 }
