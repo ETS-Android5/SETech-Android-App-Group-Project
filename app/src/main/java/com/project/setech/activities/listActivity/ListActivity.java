@@ -128,10 +128,6 @@ public class ListActivity extends AppCompatActivity {
                         startActivity(newIntent);
                         finish();
                     }
-
-//                    @Override public void onLongItemClick(View view, int position) {
-//                        Log.d("test", "onItemClick: "+itemsList.get(position).getName()+" long");
-//                    }
                 })
         );
 

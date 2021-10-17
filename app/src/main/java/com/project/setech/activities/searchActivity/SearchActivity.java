@@ -1,5 +1,6 @@
 package com.project.setech.activities.searchActivity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -40,6 +42,11 @@ public class SearchActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private RecyclerView recyclerView;
     private SearchViewAdapter searchViewAdapter;
+
+    private Button clicked;
+    private Button orderClicked;
+    private String order;
+    private String clickedString;
 
     private String queryString;
 
@@ -88,9 +95,6 @@ public class SearchActivity extends AppCompatActivity {
         increasingSortButton = findViewById(R.id.increasingButton);
         decreasingSortButton = findViewById(R.id.decreasingButton);
 
-        selectSortButton(priceSortButton);
-        selectOrderSortButton(increasingSortButton);
-
         sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
         sortByExpandedLayout.setVisibility(View.GONE);
 
@@ -124,52 +128,53 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         priceSortButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                selectSortButton(priceSortButton);
-
-                // Sort the itemList by price
+                clickedString = "price";
+                selectSortButton(priceSortButton, false);
             }
         });
 
         nameSortButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                selectSortButton(nameSortButton);
-
-                // Sort the itemList by name
+                clickedString = "name";
+                selectSortButton(nameSortButton, false);
             }
         });
 
         viewsSortButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                selectSortButton(viewsSortButton);
-
-                // Sort the itemList by views
+                clickedString = "view";
+                selectSortButton(viewsSortButton, false);
             }
         });
 
         increasingSortButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                selectOrderSortButton(increasingSortButton);
-
-                // Sort the itemList by views
+                order = "increase";
+                selectOrderSortButton(increasingSortButton, false);
             }
         });
 
         decreasingSortButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                selectOrderSortButton(decreasingSortButton);
-
-                // Sort the itemList by views
+                order = "decrease";
+                selectOrderSortButton(decreasingSortButton, false);
             }
         });
     }
 
-    private void selectSortButton(Button sortBtn) {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void selectSortButton(Button sortBtn, boolean first) {
         priceSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
         nameSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
         viewsSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
@@ -180,9 +185,33 @@ public class SearchActivity extends AppCompatActivity {
 
         sortBtn.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_highlighted));
         sortBtn.setTextColor(AppCompatResources.getColorStateList(this,R.color.black));
+
+        clicked = sortBtn;
+
+        if(!first) {
+            if (orderClicked == increasingSortButton) {
+                order = "increase";
+            } else if (orderClicked == decreasingSortButton) {
+                order = "decrease";
+            }
+
+            if (clicked == nameSortButton) {
+                searchViewAdapter.sortName(order);
+            } else if (clicked == priceSortButton) {
+                searchViewAdapter.sortPrice(order);
+            } else if (clicked == viewsSortButton) {
+                searchViewAdapter.sortView(order);
+            }
+        } else {
+            order = "increase";
+            clicked = nameSortButton;
+            clickedString = "name";
+            searchViewAdapter.sortName(order);
+        }
     }
 
-    private void selectOrderSortButton(Button sortBtn) {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void selectOrderSortButton(Button sortBtn, boolean first) {
         increasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
         decreasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
 
@@ -191,6 +220,24 @@ public class SearchActivity extends AppCompatActivity {
 
         sortBtn.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_highlighted));
         sortBtn.setTextColor(AppCompatResources.getColorStateList(this, R.color.black));
+
+        orderClicked = sortBtn;
+
+        if(!first) {
+
+            if (clicked == nameSortButton) {
+                searchViewAdapter.sortName(order);
+            } else if (clicked == priceSortButton) {
+                searchViewAdapter.sortPrice(order);
+            } else if (clicked == viewsSortButton) {
+                searchViewAdapter.sortView(order);
+            }
+        } else {
+            order = "increase";
+            clicked = nameSortButton;
+            clickedString = "name";
+            searchViewAdapter.sortName(order);
+        }
     }
 
     @Override
@@ -202,6 +249,8 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         searchString = (String) getIntent().getSerializableExtra("SearchString");
+        getSupportActionBar().setTitle("Search Results For: " + searchString);
+
         queryString = searchString;
 
         ItemFactory itemFactory = new ItemFactory();
@@ -224,6 +273,9 @@ public class SearchActivity extends AppCompatActivity {
                 searchViewAdapter.getFilter().filter(searchString.toString());
                 recyclerView.setAdapter(searchViewAdapter);
                 searchViewAdapter.notifyDataSetChanged();
+
+                selectSortButton(nameSortButton, true);
+                selectOrderSortButton(increasingSortButton, true);
             }
         });
     }

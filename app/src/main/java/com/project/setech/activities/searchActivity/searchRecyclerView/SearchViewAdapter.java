@@ -1,6 +1,7 @@
 package com.project.setech.activities.searchActivity.searchRecyclerView;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.setech.R;
@@ -24,6 +26,8 @@ import com.project.setech.util.CategoryType;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,6 +36,7 @@ public class SearchViewAdapter extends RecyclerView.Adapter implements Filterabl
     private List<IItem> itemList;
     private CategoryType type;
     private List<IItem> itemListFull;
+    private String order;
 
     public SearchViewAdapter(Context context, List<IItem> itemList, CategoryType type) {
         this.context = context;
@@ -93,4 +98,58 @@ public class SearchViewAdapter extends RecyclerView.Adapter implements Filterabl
             notifyDataSetChanged();
         }
     };
+
+    Comparator<IItem> compareByPrice = new Comparator<IItem>() {
+        @Override
+        public int compare(IItem o1, IItem o2) {
+            return Float.compare(Float.parseFloat(o1.getPrice()), (Float.parseFloat(o2.getPrice())));
+        }
+    };
+
+    Comparator<IItem> compareByName = new Comparator<IItem>() {
+        @Override
+        public int compare(IItem o1, IItem o2) {
+            return o1.getName().compareTo(o2.getName());
+        }
+    };
+
+    Comparator<IItem> compareByView = new Comparator<IItem>() {
+        @Override
+        public int compare(IItem o1, IItem o2) {
+            return Integer.parseInt(o1.getViewCount()) - Integer.parseInt(o2.getViewCount());
+        }
+    };
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void sortName(String s) {
+        order = s;
+        if(order == "increase"){
+            Collections.sort(itemList, compareByName);
+        } else {
+            Collections.sort(itemList, compareByName.reversed());
+        }
+        notifyDataSetChanged();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void sortPrice(String s) {
+        order = s;
+        if(order == "increase"){
+            Collections.sort(itemList, compareByPrice);
+        } else {
+            Collections.sort(itemList, compareByPrice.reversed());
+        }
+        notifyDataSetChanged();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void sortView(String s) {
+        order = s;
+        if(order == "increase"){
+            Collections.sort(itemList, compareByView);
+        } else {
+            Collections.sort(itemList, compareByView.reversed());
+        }
+        notifyDataSetChanged();
+    }
 }
