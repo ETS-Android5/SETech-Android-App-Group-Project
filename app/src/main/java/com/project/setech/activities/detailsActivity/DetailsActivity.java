@@ -169,7 +169,8 @@ public class DetailsActivity extends AppCompatActivity {
                             itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
                             itemTitle.setText(item.getName());
                             itemCategory.setText(categoryType.toString());
-                            itemPrice.setText("$" + item.getPrice());
+                            itemPrice.setText("$"+item.getPrice());
+                            getSupportActionBar().setTitle(categoryType.toString());
 
                             // Populate specifications data layout
                             assert specifications != null;
