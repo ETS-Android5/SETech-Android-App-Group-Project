@@ -185,8 +185,8 @@ public class ListActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                 order = "decrease";
-                 selectOrderSortButton(decreasingSortButton, false);
+                order = "decrease";
+                selectOrderSortButton(decreasingSortButton, false);
             }
         });
     }
@@ -275,13 +275,16 @@ public class ListActivity extends AppCompatActivity {
             if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
                     // Turn object into the type we need
+                    try {
+                        List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"),ListActivity.this);
+                        Map<String,String> specifications = (Map<String, String>) items.get("specifications");
 
-                    List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"),ListActivity.this);
-                    Map<String,String> specifications = (Map<String, String>) items.get("specifications");
+                        IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"),formattedImagePaths,items.getString("price"),items.getString("viewCount"),specifications,type);
 
-                    IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"),formattedImagePaths,items.getString("price"),items.getString("viewCount"),specifications,type);
-
-                    itemsList.add(newItem);
+                        itemsList.add(newItem);
+                    } catch (Exception e) {
+                        Log.d("Item loading", items.getString("name") + " failed to be loaded.");
+                    }
                 }
                 // Create recycler view
                 listViewAdapter = new ListViewAdapter(ListActivity.this, itemsList, type);
