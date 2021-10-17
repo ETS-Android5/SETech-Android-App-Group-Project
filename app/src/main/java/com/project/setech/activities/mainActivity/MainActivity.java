@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                     List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"), MainActivity.this);
                     Map<String, String> specifications = (Map<String, String>) items.get("specifications");
 
-                    IItem newItem = itemFactory.createItem(items.getString("name"), formattedImagePaths, items.getString("price"), specifications, type);
+                    IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"), formattedImagePaths, items.getString("price"),items.getString("viewCount"), specifications, type);
                     topItemsList.add(newItem);
                     Log.d("items", items.getId());
                 }
