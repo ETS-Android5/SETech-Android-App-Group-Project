@@ -31,8 +31,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.core.OrderBy;
 import com.project.setech.R;
+import com.project.setech.activities.detailsActivity.DetailsActivity;
 import com.project.setech.activities.listActivity.ListActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
+import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
 import com.project.setech.activities.mainActivity.mainRecyclerView.MainListViewAdapter;
 import com.project.setech.activities.searchActivity.SearchActivity;
 import com.project.setech.activities.searchActivity.searchRecyclerView.SearchViewAdapter;
@@ -48,17 +50,6 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    private ImageView cpuMainImage;
-    private ImageView gpuMainImage;
-    private ImageView motherboardMainImage;
-    private TextView cpuMain;
-    private TextView gpuMain;
-    private TextView motherboardMain;
-    private TextView cpuMainDescription;
-    private TextView gpuMainDescription;
-    private TextView motherboardMainDescription;
-
     private CardView motherboardCard;
     private CardView gpuCard;
     private CardView cpuCard;
@@ -67,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
     private MainListViewAdapter mainViewAdapter;
     private List<IItem> topItemsList;
 
+    private Button mostViewedButton;
+    private Button newestAdditionButton;
+
     private FirebaseFirestore db= FirebaseFirestore.getInstance();
     private CollectionReference ref = db.collection("Items");
 
@@ -74,16 +68,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        cpuMainImage= findViewById(R.id.cpuMainImage);
-        gpuMainImage= findViewById(R.id.gpuMainImage);
-        motherboardMainImage= findViewById(R.id.motherboardMainImage);
-        cpuMain= findViewById(R.id.cpuMain);
-        gpuMain= findViewById(R.id.gpuMain);
-        motherboardMain=findViewById(R.id.motherboardMain);
-        cpuMainDescription=findViewById(R.id.cpuMainDescription);
-        gpuMainDescription=findViewById(R.id.gpuMainDescription);
-        motherboardMainDescription=findViewById(R.id.motherboardMainDescription);
 
         motherboardCard = findViewById(R.id.motherboardCard);
         gpuCard = findViewById(R.id.gpuCard);
@@ -94,6 +78,20 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(MainActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent newIntent = new Intent(MainActivity.this, DetailsActivity.class);
+                        newIntent.putExtra("ItemId", topItemsList.get(position).getId());
+                        newIntent.putExtra("SearchBoolean", false);
+                        newIntent.putExtra("QueryString", "");
+                        newIntent.putExtra("FromMainScreen",true);
+                        startActivity(newIntent);
+                        finish();
+                    }
+                })
+        );
 
 
         // CPU on CLICK
@@ -127,8 +125,10 @@ public class MainActivity extends AppCompatActivity {
         if(!topItemsList.isEmpty()){
             return;
         }
-         ItemFactory itemFactory= new ItemFactory();
+
+        ItemFactory itemFactory= new ItemFactory();
         CategoryType type= ALL;
+
         ref.get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
@@ -138,11 +138,10 @@ public class MainActivity extends AppCompatActivity {
 
                     IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"), formattedImagePaths, items.getString("price"),items.getString("viewCount"), specifications, type);
                     topItemsList.add(newItem);
-                    Log.d("items", items.getId());
                 }
 
                 // Create recycler view
-                mainViewAdapter = new MainListViewAdapter(MainActivity.this, topItemsList, CategoryType.ALL);
+                mainViewAdapter = new MainListViewAdapter(MainActivity.this, topItemsList, type);
                 recyclerView.setAdapter(mainViewAdapter);
                 mainViewAdapter.notifyDataSetChanged();
             }

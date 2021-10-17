@@ -36,6 +36,7 @@ public class DetailsActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private boolean searchBoolean = false;
+    private boolean fromMainScreen = false;
     private String queryString;
 
     private IItem item;
@@ -101,6 +102,10 @@ public class DetailsActivity extends AppCompatActivity {
 
         searchBoolean = (boolean) getIntent().getSerializableExtra("SearchBoolean");
         queryString = (String) getIntent().getSerializableExtra("QueryString");
+
+        if (getIntent().getExtras().containsKey("FromMainScreen")) {
+            fromMainScreen = (boolean) getIntent().getExtras().getBoolean("FromMainScreen");
+        }
 
         DocumentReference itemDocRef = db.collection("Items").document(itemId);
 
@@ -222,7 +227,10 @@ public class DetailsActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         Intent newIntent;
-        if (searchBoolean == true) {
+        if (fromMainScreen) {
+            newIntent = new Intent(DetailsActivity.this, MainActivity.class);
+        }
+        else if (searchBoolean) {
             newIntent = new Intent(DetailsActivity.this, SearchActivity.class);
             newIntent.putExtra("SearchString", queryString);
         } else {
