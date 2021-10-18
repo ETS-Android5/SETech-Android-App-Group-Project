@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         ItemFactory itemFactory= new ItemFactory();
         CategoryType type= ALL;
 
-        ref.get().addOnSuccessListener(queryDocumentSnapshots -> {
+        ref.orderBy("viewCount", Query.Direction.DESCENDING).limit(15).get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
 
@@ -156,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
                         IItem newItem = itemFactory.createItem(items.getId(), items.getString("name"), formattedImagePaths, items.getString("price"), items.getString("viewCount"), specifications, type);
                         topItemsList.add(newItem);
+                        Log.d("Item loading", items.getString("viewCount"));
                     }
                     catch (Exception e) {
                         Log.d("Item loading", items.getString("name") + " failed to be loaded.");
