@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -73,6 +74,8 @@ public class ListActivity extends AppCompatActivity {
     private Button decreasingSortButton;
 
     private LinearLayout sortByExpandedLayout;
+
+    private ProgressBar listRecyclerProgressBar;
 
     private List<IItem> itemsList;
 
@@ -291,6 +294,9 @@ public class ListActivity extends AppCompatActivity {
                 listViewAdapter = new ListViewAdapter(ListActivity.this, itemsList, type);
                 recyclerView.setAdapter(listViewAdapter);
                 listViewAdapter.notifyDataSetChanged();
+
+                listRecyclerProgressBar = findViewById(R.id.listRecyclerProgressBar);
+                listRecyclerProgressBar.setVisibility(View.GONE);
 
                 selectSortButton(nameSortButton, true);
                 selectOrderSortButton(increasingSortButton, true);
