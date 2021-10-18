@@ -278,6 +278,10 @@ public class ListActivity extends AppCompatActivity {
         collectionReference.whereEqualTo("category", db.collection("Categories").document(type.toString())).get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
+                    // Create recycler view
+                    listViewAdapter = new ListViewAdapter(ListActivity.this, itemsList, type);
+                    recyclerView.setAdapter(listViewAdapter);
+
                     // Turn object into the type we need
                     try {
                         List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"),ListActivity.this);
@@ -286,14 +290,14 @@ public class ListActivity extends AppCompatActivity {
                         IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"),formattedImagePaths,items.getString("price"),items.getString("viewCount"),specifications,type);
 
                         itemsList.add(newItem);
+
+                        listViewAdapter.notifyItemChanged(itemsList.size()-1);
                     } catch (Exception e) {
                         Log.d("Item loading", items.getString("name") + " failed to be loaded.");
                     }
                 }
-                // Create recycler view
-                listViewAdapter = new ListViewAdapter(ListActivity.this, itemsList, type);
-                recyclerView.setAdapter(listViewAdapter);
-                listViewAdapter.notifyDataSetChanged();
+
+//                recyclerView.scheduleLayoutAnimation();
 
                 listRecyclerProgressBar = findViewById(R.id.listRecyclerProgressBar);
                 listRecyclerProgressBar.setVisibility(View.GONE);

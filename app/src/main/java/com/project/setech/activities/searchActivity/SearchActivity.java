@@ -243,6 +243,7 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onStart() {
         super.onStart();
@@ -273,8 +274,8 @@ public class SearchActivity extends AppCompatActivity {
 
                 // Create recycler view
                 searchViewAdapter = new SearchViewAdapter(SearchActivity.this, itemsList, CategoryType.ALL);
-                searchViewAdapter.getFilter().filter(searchString.toString());
                 recyclerView.setAdapter(searchViewAdapter);
+                searchViewAdapter.getFilter().filter(searchString.toString());
                 searchViewAdapter.notifyDataSetChanged();
 
                 listRecyclerProgressBar = findViewById(R.id.listRecyclerProgressBar);
