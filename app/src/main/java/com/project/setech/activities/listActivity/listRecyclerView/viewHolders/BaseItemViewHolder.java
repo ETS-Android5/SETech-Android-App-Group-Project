@@ -7,11 +7,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.setech.model.IItem;
 
-public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder {
+public class BaseItemViewHolder extends RecyclerView.ViewHolder {
+
+    public View itemView;
 
     public BaseItemViewHolder(@NonNull View itemView) {
         super(itemView);
+        this.itemView = itemView;
     }
 
-    public abstract void bind(IItem item);
+    public void bind(IItem item){
+
+    };
 }

@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -57,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MainListViewAdapter mainViewAdapter;
     private List<IItem> topItemsList;
+
+    private Button mostViewedButton;
+    private Button newestAdditionButton;
+
+    private ProgressBar mainTopPicksProgressBar;
 
     private FirebaseFirestore db= FirebaseFirestore.getInstance();
     private CollectionReference ref = db.collection("Items");
@@ -146,6 +152,9 @@ public class MainActivity extends AppCompatActivity {
                 mainViewAdapter = new MainListViewAdapter(MainActivity.this, topItemsList, type);
                 recyclerView.setAdapter(mainViewAdapter);
                 mainViewAdapter.notifyDataSetChanged();
+
+                mainTopPicksProgressBar = findViewById(R.id.mainTopPicksProgressBar);
+                mainTopPicksProgressBar.setVisibility(View.GONE);
             }
         });
 
@@ -172,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("Type here to search");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
