@@ -1,5 +1,6 @@
 package com.project.setech.activities.listActivity.listRecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
@@ -120,6 +121,15 @@ public class ListViewAdapter extends RecyclerView.Adapter implements Filterable 
                 sortName(order);
             } else if(clickedString == "view") {
                 sortView(order);
+            }
+
+            TextView noItemsFoundText = (TextView) ((Activity) context).findViewById(R.id.noItemsFoundText);
+
+            if (itemList.size() <= 0) {
+                noItemsFoundText.setVisibility(View.VISIBLE);
+            }
+            else {
+                noItemsFoundText.setVisibility(View.GONE);
             }
         }
     };

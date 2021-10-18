@@ -1,5 +1,6 @@
 package com.project.setech.activities.searchActivity.searchRecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
@@ -108,6 +109,15 @@ public class SearchViewAdapter extends RecyclerView.Adapter implements Filterabl
             itemList.clear();
             itemList.addAll((Collection<? extends IItem>) results.values);
             notifyDataSetChanged();
+
+            TextView noItemsFoundText = (TextView) ((Activity) context).findViewById(R.id.noItemsFoundText);
+
+            if (itemList.size() <= 0) {
+                noItemsFoundText.setVisibility(View.VISIBLE);
+            }
+            else {
+                noItemsFoundText.setVisibility(View.GONE);
+            }
         }
     };
 

@@ -9,6 +9,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -28,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -326,8 +328,6 @@ public class ListActivity extends AppCompatActivity {
                     }
                 }
 
-//                recyclerView.scheduleLayoutAnimation();
-
                 listRecyclerProgressBar = findViewById(R.id.listRecyclerProgressBar);
                 listRecyclerProgressBar.setVisibility(View.GONE);
 
@@ -366,6 +366,10 @@ public class ListActivity extends AppCompatActivity {
                 searchView.setQuery("", false);
                 searchView.onActionViewCollapsed();
                 menuItem.collapseActionView();
+
+                TextView noItemsFoundText = (TextView) ((Activity) ListActivity.this).findViewById(R.id.noItemsFoundText);
+
+                noItemsFoundText.setVisibility(View.GONE);
             }
         });
 
