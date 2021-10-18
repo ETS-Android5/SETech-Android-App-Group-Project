@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -60,6 +61,8 @@ public class SearchActivity extends AppCompatActivity {
     private Button decreasingSortButton;
 
     private LinearLayout sortByExpandedLayout;
+
+    private ProgressBar listRecyclerProgressBar;
 
     private List<IItem> itemsList;
     private String searchString;
@@ -273,6 +276,9 @@ public class SearchActivity extends AppCompatActivity {
                 searchViewAdapter.getFilter().filter(searchString.toString());
                 recyclerView.setAdapter(searchViewAdapter);
                 searchViewAdapter.notifyDataSetChanged();
+
+                listRecyclerProgressBar = findViewById(R.id.listRecyclerProgressBar);
+                listRecyclerProgressBar.setVisibility(View.GONE);
 
                 selectSortButton(nameSortButton, true);
                 selectOrderSortButton(increasingSortButton, true);

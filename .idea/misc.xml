@@ -10,12 +10,12 @@
         <entry key="..\:/Users/Daniel/StudioProjects/project-2-project-2-team-5/app/src/main/res/layout/gpu_row_view.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Daniel/StudioProjects/project-2-project-2-team-5/app/src/main/res/layout/motherboard_row_view.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Daniel/StudioProjects/project-2-project-2-team-5/app/src/main/res/layout/top_item_column.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/danil/Desktop/306/App/app/src/main/res/layout/activity_details.xml" value="0.4121376811594203" />
         <entry key="..\:/Users/danil/Desktop/306/App/app/src/main/res/layout/activity_list.xml" value="0.5457427536231884" />
         <entry key="..\:/Users/danil/Desktop/306/App/app/src/main/res/layout/activity_main.xml" value="0.67" />
         <entry key="..\:/Users/danil/Desktop/306/App/app/src/main/res/layout/cpu_row_view.xml" value="0.75" />
         <entry key="..\:/Users/danil/Desktop/306/App/app/src/main/res/layout/gpu_row_view.xml" value="0.75" />
         <entry key="..\:/Users/danil/Desktop/306/App/app/src/main/res/layout/motherboard_row_view.xml" value="0.67" />
-        <entry key="app/src/main/res/layout/activity_details.xml" value="0.21354166666666666" />
         <entry key="app/src/main/res/layout/activity_list.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11428571428571428" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.15070921985815602" />
@@ -23,11 +23,8 @@
         <entry key="app/src/main/res/layout/all_view.xml" value="0.20364583333333333" />
         <entry key="app/src/main/res/layout/cpu_row_view.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/gpu_row_view.xml" value="0.29669862504728206" />
-        <entry key="app/src/main/res/layout/motherboard_row_view.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/specifications_row.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/top_item_column.xml" value="0.21354166666666666" />
+        <entry key="app/src/main/res/layout/motherboard_row_view.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.1" />
-        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.18385416666666668" />
       </map>
     </option>
   </component>
