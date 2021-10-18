@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
     tools:context=".activities.mainActivity.MainActivity">
 
     <ScrollView
@@ -15,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
             android:orientation="vertical"
@@ -104,15 +105,15 @@
                 android:text="@string/categories"
                 android:textColor="#990071C5"
                 android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:autoSizeTextType="uniform"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:orientation="vertical"
-                android:paddingBottom="10dp">
+                android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -124,18 +125,16 @@
                     app:cardBackgroundColor="#0071C5"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="3dp"
-                    app:contentPadding="1dp"
-                    >
+                    app:contentPadding="1dp">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/motherboardCard"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:cardCornerRadius="5dp"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
-                        >
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="5dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -205,10 +204,10 @@
                         android:id="@+id/gpuCard"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:cardCornerRadius="5dp"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:clickable="true"
-                        android:focusable="true">
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="5dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -278,10 +277,10 @@
                         android:id="@+id/cpuCard"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:cardCornerRadius="5dp"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:clickable="true"
-                        android:focusable="true">
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="5dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
