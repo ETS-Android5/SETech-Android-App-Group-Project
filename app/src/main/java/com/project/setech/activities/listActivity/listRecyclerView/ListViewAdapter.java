@@ -77,7 +77,6 @@ public class ListViewAdapter extends RecyclerView.Adapter implements Filterable 
 
     private void animateView(View view) {
         Animation slideDown = AnimationUtils.loadAnimation(context, R.anim.item_animation_fall_down);
-        slideDown.setDuration(700);
         view.startAnimation(slideDown);
     }
 
