@@ -58,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
     private MainListViewAdapter mainViewAdapter;
     private List<IItem> topItemsList;
 
-    private Button mostViewedButton;
-    private Button newestAdditionButton;
-
     private FirebaseFirestore db= FirebaseFirestore.getInstance();
     private CollectionReference ref = db.collection("Items");
 
@@ -72,9 +69,6 @@ public class MainActivity extends AppCompatActivity {
         motherboardCard = findViewById(R.id.motherboardCard);
         gpuCard = findViewById(R.id.gpuCard);
         cpuCard = findViewById(R.id.cpuCard);
-
-        mostViewedButton = findViewById(R.id.mostViewedButton);
-        newestAdditionButton = findViewById(R.id.newestAdditionButton);
 
         topItemsList= new ArrayList<>();
         recyclerView = findViewById(R.id.recycler_view);;
@@ -95,21 +89,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
         );
-
-        mostViewedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        newestAdditionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
 
         // CPU on CLICK
         cpuCard.setOnClickListener(new View.OnClickListener() {
