@@ -33,7 +33,7 @@
 
                 <TextView
                     android:id="@+id/mostViewedButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="6dp"
@@ -45,7 +45,8 @@
                     android:textAllCaps="false"
                     android:textColor="#0071C5"
                     android:textSize="17dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:autoSizeTextType="uniform"/>
 
             </LinearLayout>
 
@@ -244,6 +245,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginRight="5dp"
+                    android:layout_marginBottom="30dp"
                     app:cardBackgroundColor="#0071C5"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="3dp"
