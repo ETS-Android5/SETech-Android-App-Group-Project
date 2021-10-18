@@ -24,6 +24,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.project.setech.R;
 import com.project.setech.activities.listActivity.ListActivity;
@@ -188,6 +189,8 @@ public class DetailsActivity extends AppCompatActivity {
                                 specificationsLayout.addView(specRow);
                             }
 
+                            populateTopItemPicks(categoryType);
+
                             // Add on click handlers to Left, Right and circle buttons
                             rightButton.setOnClickListener(view -> {
                                 onImageRightArrowClick();
@@ -222,22 +225,14 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    protected void onStart() {
-        super.onStart();
-
-        if (!topItemsList.isEmpty()) {
-            return;
-        }
-
+    private void populateTopItemPicks(CategoryType type) {
         ItemFactory itemFactory = new ItemFactory();
-        CategoryType type = ALL;
 
         CollectionReference ref = db.collection("Items");
 
-        ref.get().addOnSuccessListener(queryDocumentSnapshots -> {
+        ref.whereEqualTo("category", db.collection("Categories").document(type.toString())).orderBy("viewCount", Query.Direction.DESCENDING).limit(15).get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
-
                     try {
                         List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"), DetailsActivity.this);
                         Map<String, String> specifications = (Map<String, String>) items.get("specifications");
@@ -255,7 +250,6 @@ public class DetailsActivity extends AppCompatActivity {
                 mainViewAdapter.notifyDataSetChanged();
             }
         });
-
     }
 
     private void onImageRightArrowClick() {
