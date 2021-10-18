@@ -71,7 +71,8 @@
                         android:textColor="#535353"
                         android:textSize="12dp"
                         android:textStyle="bold"
-                        app:backgroundTint="@null" />
+                        app:backgroundTint="@null"
+                        android:foreground="?android:attr/selectableItemBackground"/>
 
                     <Button
                         android:id="@+id/nameButton"
@@ -86,7 +87,8 @@
                         android:textColor="#535353"
                         android:textSize="12dp"
                         android:textStyle="bold"
-                        app:backgroundTint="@null" />
+                        app:backgroundTint="@null"
+                        android:foreground="?android:attr/selectableItemBackground"/>
 
                     <Button
                         android:id="@+id/viewsButton"
@@ -101,7 +103,8 @@
                         android:textColor="#535353"
                         android:textSize="12dp"
                         android:textStyle="bold"
-                        app:backgroundTint="@null" />
+                        app:backgroundTint="@null"
+                        android:foreground="?android:attr/selectableItemBackground"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -126,7 +129,8 @@
                         android:textColor="#535353"
                         android:textSize="12dp"
                         android:textStyle="bold"
-                        app:backgroundTint="@null" />
+                        app:backgroundTint="@null"
+                        android:foreground="?android:attr/selectableItemBackground"/>
 
                     <Button
                         android:id="@+id/decreasingButton"
@@ -140,7 +144,8 @@
                         android:textColor="#535353"
                         android:textSize="12dp"
                         android:textStyle="bold"
-                        app:backgroundTint="@null" />
+                        app:backgroundTint="@null"
+                        android:foreground="?android:attr/selectableItemBackground"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -162,7 +167,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
         </androidx.recyclerview.widget.RecyclerView>
 

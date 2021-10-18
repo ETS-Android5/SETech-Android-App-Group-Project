@@ -124,13 +124,18 @@
                     app:cardBackgroundColor="#0071C5"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="3dp"
-                    app:contentPadding="1dp">
+                    app:contentPadding="1dp"
+                    >
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/motherboardCard"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:cardCornerRadius="5dp">
+                        app:cardCornerRadius="5dp"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        >
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -200,7 +205,10 @@
                         android:id="@+id/gpuCard"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:cardCornerRadius="5dp">
+                        app:cardCornerRadius="5dp"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -270,7 +278,10 @@
                         android:id="@+id/cpuCard"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:cardCornerRadius="5dp">
+                        app:cardCornerRadius="5dp"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"

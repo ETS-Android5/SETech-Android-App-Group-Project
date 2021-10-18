@@ -22,6 +22,8 @@ import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -141,9 +143,10 @@ public class ListActivity extends AppCompatActivity {
                 if (sortByExpandedLayout.getVisibility() == View.GONE) {
                     sortByExpandedLayout.setVisibility(View.VISIBLE);
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_up),null);
+                    slideDownAnim(sortByExpandedLayout);
                 }
                 else {
-                    sortByExpandedLayout.setVisibility(View.GONE);
+                    slideUpAnim(sortByExpandedLayout);
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_down),null);
                 }
             }
@@ -191,6 +194,32 @@ public class ListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 order = "decrease";
                 selectOrderSortButton(decreasingSortButton, false);
+            }
+        });
+    }
+
+    private void slideDownAnim(View view) {
+        Animation slideDown = AnimationUtils.loadAnimation(ListActivity.this, R.anim.slide_down);
+        view.startAnimation(slideDown);
+    }
+
+    private void slideUpAnim(View view) {
+        Animation slideDown = AnimationUtils.loadAnimation(ListActivity.this, R.anim.slide_up);
+        view.startAnimation(slideDown);
+        slideDown.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                sortByExpandedLayout.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
             }
         });
     }
@@ -278,6 +307,10 @@ public class ListActivity extends AppCompatActivity {
         collectionReference.whereEqualTo("category", db.collection("Categories").document(type.toString())).get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
+                    // Create recycler view
+                    listViewAdapter = new ListViewAdapter(ListActivity.this, itemsList, type);
+                    recyclerView.setAdapter(listViewAdapter);
+
                     // Turn object into the type we need
                     try {
                         List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"),ListActivity.this);
@@ -286,14 +319,14 @@ public class ListActivity extends AppCompatActivity {
                         IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"),formattedImagePaths,items.getString("price"),items.getString("viewCount"),specifications,type);
 
                         itemsList.add(newItem);
+
+                        listViewAdapter.notifyItemChanged(itemsList.size()-1);
                     } catch (Exception e) {
                         Log.d("Item loading", items.getString("name") + " failed to be loaded.");
                     }
                 }
-                // Create recycler view
-                listViewAdapter = new ListViewAdapter(ListActivity.this, itemsList, type);
-                recyclerView.setAdapter(listViewAdapter);
-                listViewAdapter.notifyDataSetChanged();
+
+//                recyclerView.scheduleLayoutAnimation();
 
                 listRecyclerProgressBar = findViewById(R.id.listRecyclerProgressBar);
                 listRecyclerProgressBar.setVisibility(View.GONE);

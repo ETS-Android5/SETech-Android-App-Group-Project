@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -122,6 +124,7 @@ public class SearchActivity extends AppCompatActivity {
                 if (sortByExpandedLayout.getVisibility() == View.GONE) {
                     sortByExpandedLayout.setVisibility(View.VISIBLE);
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null, AppCompatResources.getDrawable(SearchActivity.this,R.drawable.arrow_up),null);
+                    slideDownAnim(sortByExpandedLayout);
                 }
                 else {
                     sortByExpandedLayout.setVisibility(View.GONE);
@@ -243,6 +246,7 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onStart() {
         super.onStart();
@@ -273,8 +277,8 @@ public class SearchActivity extends AppCompatActivity {
 
                 // Create recycler view
                 searchViewAdapter = new SearchViewAdapter(SearchActivity.this, itemsList, CategoryType.ALL);
-                searchViewAdapter.getFilter().filter(searchString.toString());
                 recyclerView.setAdapter(searchViewAdapter);
+                searchViewAdapter.getFilter().filter(searchString.toString());
                 searchViewAdapter.notifyDataSetChanged();
 
                 listRecyclerProgressBar = findViewById(R.id.listRecyclerProgressBar);
@@ -282,6 +286,32 @@ public class SearchActivity extends AppCompatActivity {
 
                 selectSortButton(nameSortButton, true);
                 selectOrderSortButton(increasingSortButton, true);
+            }
+        });
+    }
+
+    private void slideDownAnim(View view) {
+        Animation slideDown = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.slide_down);
+        view.startAnimation(slideDown);
+    }
+
+    private void slideUpAnim(View view) {
+        Animation slideDown = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.slide_up);
+        view.startAnimation(slideDown);
+        slideDown.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                sortByExpandedLayout.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
             }
         });
     }

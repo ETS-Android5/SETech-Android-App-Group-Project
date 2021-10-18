@@ -13,6 +13,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -187,6 +190,7 @@ public class DetailsActivity extends AppCompatActivity {
                                 specValue.setText(specifications.get(key));
 
                                 specificationsLayout.addView(specRow);
+                                setFadeAnimation(specRow);
                             }
 
                             populateTopItemPicks(categoryType);
@@ -252,10 +256,18 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
+    private void setFadeAnimation(View view) {
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(500);
+        view.startAnimation(anim);
+    }
+
     private void onImageRightArrowClick() {
         currentlySelectedImageIndex = (currentlySelectedImageIndex + 1) % 3;
         itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
         highlightImageCircle();
+
+        setFadeAnimation(itemImage);
     }
 
     private void onImageLeftArrowClick() {
@@ -265,12 +277,16 @@ public class DetailsActivity extends AppCompatActivity {
         }
         itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
         highlightImageCircle();
+
+        setFadeAnimation(itemImage);
     }
 
     private void onImageButtonClick(int index) {
         currentlySelectedImageIndex = index;
         itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
         highlightImageCircle();
+
+        setFadeAnimation(itemImage);
     }
 
     private void highlightImageCircle() {

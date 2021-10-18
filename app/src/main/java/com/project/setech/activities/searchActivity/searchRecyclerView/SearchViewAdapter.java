@@ -6,6 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -30,6 +34,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 public class SearchViewAdapter extends RecyclerView.Adapter implements Filterable{
     private Context context;
@@ -60,6 +65,13 @@ public class SearchViewAdapter extends RecyclerView.Adapter implements Filterabl
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((BaseItemViewHolder) holder).bind(itemList.get(position));
+
+        animateView(holder.itemView);
+    }
+
+    private void animateView(View view) {
+        Animation slideDown = AnimationUtils.loadAnimation(context, R.anim.item_animation_fall_down);
+        view.startAnimation(slideDown);
     }
 
     @Override
