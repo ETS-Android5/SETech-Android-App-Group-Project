@@ -160,7 +160,7 @@ public class Repository implements IRepository {
         categoriesRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot category : queryDocumentSnapshots) {
-                    categories.add(categoryFactory.createCategory(category, context));
+                    categories.add(categoryFactory.createCategory(category.getId(),(Map<String,Object>) category.getData(), context));
                 }
             }
 

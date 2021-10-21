@@ -107,7 +107,7 @@
                     app:contentPadding="1dp">
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/motherboardCard"
+                        android:id="@+id/categoryCard"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clickable="true"

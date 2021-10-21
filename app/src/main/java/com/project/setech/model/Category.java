@@ -2,17 +2,22 @@ package com.project.setech.model;
 
 import java.util.List;
 
-public class Category implements ICategory{
+public class Category implements ICategory {
+    private final String id;
     private final String name;
     private final String description;
-    private final String categoryImage;
-    private final List<IItem> categoryItems;
+    private final int categoryImage;
 
-    public Category(String name, String description, String categoryImage, List<IItem> categoryItems) {
+    public Category(String id, String name, String description, int categoryImage) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.categoryImage = categoryImage;
-        this.categoryItems = categoryItems;
+    }
+
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -23,11 +28,7 @@ public class Category implements ICategory{
         return description;
     }
 
-    public String getCategoryImage() {
+    public int getCategoryImage() {
         return categoryImage;
-    }
-
-    public List<IItem> getCategoryItems() {
-        return categoryItems;
     }
 }

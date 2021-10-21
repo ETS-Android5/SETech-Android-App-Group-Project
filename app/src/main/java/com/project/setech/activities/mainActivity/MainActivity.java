@@ -10,10 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.firebase.firestore.Query;
 import com.project.setech.R;
@@ -23,6 +27,7 @@ import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemC
 import com.project.setech.activities.mainActivity.mainRecyclerView.MainListViewAdapter;
 import com.project.setech.activities.searchActivity.SearchActivity;
 import com.project.setech.model.CategoryFactor;
+import com.project.setech.model.ICategory;
 import com.project.setech.model.IItem;
 import com.project.setech.model.NewItemFactory;
 import com.project.setech.repository.IRepository;
@@ -36,13 +41,16 @@ public class MainActivity extends AppCompatActivity {
 
     private IRepository repository;
 
-    private CardView motherboardCard;
-    private CardView gpuCard;
-    private CardView cpuCard;
+    private LinearLayout categoryLayout;
+
+//    private CardView motherboardCard;
+//    private CardView gpuCard;
+//    private CardView cpuCard;
 
     private RecyclerView recyclerView;
     private MainListViewAdapter mainViewAdapter;
     private List<IItem> topItemsList;
+    private List<ICategory> categoriesList;
 
     private ProgressBar mainTopPicksProgressBar;
 
@@ -53,50 +61,51 @@ public class MainActivity extends AppCompatActivity {
 
         initializedRecyclerView();
 
-        motherboardCard = findViewById(R.id.motherboardCard);
-        gpuCard = findViewById(R.id.gpuCard);
-        cpuCard = findViewById(R.id.cpuCard);
+//        motherboardCard = findViewById(R.id.categoryCard);
+//        gpuCard = findViewById(R.id.gpuCard);
+//        cpuCard = findViewById(R.id.cpuCard);
 
-        topItemsList= new ArrayList<>();
+        topItemsList = new ArrayList<>();
 
-        // CPU on CLICK
-        cpuCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.CPU);
-            }
-        });
-
-        // GPU on CLICK
-        gpuCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.GPU);
-            }
-        });
-
-        // Motherboard on CLICK
-        motherboardCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.Motherboard);
-            }
-        });
+//        // CPU on CLICK
+//        cpuCard.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                goToListActivity(CategoryType.CPU);
+//            }
+//        });
+//
+//        // GPU on CLICK
+//        gpuCard.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                goToListActivity(CategoryType.GPU);
+//            }
+//        });
+//
+//        // Motherboard on CLICK
+//        motherboardCard.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                goToListActivity(CategoryType.Motherboard);
+//            }
+//        });
     }
 
     private void initializedRecyclerView() {
-        recyclerView = findViewById(R.id.recycler_view);;
+        recyclerView = findViewById(R.id.recycler_view);
+        ;
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
         recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(MainActivity.this, recyclerView , (view, position) -> {
+                new RecyclerItemClickListener(MainActivity.this, recyclerView, (view, position) -> {
                     Intent newIntent = new Intent(MainActivity.this, DetailsActivity.class);
                     newIntent.putExtra("ItemId", topItemsList.get(position).getId());
                     newIntent.putExtra("SearchBoolean", false);
                     newIntent.putExtra("QueryString", "");
-                    newIntent.putExtra("FromMainScreen",true);
+                    newIntent.putExtra("FromMainScreen", true);
                     startActivity(newIntent);
                     finish();
                 })
@@ -106,11 +115,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if(!topItemsList.isEmpty()){
+        if (!topItemsList.isEmpty()) {
             return;
         }
 
-        repository = new Repository(MainActivity.this, new NewItemFactory(),new CategoryFactor());
+        repository = new Repository(MainActivity.this, new NewItemFactory(), new CategoryFactor());
 
         repository.fetchItems("viewCount", Query.Direction.DESCENDING, 15, items -> {
             topItemsList = items;
@@ -123,6 +132,36 @@ public class MainActivity extends AppCompatActivity {
             mainTopPicksProgressBar = findViewById(R.id.mainTopPicksProgressBar);
             mainTopPicksProgressBar.setVisibility(View.GONE);
 
+        });
+
+        repository.fetchCategories(categories -> {
+            categoriesList = categories;
+
+            for (ICategory c : categories){
+                LayoutInflater li = LayoutInflater.from(MainActivity.this);
+                View categoryCard = li.inflate(R.layout.category_card, null, false);
+
+                ImageView img = categoryCard.findViewById(R.id.categoryCardImage);
+                TextView name = categoryCard.findViewById(R.id.categoryCardName);
+                TextView desc = categoryCard.findViewById(R.id.categoryCardDescription);
+
+                CardView card = categoryCard.findViewById(R.id.categoryCard);
+                card.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        goToListActivity(CategoryType.valueOf(c.getId()));
+                    }
+                });
+
+                img.setImageResource(c.getCategoryImage());
+                name.setText(c.getName());
+                desc.setText(c.getDescription());
+
+                categoryLayout = findViewById(R.id.categoryLayout);
+
+                categoryLayout.addView(categoryCard);
+
+            }
         });
     }
 
