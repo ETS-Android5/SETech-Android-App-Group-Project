@@ -1,10 +1,7 @@
 package com.project.setech.activities.detailsActivity;
 
-import static com.project.setech.util.CategoryType.ALL;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,21 +11,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.project.setech.R;
 import com.project.setech.activities.listActivity.ListActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
@@ -37,6 +29,10 @@ import com.project.setech.activities.mainActivity.mainRecyclerView.MainListViewA
 import com.project.setech.activities.searchActivity.SearchActivity;
 import com.project.setech.model.IItem;
 import com.project.setech.model.ItemFactory;
+import com.project.setech.model.NewItemFactory;
+import com.project.setech.repository.IRepository;
+import com.project.setech.repository.ISingleItemCallBack;
+import com.project.setech.repository.Repository;
 import com.project.setech.util.CategoryType;
 import com.project.setech.util.Util;
 
@@ -46,7 +42,7 @@ import java.util.Map;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private IRepository repository = new Repository(DetailsActivity.this,new NewItemFactory());
 
     private boolean searchBoolean = false;
     private boolean fromMainScreen = false;
@@ -146,113 +142,68 @@ public class DetailsActivity extends AppCompatActivity {
                 })
         );
 
-        DocumentReference itemDocRef = db.collection("Items").document(itemId);
+        repository.fetchItem(itemId, (item, categoryType, specifications) -> {
+            this.item = item;
+            this.categoryType = categoryType;
 
-        ItemFactory itemFactory = new ItemFactory();
+            progressBar.setVisibility(View.GONE);
+            parentLayout.setVisibility(View.VISIBLE);
 
-        itemDocRef.get().addOnCompleteListener(itemTask -> {
-            if (itemTask.isSuccessful()) {
-                DocumentSnapshot itemDoc = itemTask.getResult();
+            itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
+            itemTitle.setText(item.getName());
+            itemCategory.setText(categoryType.toString());
+            itemPrice.setText("$"+item.getPrice());
+            getSupportActionBar().setTitle(categoryType.toString());
 
-                assert itemDoc != null;
-                if (itemDoc.exists()) {
-                    // figure out which item type it is and cast it through item factor
-                    itemDoc.getDocumentReference("category").get().addOnCompleteListener(categoryTask -> {
-                        if (categoryTask.isSuccessful()) {
-                            progressBar.setVisibility(View.GONE);
-                            parentLayout.setVisibility(View.VISIBLE);
+            // Populate specifications data layout
+            assert specifications != null;
+            for (String key : specifications.keySet()) {
 
-                            DocumentSnapshot categoryDoc = categoryTask.getResult();
+                LayoutInflater li = LayoutInflater.from(DetailsActivity.this);
+                View specRow = li.inflate(R.layout.specifications_row, null, false);
 
-                            List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) itemDoc.get("images"), DetailsActivity.this);
-                            Map<String, String> specifications = (Map<String, String>) itemDoc.get("specifications");
+                TextView specName = specRow.findViewById(R.id.specName);
+                specName.setText(Util.splitCamelCase(key));
 
-                            categoryType = CategoryType.valueOf(categoryDoc.getId());
-                            item = itemFactory.createItem(itemDoc.getId(), itemDoc.getString("name"), formattedImagePaths, itemDoc.getString("price"), itemDoc.getString("viewCount"), specifications, categoryType);
+                TextView specValue = specRow.findViewById(R.id.specValue);
+                specValue.setText(specifications.get(key));
 
-                            itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
-                            itemTitle.setText(item.getName());
-                            itemCategory.setText(categoryType.toString());
-                            itemPrice.setText("$"+item.getPrice());
-                            getSupportActionBar().setTitle(categoryType.toString());
-
-                            // Populate specifications data layout
-                            assert specifications != null;
-                            for (String key : specifications.keySet()) {
-
-                                LayoutInflater li = LayoutInflater.from(DetailsActivity.this);
-                                View specRow = li.inflate(R.layout.specifications_row, null, false);
-
-                                TextView specName = specRow.findViewById(R.id.specName);
-                                specName.setText(Util.splitCamelCase(key));
-
-                                TextView specValue = specRow.findViewById(R.id.specValue);
-                                specValue.setText(specifications.get(key));
-
-                                specificationsLayout.addView(specRow);
-                                setFadeAnimation(specRow);
-                            }
-
-                            populateTopItemPicks(categoryType);
-
-                            // Add on click handlers to Left, Right and circle buttons
-                            rightButton.setOnClickListener(view -> {
-                                onImageRightArrowClick();
-                            });
-
-                            leftButton.setOnClickListener(view -> {
-                                onImageLeftArrowClick();
-                            });
-
-                            circle1.setOnClickListener(view -> {
-                                onImageButtonClick(0);
-                            });
-
-                            circle2.setOnClickListener(view -> {
-                                onImageButtonClick(1);
-                            });
-
-                            circle3.setOnClickListener(view -> {
-                                onImageButtonClick(2);
-                            });
-
-                            // Increment view count
-                            Map<String, Object> data = itemDoc.getData();
-                            data.put("viewCount", Integer.toString(Integer.parseInt(itemDoc.getString("viewCount")) + 1));
-                            itemDocRef.set(data);
-                        }
-                    });
-                } else {
-                    Log.d("DetailsActivity", "No item with id " + itemId + " found!");
-                }
+                specificationsLayout.addView(specRow);
+                setFadeAnimation(specRow);
             }
+
+            populateTopItemPicks(categoryType);
+
+            // Add on click handlers to Left, Right and circle buttons
+            rightButton.setOnClickListener(view -> {
+                onImageRightArrowClick();
+            });
+
+            leftButton.setOnClickListener(view -> {
+                onImageLeftArrowClick();
+            });
+
+            circle1.setOnClickListener(view -> {
+                onImageButtonClick(0);
+            });
+
+            circle2.setOnClickListener(view -> {
+                onImageButtonClick(1);
+            });
+
+            circle3.setOnClickListener(view -> {
+                onImageButtonClick(2);
+            });
         });
     }
 
     private void populateTopItemPicks(CategoryType type) {
-        ItemFactory itemFactory = new ItemFactory();
-
-        CollectionReference ref = db.collection("Items");
-
-        ref.whereEqualTo("category", db.collection("Categories").document(type.toString())).orderBy("viewCount", Query.Direction.DESCENDING).limit(15).get().addOnSuccessListener(queryDocumentSnapshots -> {
-            if (!queryDocumentSnapshots.isEmpty()) {
-                for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
-                    try {
-                        List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"), DetailsActivity.this);
-                        Map<String, String> specifications = (Map<String, String>) items.get("specifications");
-
-                        IItem newItem = itemFactory.createItem(items.getId(), items.getString("name"), formattedImagePaths, items.getString("price"), items.getString("viewCount"), specifications, type);
-                        topItemsList.add(newItem);
-                    } catch (Exception e) {
-                        Log.d("Item loading", items.getString("name") + " failed to be loaded.");
-                    }
-                }
-
-                // Create recycler view
-                mainViewAdapter = new MainListViewAdapter(DetailsActivity.this, topItemsList, type);
-                recyclerView.setAdapter(mainViewAdapter);
-                mainViewAdapter.notifyDataSetChanged();
-            }
+        repository.fetchItems(type, "viewCount", Query.Direction.DESCENDING, 15, items -> {
+            topItemsList = items;
+            // Create recycler view
+            mainViewAdapter = new MainListViewAdapter(DetailsActivity.this, topItemsList, type);
+            recyclerView.setAdapter(mainViewAdapter);
+            mainViewAdapter.notifyDataSetChanged();
         });
     }
 

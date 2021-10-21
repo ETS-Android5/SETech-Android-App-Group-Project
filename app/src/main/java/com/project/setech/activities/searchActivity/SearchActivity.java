@@ -20,20 +20,18 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.project.setech.R;
 import com.project.setech.activities.detailsActivity.DetailsActivity;
-import com.project.setech.activities.listActivity.ListActivity;
-import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
 import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
 import com.project.setech.activities.mainActivity.MainActivity;
 import com.project.setech.activities.searchActivity.searchRecyclerView.SearchViewAdapter;
 import com.project.setech.model.IItem;
 import com.project.setech.model.ItemFactory;
+import com.project.setech.repository.IRepository;
 import com.project.setech.util.CategoryType;
 import com.project.setech.util.Util;
 
@@ -43,7 +41,8 @@ import java.util.Map;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private IRepository repository;
+
     private RecyclerView recyclerView;
     private SearchViewAdapter searchViewAdapter;
 
@@ -69,7 +68,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private List<IItem> itemsList;
     private String searchString;
-    private CollectionReference collectionReference = db.collection("Items");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,6 +258,26 @@ public class SearchActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Search Results For: " + searchString);
 
         queryString = searchString;
+
+//        repository = new Repository(SearchActivity.this,new NewItemFactory());
+//
+//        repository.fetchItems(items -> {
+//            // Create recycler view
+//            searchViewAdapter = new SearchViewAdapter(SearchActivity.this, itemsList, CategoryType.ALL);
+//
+//            recyclerView.setAdapter(searchViewAdapter);
+//            searchViewAdapter.getFilter().filter(searchString.toString());
+//
+//            searchViewAdapter.notifyDataSetChanged();
+//
+//            listRecyclerProgressBar = findViewById(R.id.listRecyclerProgressBar);
+//            listRecyclerProgressBar.setVisibility(View.GONE);
+//
+//            selectSortButton(nameSortButton, true);
+//            selectOrderSortButton(increasingSortButton, true);
+//        });
+
+        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Items");
 
         ItemFactory itemFactory = new ItemFactory();
 
