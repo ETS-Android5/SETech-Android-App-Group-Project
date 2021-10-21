@@ -31,7 +31,9 @@ import com.project.setech.activities.mainActivity.MainActivity;
 import com.project.setech.activities.searchActivity.searchRecyclerView.SearchViewAdapter;
 import com.project.setech.model.IItem;
 import com.project.setech.model.ItemFactory;
+import com.project.setech.model.NewItemFactory;
 import com.project.setech.repository.IRepository;
+import com.project.setech.repository.Repository;
 import com.project.setech.util.CategoryType;
 import com.project.setech.util.Util;
 
@@ -259,53 +261,23 @@ public class SearchActivity extends AppCompatActivity {
 
         queryString = searchString;
 
-//        repository = new Repository(SearchActivity.this,new NewItemFactory());
-//
-//        repository.fetchItems(items -> {
-//            // Create recycler view
-//            searchViewAdapter = new SearchViewAdapter(SearchActivity.this, itemsList, CategoryType.ALL);
-//
-//            recyclerView.setAdapter(searchViewAdapter);
-//            searchViewAdapter.getFilter().filter(searchString.toString());
-//
-//            searchViewAdapter.notifyDataSetChanged();
-//
-//            listRecyclerProgressBar = findViewById(R.id.listRecyclerProgressBar);
-//            listRecyclerProgressBar.setVisibility(View.GONE);
-//
-//            selectSortButton(nameSortButton, true);
-//            selectOrderSortButton(increasingSortButton, true);
-//        });
+        repository = new Repository(SearchActivity.this,new NewItemFactory());
 
-        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Items");
+        repository.fetchItems(items -> {
+            // Create recycler view
+            itemsList = items;
 
-        ItemFactory itemFactory = new ItemFactory();
+            searchViewAdapter = new SearchViewAdapter(SearchActivity.this, itemsList, CategoryType.ALL);
 
-        CategoryType type = CategoryType.ALL;
+            recyclerView.setAdapter(searchViewAdapter);
+            searchViewAdapter.getFilter().filter(searchString);
+            searchViewAdapter.notifyDataSetChanged();
 
-        collectionReference.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            if (!queryDocumentSnapshots.isEmpty()) {
-                for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
+            listRecyclerProgressBar = findViewById(R.id.listRecyclerProgressBar);
+            listRecyclerProgressBar.setVisibility(View.GONE);
 
-                    List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"), SearchActivity.this);
-                    Map<String, String> specifications = (Map<String, String>) items.get("specifications");
-
-                    IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"), formattedImagePaths, items.getString("price"),items.getString("viewCount"), specifications, type);
-                    itemsList.add(newItem);
-                }
-
-                // Create recycler view
-                searchViewAdapter = new SearchViewAdapter(SearchActivity.this, itemsList, CategoryType.ALL);
-                recyclerView.setAdapter(searchViewAdapter);
-                searchViewAdapter.getFilter().filter(searchString.toString());
-                searchViewAdapter.notifyDataSetChanged();
-
-                listRecyclerProgressBar = findViewById(R.id.listRecyclerProgressBar);
-                listRecyclerProgressBar.setVisibility(View.GONE);
-
-                selectSortButton(nameSortButton, true);
-                selectOrderSortButton(increasingSortButton, true);
-            }
+            selectSortButton(nameSortButton, true);
+            selectOrderSortButton(increasingSortButton, true);
         });
     }
 

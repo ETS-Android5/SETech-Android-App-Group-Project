@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-public class SearchViewAdapter extends RecyclerView.Adapter implements Filterable{
+public class SearchViewAdapter extends RecyclerView.Adapter implements Filterable {
     private Context context;
     private List<IItem> itemList;
     private CategoryType type;
@@ -88,19 +88,19 @@ public class SearchViewAdapter extends RecyclerView.Adapter implements Filterabl
     private Filter FilterItem = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-            String searchText=charSequence.toString().toLowerCase().trim();
-            List<IItem>tempList=new ArrayList<>();
-            if(searchText.length()==0 || searchText.isEmpty()){
+            String searchText = charSequence.toString().toLowerCase().trim();
+            List<IItem> tempList = new ArrayList<>();
+            if (searchText.length() == 0 || searchText.isEmpty()) {
                 tempList.addAll(itemListFull);
             } else {
-                for(IItem item : itemListFull) {
-                    if(item.getName().toLowerCase().trim().contains(searchText)) {
+                for (IItem item : itemListFull) {
+                    if (item.getName().toLowerCase().trim().contains(searchText)) {
                         tempList.add(item);
                     }
                 }
             }
             FilterResults results = new FilterResults();
-            results.values=tempList;
+            results.values = tempList;
             return results;
         }
 
@@ -114,8 +114,7 @@ public class SearchViewAdapter extends RecyclerView.Adapter implements Filterabl
 
             if (itemList.size() <= 0) {
                 noItemsFoundText.setVisibility(View.VISIBLE);
-            }
-            else {
+            } else {
                 noItemsFoundText.setVisibility(View.GONE);
             }
         }
@@ -145,7 +144,7 @@ public class SearchViewAdapter extends RecyclerView.Adapter implements Filterabl
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void sortName(String s) {
         order = s;
-        if(order == "increase"){
+        if (order == "increase") {
             Collections.sort(itemList, compareByName);
         } else {
             Collections.sort(itemList, compareByName.reversed());
@@ -156,7 +155,7 @@ public class SearchViewAdapter extends RecyclerView.Adapter implements Filterabl
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void sortPrice(String s) {
         order = s;
-        if(order == "increase"){
+        if (order == "increase") {
             Collections.sort(itemList, compareByPrice);
         } else {
             Collections.sort(itemList, compareByPrice.reversed());
@@ -167,7 +166,7 @@ public class SearchViewAdapter extends RecyclerView.Adapter implements Filterabl
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void sortView(String s) {
         order = s;
-        if(order == "increase"){
+        if (order == "increase") {
             Collections.sort(itemList, compareByView);
         } else {
             Collections.sort(itemList, compareByView.reversed());
