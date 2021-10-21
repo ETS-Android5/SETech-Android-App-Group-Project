@@ -43,16 +43,13 @@ public class MainActivity extends AppCompatActivity {
 
     private LinearLayout categoryLayout;
 
-//    private CardView motherboardCard;
-//    private CardView gpuCard;
-//    private CardView cpuCard;
-
     private RecyclerView recyclerView;
     private MainListViewAdapter mainViewAdapter;
     private List<IItem> topItemsList;
     private List<ICategory> categoriesList;
 
     private ProgressBar mainTopPicksProgressBar;
+    private ProgressBar mainCategoriesProgressbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,35 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         initializedRecyclerView();
 
-//        motherboardCard = findViewById(R.id.categoryCard);
-//        gpuCard = findViewById(R.id.gpuCard);
-//        cpuCard = findViewById(R.id.cpuCard);
-
         topItemsList = new ArrayList<>();
-
-//        // CPU on CLICK
-//        cpuCard.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                goToListActivity(CategoryType.CPU);
-//            }
-//        });
-//
-//        // GPU on CLICK
-//        gpuCard.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                goToListActivity(CategoryType.GPU);
-//            }
-//        });
-//
-//        // Motherboard on CLICK
-//        motherboardCard.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                goToListActivity(CategoryType.Motherboard);
-//            }
-//        });
     }
 
     private void initializedRecyclerView() {
@@ -162,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
                 categoryLayout.addView(categoryCard);
 
             }
+
+            mainCategoriesProgressbar = findViewById(R.id.mainCategoriesProgressbar);
+            mainCategoriesProgressbar.setVisibility(View.GONE);
         });
     }
 
