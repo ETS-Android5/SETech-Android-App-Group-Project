@@ -58,16 +58,31 @@ public class Repository implements IRepository {
 
                                 IItem item = itemFactory.createItem(itemDoc.getId(),itemDoc.getData(), context, categoryType);
 
-                                Map<String, Object> data = itemDoc.getData();
-                                data.put("viewCount", Integer.toString(Integer.parseInt(itemDoc.getString("viewCount")) + 1));
-                                itemsRef.document(id).set(data);
-
                                 callBack.onSuccess(item,categoryType, (Map<String, String>) itemDoc.get("specifications"));
                             } catch (InvalidFetchedItem invalidFetchedItem) {
                                 Log.d("Repository", "Item of id: " + itemDoc.getId() + " failed to be fetched/created!");
                             }
                         }
                     });
+                }
+            }
+        });
+    }
+
+    @Override
+    public void updateItemValue(String id, String valueName, Object value) {
+        itemsRef.document(id).get().addOnCompleteListener(itemTask -> {
+            if (itemTask.isSuccessful()) {
+                DocumentSnapshot itemDoc = itemTask.getResult();
+
+                Map<String, Object> data = itemDoc.getData();
+
+                if (data.containsKey(valueName)) {
+                    data.put(valueName, value);
+                    itemsRef.document(id).set(data);
+                }
+                else {
+                    throw new IllegalArgumentException("Invalid value name passed into update item in repository!");
                 }
             }
         });

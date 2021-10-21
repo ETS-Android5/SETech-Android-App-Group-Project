@@ -9,9 +9,11 @@ import java.util.List;
 
 public interface IRepository {
     public void fetchItem(String id, ISingleItemCallBack callBack);
+
+    public void updateItemValue(String id, String valueName, Object value);
+
     public List<IItem> fetchItems(IItemsCallBack callBack);
     public void fetchItems(CategoryType categoryType, IItemsCallBack callBack);
-//    public List<IItem> fetchItems(int limit, CategoryType categoryType,IItemCallBack callBack);
     public void fetchItems(String sortByValue, Query.Direction direction, int limit, IItemsCallBack callBack);
     public void fetchItems(CategoryType categoryType, String sortByValue, Query.Direction direction, int limit, IItemsCallBack callBack);
 

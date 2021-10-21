@@ -146,6 +146,8 @@ public class DetailsActivity extends AppCompatActivity {
             this.item = item;
             this.categoryType = categoryType;
 
+            repository.updateItemValue(itemId,"viewCount",Integer.toString(Integer.parseInt(item.getViewCount()) + 1));
+
             progressBar.setVisibility(View.GONE);
             parentLayout.setVisibility(View.VISIBLE);
 
