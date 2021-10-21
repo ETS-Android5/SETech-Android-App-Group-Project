@@ -1,6 +1,5 @@
 package com.project.setech.activities.listActivity;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,15 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.opengl.Visibility;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,35 +24,24 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.project.setech.R;
 import com.project.setech.activities.detailsActivity.DetailsActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
 import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
 import com.project.setech.activities.mainActivity.MainActivity;
-import com.project.setech.activities.searchActivity.SearchActivity;
 import com.project.setech.model.IItem;
-import com.project.setech.model.ItemFactory;
-import com.project.setech.model.itemType.CPU;
-import com.project.setech.model.itemType.GPU;
-import com.project.setech.model.itemType.Motherboard;
+import com.project.setech.model.NewItemFactory;
+import com.project.setech.repository.IRepository;
+import com.project.setech.repository.Repository;
 import com.project.setech.util.CategoryType;
-import com.project.setech.util.Util;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 public class ListActivity extends AppCompatActivity {
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private IRepository repository;
+
     private RecyclerView recyclerView;
     private ListViewAdapter listViewAdapter;
 
@@ -83,12 +65,12 @@ public class ListActivity extends AppCompatActivity {
 
     private List<IItem> itemsList;
 
-    private CollectionReference collectionReference = db.collection("Items");
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        initializeRecyclerView();
 
         //actionbar
         ActionBar actionBar = getSupportActionBar();
@@ -99,18 +81,7 @@ public class ListActivity extends AppCompatActivity {
 
         itemsList = new ArrayList<>();
 
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-
-        int columns = 2;
-
-        if ((CategoryType) getIntent().getSerializableExtra("CategoryType") == CategoryType.Motherboard) {
-            columns = 1;
-        }
-
         actionBar.setTitle(getIntent().getSerializableExtra("CategoryType").toString());
-
-        recyclerView.setLayoutManager(new GridLayoutManager(this, columns));
 
         sortByOpenButton = findViewById(R.id.sortByOpenButton);
 
@@ -123,21 +94,6 @@ public class ListActivity extends AppCompatActivity {
 
         sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
         sortByExpandedLayout.setVisibility(View.GONE);
-
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(ListActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        Log.d("test", "onItemClick: "+itemsList.get(position).getId());
-
-                        Intent newIntent = new Intent(ListActivity.this, DetailsActivity.class);
-                        newIntent.putExtra("ItemId", itemsList.get(position).getId());
-                        newIntent.putExtra("SearchBoolean", false);
-                        newIntent.putExtra("QueryString", "");
-                        startActivity(newIntent);
-                        finish();
-                    }
-                })
-        );
 
         sortByOpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -294,6 +250,34 @@ public class ListActivity extends AppCompatActivity {
         }
     }
 
+    private void initializeRecyclerView() {
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+        int columns = 2;
+
+        if ((CategoryType) getIntent().getSerializableExtra("CategoryType") == CategoryType.Motherboard) {
+            columns = 1;
+        }
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this, columns));
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(ListActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Log.d("test", "onItemClick: "+itemsList.get(position).getId());
+
+                        Intent newIntent = new Intent(ListActivity.this, DetailsActivity.class);
+                        newIntent.putExtra("ItemId", itemsList.get(position).getId());
+                        newIntent.putExtra("SearchBoolean", false);
+                        newIntent.putExtra("QueryString", "");
+                        startActivity(newIntent);
+                        finish();
+                    }
+                })
+        );
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onStart() {
@@ -303,40 +287,23 @@ public class ListActivity extends AppCompatActivity {
             return;
         }
 
-        ItemFactory itemFactory = new ItemFactory();
-        CategoryType type = (CategoryType) getIntent().getSerializableExtra("CategoryType");
+        CategoryType categoryType = (CategoryType) getIntent().getSerializableExtra("CategoryType");
+        repository = new Repository(ListActivity.this, new NewItemFactory());
 
-        collectionReference.whereEqualTo("category", db.collection("Categories").document(type.toString())).get().addOnSuccessListener(queryDocumentSnapshots -> {
-            if (!queryDocumentSnapshots.isEmpty()) {
-                for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
-                    // Create recycler view
-                    listViewAdapter = new ListViewAdapter(ListActivity.this, itemsList, type);
-                    recyclerView.setAdapter(listViewAdapter);
+        repository.fetchItems(categoryType, items -> {
 
-                    // Turn object into the type we need
-                    try {
-                        List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"),ListActivity.this);
-                        Map<String,String> specifications = (Map<String, String>) items.get("specifications");
+            itemsList = items;
+            listViewAdapter = new ListViewAdapter(ListActivity.this, itemsList, categoryType);
+            recyclerView.setAdapter(listViewAdapter);
 
-                        IItem newItem = itemFactory.createItem(items.getId(),items.getString("name"),formattedImagePaths,items.getString("price"),items.getString("viewCount"),specifications,type);
+            listViewAdapter.notifyDataSetChanged();
 
-                        itemsList.add(newItem);
+            listRecyclerProgressBar = findViewById(R.id.listRecyclerProgressBar);
+            listRecyclerProgressBar.setVisibility(View.GONE);
 
-                        listViewAdapter.notifyItemChanged(itemsList.size()-1);
-                    } catch (Exception e) {
-                        Log.d("Item loading", items.getString("name") + " failed to be loaded.");
-                    }
-                }
+            selectSortButton(nameSortButton, true);
+            selectOrderSortButton(increasingSortButton, true);
 
-                listRecyclerProgressBar = findViewById(R.id.listRecyclerProgressBar);
-                listRecyclerProgressBar.setVisibility(View.GONE);
-
-                selectSortButton(nameSortButton, true);
-                selectOrderSortButton(increasingSortButton, true);
-            } else {
-                // No objects were found
-                Log.d("Items", "empty");
-            }
         });
     }
 

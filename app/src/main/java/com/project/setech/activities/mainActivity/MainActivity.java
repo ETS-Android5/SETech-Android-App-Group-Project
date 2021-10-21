@@ -2,162 +2,139 @@ package com.project.setech.activities.mainActivity;
 
 import static com.project.setech.util.CategoryType.ALL;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.core.OrderBy;
 import com.project.setech.R;
 import com.project.setech.activities.detailsActivity.DetailsActivity;
 import com.project.setech.activities.listActivity.ListActivity;
-import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
 import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
 import com.project.setech.activities.mainActivity.mainRecyclerView.MainListViewAdapter;
 import com.project.setech.activities.searchActivity.SearchActivity;
-import com.project.setech.activities.searchActivity.searchRecyclerView.SearchViewAdapter;
+import com.project.setech.model.CategoryFactor;
+import com.project.setech.model.ICategory;
 import com.project.setech.model.IItem;
-import com.project.setech.model.Item;
-import com.project.setech.model.ItemFactory;
+import com.project.setech.model.NewItemFactory;
+import com.project.setech.repository.IRepository;
+import com.project.setech.repository.Repository;
 import com.project.setech.util.CategoryType;
-import com.project.setech.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private CardView motherboardCard;
-    private CardView gpuCard;
-    private CardView cpuCard;
+    private IRepository repository;
+
+    private LinearLayout categoryLayout;
 
     private RecyclerView recyclerView;
     private MainListViewAdapter mainViewAdapter;
     private List<IItem> topItemsList;
-
-    private Button mostViewedButton;
-    private Button newestAdditionButton;
+    private List<ICategory> categoriesList;
 
     private ProgressBar mainTopPicksProgressBar;
-
-    private FirebaseFirestore db= FirebaseFirestore.getInstance();
-    private CollectionReference ref = db.collection("Items");
+    private ProgressBar mainCategoriesProgressbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        motherboardCard = findViewById(R.id.motherboardCard);
-        gpuCard = findViewById(R.id.gpuCard);
-        cpuCard = findViewById(R.id.cpuCard);
+        initializedRecyclerView();
 
-        topItemsList= new ArrayList<>();
-        recyclerView = findViewById(R.id.recycler_view);;
+        topItemsList = new ArrayList<>();
+    }
+
+    private void initializedRecyclerView() {
+        recyclerView = findViewById(R.id.recycler_view);
+        ;
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
         recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(MainActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        Intent newIntent = new Intent(MainActivity.this, DetailsActivity.class);
-                        newIntent.putExtra("ItemId", topItemsList.get(position).getId());
-                        newIntent.putExtra("SearchBoolean", false);
-                        newIntent.putExtra("QueryString", "");
-                        newIntent.putExtra("FromMainScreen",true);
-                        startActivity(newIntent);
-                        finish();
-                    }
+                new RecyclerItemClickListener(MainActivity.this, recyclerView, (view, position) -> {
+                    Intent newIntent = new Intent(MainActivity.this, DetailsActivity.class);
+                    newIntent.putExtra("ItemId", topItemsList.get(position).getId());
+                    newIntent.putExtra("SearchBoolean", false);
+                    newIntent.putExtra("QueryString", "");
+                    newIntent.putExtra("FromMainScreen", true);
+                    startActivity(newIntent);
+                    finish();
                 })
         );
-
-        // CPU on CLICK
-        cpuCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.CPU);
-            }
-        });
-
-        // GPU on CLICK
-        gpuCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.GPU);
-            }
-        });
-
-        // Motherboard on CLICK
-        motherboardCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToListActivity(CategoryType.Motherboard);
-            }
-        });
     }
 
     protected void onStart() {
         super.onStart();
 
-        if(!topItemsList.isEmpty()){
+        if (!topItemsList.isEmpty()) {
             return;
         }
 
-        ItemFactory itemFactory= new ItemFactory();
-        CategoryType type= ALL;
+        repository = new Repository(MainActivity.this, new NewItemFactory(), new CategoryFactor());
 
-        ref.orderBy("viewCount", Query.Direction.DESCENDING).limit(15).get().addOnSuccessListener(queryDocumentSnapshots -> {
-            if (!queryDocumentSnapshots.isEmpty()) {
-                for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
+        repository.fetchItems("viewCount", Query.Direction.DESCENDING, 15, items -> {
+            topItemsList = items;
 
-                    try {
-                        List<Integer> formattedImagePaths = Util.formatDrawableStringList((List<String>) items.get("images"), MainActivity.this);
-                        Map<String, String> specifications = (Map<String, String>) items.get("specifications");
+            // Create recycler view
+            mainViewAdapter = new MainListViewAdapter(MainActivity.this, topItemsList, ALL);
+            recyclerView.setAdapter(mainViewAdapter);
+            mainViewAdapter.notifyDataSetChanged();
 
-                        IItem newItem = itemFactory.createItem(items.getId(), items.getString("name"), formattedImagePaths, items.getString("price"), items.getString("viewCount"), specifications, type);
-                        topItemsList.add(newItem);
-                        Log.d("Item loading", items.getString("viewCount"));
-                    }
-                    catch (Exception e) {
-                        Log.d("Item loading", items.getString("name") + " failed to be loaded.");
-                    }
-                }
+            mainTopPicksProgressBar = findViewById(R.id.mainTopPicksProgressBar);
+            mainTopPicksProgressBar.setVisibility(View.GONE);
 
-                // Create recycler view
-                mainViewAdapter = new MainListViewAdapter(MainActivity.this, topItemsList, type);
-                recyclerView.setAdapter(mainViewAdapter);
-                mainViewAdapter.notifyDataSetChanged();
-
-                mainTopPicksProgressBar = findViewById(R.id.mainTopPicksProgressBar);
-                mainTopPicksProgressBar.setVisibility(View.GONE);
-            }
         });
 
+        repository.fetchCategories(categories -> {
+            categoriesList = categories;
+
+            for (ICategory c : categories){
+                LayoutInflater li = LayoutInflater.from(MainActivity.this);
+                View categoryCard = li.inflate(R.layout.category_card, null, false);
+
+                ImageView img = categoryCard.findViewById(R.id.categoryCardImage);
+                TextView name = categoryCard.findViewById(R.id.categoryCardName);
+                TextView desc = categoryCard.findViewById(R.id.categoryCardDescription);
+
+                CardView card = categoryCard.findViewById(R.id.categoryCard);
+                card.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        goToListActivity(CategoryType.valueOf(c.getId()));
+                    }
+                });
+
+                img.setImageResource(c.getCategoryImage());
+                name.setText(c.getName());
+                desc.setText(c.getDescription());
+
+                categoryLayout = findViewById(R.id.categoryLayout);
+
+                categoryLayout.addView(categoryCard);
+
+            }
+
+            mainCategoriesProgressbar = findViewById(R.id.mainCategoriesProgressbar);
+            mainCategoriesProgressbar.setVisibility(View.GONE);
+        });
     }
 
     public void goToListActivity(CategoryType type) {
