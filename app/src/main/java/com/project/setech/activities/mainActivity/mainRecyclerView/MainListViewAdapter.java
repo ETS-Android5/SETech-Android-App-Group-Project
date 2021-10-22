@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.setech.R;
+import com.project.setech.activities.Animations;
 import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.BaseItemViewHolder;
+import com.project.setech.activities.mainActivity.MainActivity;
 import com.project.setech.activities.mainActivity.mainRecyclerView.viewHolders.topItemViewHolder;
 import com.project.setech.model.IItem;
 import com.project.setech.model.itemType.CPU;
@@ -31,12 +33,13 @@ public class MainListViewAdapter extends RecyclerView.Adapter{
     private List<IItem> topItemsList;
     private CategoryType type;
 
+
     public MainListViewAdapter(Context context, List<IItem> itemList, CategoryType type) {
         this.context = context;
         this.topItemsList = itemList;
         this.type = type;
     }
-
+    Animations animations = new Animations(context);
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -46,13 +49,7 @@ public class MainListViewAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((BaseItemViewHolder) holder).bind(topItemsList.get(position));
-        setFadeAnimation(holder.itemView);
-    }
-
-    private void setFadeAnimation(View view) {
-        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(500);
-        view.startAnimation(anim);
+        animations.setFadeAnimation(holder.itemView);
     }
 
     @Override

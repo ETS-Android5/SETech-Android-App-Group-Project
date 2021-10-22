@@ -21,6 +21,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.setech.R;
+import com.project.setech.activities.Animations;
 import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.BaseItemViewHolder;
 import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.CPUViewHolder;
 import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.GPUViewHolder;
@@ -51,6 +52,8 @@ public class SearchViewAdapter extends RecyclerView.Adapter implements Filterabl
         itemListFull = new ArrayList<>(itemList);
     }
 
+    //Animations animations = new Animations(context);
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -69,12 +72,10 @@ public class SearchViewAdapter extends RecyclerView.Adapter implements Filterabl
 
         animateView(holder.itemView);
     }
-
-    private void animateView(View view) {
+    public void animateView(View view) {
         Animation slideDown = AnimationUtils.loadAnimation(context, R.anim.item_animation_fall_down);
         view.startAnimation(slideDown);
     }
-
     @Override
     public int getItemCount() {
         return itemList.size();

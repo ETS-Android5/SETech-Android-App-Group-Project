@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.project.setech.R;
+import com.project.setech.activities.Animations;
 import com.project.setech.activities.detailsActivity.DetailsActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
 import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
@@ -42,6 +44,7 @@ public class ListActivity extends AppCompatActivity {
 
     private IRepository repository;
 
+    private Context context;
     private RecyclerView recyclerView;
     private ListViewAdapter listViewAdapter;
 
@@ -95,16 +98,18 @@ public class ListActivity extends AppCompatActivity {
         sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
         sortByExpandedLayout.setVisibility(View.GONE);
 
+        //Animations animations = new Animations(context);
+
         sortByOpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (sortByExpandedLayout.getVisibility() == View.GONE) {
                     sortByExpandedLayout.setVisibility(View.VISIBLE);
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_up),null);
-                    slideDownAnim(sortByExpandedLayout);
+                    //animations.setFadeAnimation(sortByExpandedLayout);
                 }
                 else {
-                    slideUpAnim(sortByExpandedLayout);
+                    //animations.slideUpAnim(sortByExpandedLayout);
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_down),null);
                 }
             }
@@ -155,33 +160,6 @@ public class ListActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void slideDownAnim(View view) {
-        Animation slideDown = AnimationUtils.loadAnimation(ListActivity.this, R.anim.slide_down);
-        view.startAnimation(slideDown);
-    }
-
-    private void slideUpAnim(View view) {
-        Animation slideDown = AnimationUtils.loadAnimation(ListActivity.this, R.anim.slide_up);
-        view.startAnimation(slideDown);
-        slideDown.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                sortByExpandedLayout.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void selectSortButton(Button sortBtn, boolean first) {
         priceSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));

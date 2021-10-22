@@ -8,6 +8,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.project.setech.R;
+import com.project.setech.activities.Animations;
 import com.project.setech.activities.detailsActivity.DetailsActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
 import com.project.setech.activities.mainActivity.MainActivity;
@@ -47,6 +49,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private SearchViewAdapter searchViewAdapter;
+    private Context context;
 
     private Button clicked;
     private Button orderClicked;
@@ -70,6 +73,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private List<IItem> itemsList;
     private String searchString;
+    Animations animations= new Animations(context);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -246,7 +250,10 @@ public class SearchActivity extends AppCompatActivity {
             searchViewAdapter.sortName(order);
         }
     }
-
+    public void slideDownAnim(View view) {
+        Animation slideDown = AnimationUtils.loadAnimation(context, R.anim.slide_down);
+        view.startAnimation(slideDown);
+    }
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onStart() {
@@ -278,32 +285,6 @@ public class SearchActivity extends AppCompatActivity {
 
             selectSortButton(nameSortButton, true);
             selectOrderSortButton(increasingSortButton, true);
-        });
-    }
-
-    private void slideDownAnim(View view) {
-        Animation slideDown = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.slide_down);
-        view.startAnimation(slideDown);
-    }
-
-    private void slideUpAnim(View view) {
-        Animation slideDown = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.slide_up);
-        view.startAnimation(slideDown);
-        slideDown.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                sortByExpandedLayout.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
         });
     }
 

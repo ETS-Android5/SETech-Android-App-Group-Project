@@ -22,6 +22,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.setech.R;
+import com.project.setech.activities.Animations;
 import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.BaseItemViewHolder;
 import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.CPUViewHolder;
 import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.GPUViewHolder;
@@ -68,19 +69,13 @@ public class ListViewAdapter extends RecyclerView.Adapter implements Filterable 
                 throw new IllegalArgumentException("Unsupported category type passed into list view adapter!");
         }
     }
-
+    //Animations animations= new Animations(context);
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((BaseItemViewHolder) holder).bind(itemList.get(position));
 
-        animateView(holder.itemView);
+        //animations.animateView(holder.itemView);
     }
-
-    private void animateView(View view) {
-        Animation slideDown = AnimationUtils.loadAnimation(context, R.anim.item_animation_fall_down);
-        view.startAnimation(slideDown);
-    }
-
     @Override
     public int getItemCount() {
         return itemList.size();
