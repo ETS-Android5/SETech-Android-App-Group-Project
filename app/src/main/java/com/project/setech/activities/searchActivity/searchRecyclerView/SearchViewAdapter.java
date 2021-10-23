@@ -52,8 +52,6 @@ public class SearchViewAdapter extends RecyclerView.Adapter implements Filterabl
         itemListFull = new ArrayList<>(itemList);
     }
 
-    //Animations animations = new Animations(context);
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -69,12 +67,9 @@ public class SearchViewAdapter extends RecyclerView.Adapter implements Filterabl
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((BaseItemViewHolder) holder).bind(itemList.get(position));
+        Animations animations = new Animations(context);
 
-        animateView(holder.itemView);
-    }
-    public void animateView(View view) {
-        Animation slideDown = AnimationUtils.loadAnimation(context, R.anim.item_animation_fall_down);
-        view.startAnimation(slideDown);
+        animations.animateView(holder.itemView);
     }
     @Override
     public int getItemCount() {

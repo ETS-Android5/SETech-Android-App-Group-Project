@@ -73,7 +73,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private List<IItem> itemsList;
     private String searchString;
-    Animations animations= new Animations(context);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +107,7 @@ public class SearchActivity extends AppCompatActivity {
 
         sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
         sortByExpandedLayout.setVisibility(View.GONE);
+        Animations animations= new Animations(context);
 
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(SearchActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
@@ -129,7 +130,7 @@ public class SearchActivity extends AppCompatActivity {
                 if (sortByExpandedLayout.getVisibility() == View.GONE) {
                     sortByExpandedLayout.setVisibility(View.VISIBLE);
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null, AppCompatResources.getDrawable(SearchActivity.this,R.drawable.arrow_up),null);
-                    slideDownAnim(sortByExpandedLayout);
+                    animations.slideDownAnim(sortByExpandedLayout);
                 }
                 else {
                     sortByExpandedLayout.setVisibility(View.GONE);

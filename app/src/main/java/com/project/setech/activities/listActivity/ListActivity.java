@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -98,7 +99,7 @@ public class ListActivity extends AppCompatActivity {
         sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
         sortByExpandedLayout.setVisibility(View.GONE);
 
-        //Animations animations = new Animations(context);
+        Animations animations = new Animations(context);
 
         sortByOpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,10 +107,10 @@ public class ListActivity extends AppCompatActivity {
                 if (sortByExpandedLayout.getVisibility() == View.GONE) {
                     sortByExpandedLayout.setVisibility(View.VISIBLE);
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_up),null);
-                    //animations.setFadeAnimation(sortByExpandedLayout);
+                    animations.setFadeAnimation(sortByExpandedLayout);
                 }
                 else {
-                    //animations.slideUpAnim(sortByExpandedLayout);
+                    animations.slideUpAnim(sortByExpandedLayout);
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_down),null);
                 }
             }
@@ -160,6 +161,7 @@ public class ListActivity extends AppCompatActivity {
             }
         });
     }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void selectSortButton(Button sortBtn, boolean first) {
         priceSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));

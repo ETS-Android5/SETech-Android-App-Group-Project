@@ -69,12 +69,12 @@ public class ListViewAdapter extends RecyclerView.Adapter implements Filterable 
                 throw new IllegalArgumentException("Unsupported category type passed into list view adapter!");
         }
     }
-    //Animations animations= new Animations(context);
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((BaseItemViewHolder) holder).bind(itemList.get(position));
-
-        //animations.animateView(holder.itemView);
+        Animations animations= new Animations(context);
+        animations.animateView(holder.itemView);
     }
     @Override
     public int getItemCount() {
@@ -104,6 +104,7 @@ public class ListViewAdapter extends RecyclerView.Adapter implements Filterable 
             results.values=tempList;
             return results;
         }
+
 
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
