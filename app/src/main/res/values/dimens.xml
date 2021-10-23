@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="detailsTitle">22sp</dimen>
+    <dimen name="detailsCategory">14sp</dimen>
+    <dimen name="detailsPrice">24sp</dimen>
+    <dimen name="screenPadding">10dp</dimen>
+</resources>
