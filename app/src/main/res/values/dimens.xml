@@ -19,4 +19,10 @@
     <dimen name="mainCategoriesText">22sp</dimen>
     <dimen name="largeProgressBar">120dp</dimen>
     <dimen name="mediumProgressBar">60dp</dimen>
+    <dimen name="categoriesCardMargin">8dp</dimen>
+    <dimen name="cardCornerRadius">5dp</dimen>
+    <dimen name="cardElevation">3dp</dimen>
+    <dimen name="mediumItemImageSize">100dp</dimen>
+    <dimen name="categoryName">14sp</dimen>
+    <dimen name="categoryCardDescription">11sp</dimen>
 </resources>

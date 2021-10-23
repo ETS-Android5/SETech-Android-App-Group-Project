@@ -27,4 +27,7 @@
     <string name="listDecreasingButton">Decreasing</string>
     <string name="listNoFoundText">No items were found for your search query :(</string>
     <string name="mainActivityMostViewedText">Most viewed</string>
+    <string name="defaultCategoryCardName">Category card name</string>
+    <string name="categoryCardDescription">Category card description</string>
+    <string name="categoryImageViewDescription">Category Image</string>
 </resources>
