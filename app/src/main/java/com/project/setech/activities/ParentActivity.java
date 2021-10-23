@@ -21,6 +21,9 @@ import com.project.setech.repository.IRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is extended by ListActivity and SearchActivity due to the similar layout and functionality they have
+ */
 public class ParentActivity extends AppCompatActivity {
 
     public IRepository repository;
@@ -53,6 +56,10 @@ public class ParentActivity extends AppCompatActivity {
     public SearchView searchView;
     public String identity;
 
+    /**
+     * This method is called when this activity is created
+     * @param savedInstanceState A mapping from String keys to various Parcelable values.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +72,7 @@ public class ParentActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
 
+        //initialise list of item
         itemsList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -82,6 +90,7 @@ public class ParentActivity extends AppCompatActivity {
         sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
         sortByExpandedLayout.setVisibility(View.GONE);
 
+        //Listener for price sort button
         priceSortButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -91,6 +100,7 @@ public class ParentActivity extends AppCompatActivity {
             }
         });
 
+        //Listener for name sort button
         nameSortButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -100,6 +110,7 @@ public class ParentActivity extends AppCompatActivity {
             }
         });
 
+        //Listener for view sort button
         viewsSortButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -109,6 +120,7 @@ public class ParentActivity extends AppCompatActivity {
             }
         });
 
+        //Listener for increasing sort button
         increasingSortButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -118,6 +130,7 @@ public class ParentActivity extends AppCompatActivity {
             }
         });
 
+        //Listener for decreasing sort button
         decreasingSortButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -128,6 +141,9 @@ public class ParentActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method is executed when the activity start
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onStart() {
@@ -138,6 +154,30 @@ public class ParentActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method is used to change appearance for order sort buttons and notify the application this button is selected
+     * @param sortBtn The button clicked
+     * @param first ariable to determine if the activity is just being created or not
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    protected void selectOrderSortButton(Button sortBtn, boolean first) {
+        increasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
+        decreasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
+
+        increasingSortButton.setTextColor(AppCompatResources.getColorStateList(this, R.color.grey));
+        decreasingSortButton.setTextColor(AppCompatResources.getColorStateList(this, R.color.grey));
+
+        sortBtn.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_highlighted));
+        sortBtn.setTextColor(AppCompatResources.getColorStateList(this, R.color.black));
+
+        orderClicked = sortBtn;
+    }
+
+    /**
+     * This method is used to change appearance for sort buttons and notify the application this button is selected
+     * @param sortBtn The button clicked
+     * @param first Variable to determine if the activity is just being created or not
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void selectSortButton(Button sortBtn, boolean first) {
         priceSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
@@ -152,19 +192,5 @@ public class ParentActivity extends AppCompatActivity {
         sortBtn.setTextColor(AppCompatResources.getColorStateList(this,R.color.black));
 
         clicked = sortBtn;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    protected void selectOrderSortButton(Button sortBtn, boolean first) {
-        increasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
-        decreasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
-
-        increasingSortButton.setTextColor(AppCompatResources.getColorStateList(this, R.color.grey));
-        decreasingSortButton.setTextColor(AppCompatResources.getColorStateList(this, R.color.grey));
-
-        sortBtn.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_highlighted));
-        sortBtn.setTextColor(AppCompatResources.getColorStateList(this, R.color.black));
-
-        orderClicked = sortBtn;
     }
 }

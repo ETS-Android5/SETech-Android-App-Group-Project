@@ -30,12 +30,19 @@ import com.project.setech.util.Animations.Animations;
 import com.project.setech.util.Animations.IAnimations;
 import com.project.setech.util.CategoryType;
 
+/**
+ * This class is used to represent a list of items of a specific category type
+ */
 public class ListActivity extends ParentActivity {
 
     private ListViewAdapter listViewAdapter;
 
     private IAnimations animations = new Animations(ListActivity.this);
 
+    /**
+     * This method is called when this activity is created
+     * @param savedInstanceState A mapping from String keys to various Parcelable values.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         identity = "list";
@@ -66,6 +73,7 @@ public class ListActivity extends ParentActivity {
                 })
         );
 
+        //sort by button listener
         sortByOpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,6 +105,9 @@ public class ListActivity extends ParentActivity {
         });
     }
 
+    /**
+     * This method is executed when the activity start
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onStart() {
@@ -123,6 +134,11 @@ public class ListActivity extends ParentActivity {
         });
     }
 
+    /**
+     * This method is used to change appearance for order sort buttons and notify the application this button is selected
+     * @param sortBtn The button clicked
+     * @param first ariable to determine if the activity is just being created or not
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void selectOrderSortButton(Button sortBtn, boolean first) {
         super.selectOrderSortButton(sortBtn, first);
@@ -144,6 +160,11 @@ public class ListActivity extends ParentActivity {
         }
     }
 
+    /**
+     * This method is used to change appearance for sort buttons and notify the application this button is selected
+     * @param sortBtn The button clicked
+     * @param first Variable to determine if the activity is just being created or not
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void selectSortButton(Button sortBtn, boolean first) {
         super.selectSortButton(sortBtn,first);
@@ -169,29 +190,38 @@ public class ListActivity extends ParentActivity {
         }
     }
 
+    /**
+     * This method creates the search button and provides search functionality
+     * @param menu Menu object
+     * @return A boolean object
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
+        //styling from menu.xml
         getMenuInflater().inflate(R.menu.menu, menu);
 
+        //initialise searchView
         MenuItem menuItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) menuItem.getActionView();
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("Type here to search");
 
-
+        //close button("x") on the search view and its listener
         View closeButton = searchView.findViewById(R.id.search_close_btn);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
+                //when close button is clicked, the itemList would become full again with corresponding sort order
                 listViewAdapter.setButtonAndString(order, clickedString);
                 listViewAdapter.backToFull();
 
+                //clear text field when close button is clicked
                 EditText et = (EditText) findViewById(R.id.search_src_text);
                 et.setText("");
 
-                //Clear query
+                //clear query
                 searchView.setQuery("", false);
                 searchView.onActionViewCollapsed();
                 menuItem.collapseActionView();
@@ -202,19 +232,23 @@ public class ListActivity extends ParentActivity {
             }
         });
 
+        //listener for searchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
 
+            //the itemList would updated dynamically when user's query string changes/deleted
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public boolean onQueryTextChange(String newText) {
                 if(!newText.isEmpty()) {
+                    //when there is changes in query string
                     listViewAdapter.setButtonAndString(order, clickedString);
                     listViewAdapter.getFilter().filter(newText);
                 } else {
+                    //when query string is cleared
                     listViewAdapter.setButtonAndString(order, clickedString);
                     listViewAdapter.backToFull();
                 }
@@ -225,12 +259,19 @@ public class ListActivity extends ParentActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * This method is executed when back button is clicked
+     * @return Boolean object
+     */
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
 
+    /**
+     * This method is executed when back button is clicked, it will go back to MainActivity
+     */
     @Override
     public void onBackPressed() {
         Intent newIntent = new Intent(ListActivity.this, MainActivity.class);

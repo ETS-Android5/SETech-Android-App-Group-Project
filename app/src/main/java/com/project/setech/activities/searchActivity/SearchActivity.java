@@ -26,12 +26,19 @@ import com.project.setech.util.Animations.Animations;
 import com.project.setech.util.Animations.IAnimations;
 import com.project.setech.util.CategoryType;
 
+/**
+ * This class is used to represent a list of items after a search from MainActivity
+ */
 public class SearchActivity extends ParentActivity {
 
     private SearchViewAdapter searchViewAdapter;
 
     private IAnimations animations= new Animations(SearchActivity.this);
 
+    /**
+     * This method is called when this activity is created
+     * @param savedInstanceState A mapping from String keys to various Parcelable values.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         identity = "search";
@@ -56,6 +63,7 @@ public class SearchActivity extends ParentActivity {
                 })
         );
 
+        //sort by button listener
         sortByOpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,6 +95,9 @@ public class SearchActivity extends ParentActivity {
         });
     }
 
+    /**
+     * This method is executed when the activity start
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onStart() {
@@ -117,6 +128,11 @@ public class SearchActivity extends ParentActivity {
         });
     }
 
+    /**
+     * This method is used to change appearance for order sort buttons and notify the application this button is selected
+     * @param sortBtn The button clicked
+     * @param first ariable to determine if the activity is just being created or not
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void selectOrderSortButton(Button sortBtn, boolean first) {
         super.selectOrderSortButton(sortBtn, first);
@@ -138,6 +154,11 @@ public class SearchActivity extends ParentActivity {
         }
     }
 
+    /**
+     * This method is used to change appearance for sort buttons and notify the application this button is selected
+     * @param sortBtn The button clicked
+     * @param first Variable to determine if the activity is just being created or not
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void selectSortButton(Button sortBtn, boolean first) {
         super.selectSortButton(sortBtn,first);
@@ -163,6 +184,10 @@ public class SearchActivity extends ParentActivity {
         }
     }
 
+    /**
+     * This method start a new SearchActivity with a search string to perform a new search
+     * @param searchString The search query user submitted
+     */
     public void goToSearchActivity(String searchString) {
         Intent newIntent = new Intent(SearchActivity.this, SearchActivity.class);
         newIntent.putExtra("SearchString", searchString);
@@ -170,17 +195,27 @@ public class SearchActivity extends ParentActivity {
         finish();
     }
 
+    /**
+     * This method creates the search button and provides search functionality
+     * @param menu Menu object
+     * @return A boolean object
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
+        //styling from menu.xml
         getMenuInflater().inflate(R.menu.menu, menu);
 
+        //initialise searchView
         MenuItem menuItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) menuItem.getActionView();
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("Type here to search");
 
+        //listener for searchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            //the itemList would updated when user submit a query string and a new SearchActivity would start
             @Override
             public boolean onQueryTextSubmit(String query) {
                 queryString = query;
@@ -197,12 +232,19 @@ public class SearchActivity extends ParentActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * This method is executed when back button is clicked
+     * @return Boolean object
+     */
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
 
+    /**
+     * This method is executed when back button is clicked, it will go back to MainActivity
+     */
     @Override
     public void onBackPressed() {
         Intent newIntent = new Intent(SearchActivity.this, MainActivity.class);
