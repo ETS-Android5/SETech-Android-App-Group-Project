@@ -19,8 +19,8 @@ Dependencies used in this project are as follows:
 
 Our application can be ran using different methods.
 
-1. You can run the application through Android Studio[Build and run your app ]("https://developer.android.com/studio/run")
+1. You can run the application through Android Studio. [Build and run your app](https://developer.android.com/studio/run)
 
-2. Or you can build the application onto an Android device.[Run apps on a hardware device]("https://developer.android.com/studio/run/device")
+2. Or you can build the application onto an Android device. [Run apps on a hardware device](https://developer.android.com/studio/run/device)
 
 ## Acknowledgements
