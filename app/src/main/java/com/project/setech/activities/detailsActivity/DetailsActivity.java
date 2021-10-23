@@ -23,7 +23,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.project.setech.R;
-import com.project.setech.activities.Animations;
 import com.project.setech.activities.listActivity.ListActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
 import com.project.setech.activities.mainActivity.MainActivity;
@@ -35,6 +34,8 @@ import com.project.setech.model.NewItemFactory;
 import com.project.setech.repository.IRepository;
 import com.project.setech.repository.ISingleItemCallBack;
 import com.project.setech.repository.Repository;
+import com.project.setech.util.Animations.Animations;
+import com.project.setech.util.Animations.IAnimations;
 import com.project.setech.util.CategoryType;
 import com.project.setech.util.Util;
 
@@ -78,7 +79,8 @@ public class DetailsActivity extends AppCompatActivity {
     private List<IItem> topItemsList;
 
     private int currentlySelectedImageIndex = 0;
-    Animations animations = new Animations(context);
+
+    IAnimations animations = new Animations(DetailsActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +117,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         topItemsList = new ArrayList<>();
         recyclerView = findViewById(R.id.detailsRecyclerView);
-        ;
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);

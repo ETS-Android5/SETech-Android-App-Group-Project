@@ -22,13 +22,14 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.setech.R;
-import com.project.setech.activities.Animations;
 import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.BaseItemViewHolder;
 import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.CPUViewHolder;
 import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.GPUViewHolder;
 import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.MotherboardViewHolder;
 import com.project.setech.model.IItem;
 import com.project.setech.model.itemType.CPU;
+import com.project.setech.util.Animations.Animations;
+import com.project.setech.util.Animations.IAnimations;
 import com.project.setech.util.CategoryType;
 
 import java.util.ArrayList;
@@ -46,12 +47,14 @@ public class ListViewAdapter extends RecyclerView.Adapter implements Filterable 
     private List<IItem> itemListFull;
     private String order;
     private String clickedString;
+    private IAnimations animations;
 
     public ListViewAdapter(Context context, List<IItem> itemList, CategoryType type) {
         this.context = context;
         this.itemList = itemList;
         this.type = type;
         itemListFull = new ArrayList<>(itemList);
+        animations = new Animations(context);
     }
 
     @NonNull
@@ -74,7 +77,7 @@ public class ListViewAdapter extends RecyclerView.Adapter implements Filterable 
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((BaseItemViewHolder) holder).bind(itemList.get(position));
 
-        //animations.animateView(holder.itemView);
+        animations.setFallDownAnimation(holder.itemView);
     }
     @Override
     public int getItemCount() {

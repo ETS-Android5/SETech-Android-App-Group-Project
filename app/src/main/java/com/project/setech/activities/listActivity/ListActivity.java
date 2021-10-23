@@ -18,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -26,7 +25,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.project.setech.R;
-import com.project.setech.activities.Animations;
 import com.project.setech.activities.detailsActivity.DetailsActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.ListViewAdapter;
 import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
@@ -35,6 +33,8 @@ import com.project.setech.model.IItem;
 import com.project.setech.model.NewItemFactory;
 import com.project.setech.repository.IRepository;
 import com.project.setech.repository.Repository;
+import com.project.setech.util.Animations.Animations;
+import com.project.setech.util.Animations.IAnimations;
 import com.project.setech.util.CategoryType;
 
 import java.util.ArrayList;
@@ -68,6 +68,8 @@ public class ListActivity extends AppCompatActivity {
 
     private List<IItem> itemsList;
 
+    private IAnimations animations = new Animations(ListActivity.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,18 +100,31 @@ public class ListActivity extends AppCompatActivity {
         sortByExpandedLayout = findViewById(R.id.sortByExpandedLayout);
         sortByExpandedLayout.setVisibility(View.GONE);
 
-        //Animations animations = new Animations(context);
-
         sortByOpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (sortByExpandedLayout.getVisibility() == View.GONE) {
                     sortByExpandedLayout.setVisibility(View.VISIBLE);
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_up),null);
-                    //animations.setFadeAnimation(sortByExpandedLayout);
+                    animations.setSlideDownAnimation(sortByExpandedLayout);
                 }
                 else {
-                    //animations.slideUpAnim(sortByExpandedLayout);
+                    animations.setSlideUpAnimation(sortByExpandedLayout).setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            sortByExpandedLayout.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });;
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_down),null);
                 }
             }

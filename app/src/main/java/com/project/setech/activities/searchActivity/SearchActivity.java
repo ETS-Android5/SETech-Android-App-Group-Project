@@ -26,7 +26,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.project.setech.R;
-import com.project.setech.activities.Animations;
 import com.project.setech.activities.detailsActivity.DetailsActivity;
 import com.project.setech.activities.listActivity.listRecyclerView.RecyclerItemClickListener;
 import com.project.setech.activities.mainActivity.MainActivity;
@@ -36,6 +35,8 @@ import com.project.setech.model.ItemFactory;
 import com.project.setech.model.NewItemFactory;
 import com.project.setech.repository.IRepository;
 import com.project.setech.repository.Repository;
+import com.project.setech.util.Animations.Animations;
+import com.project.setech.util.Animations.IAnimations;
 import com.project.setech.util.CategoryType;
 import com.project.setech.util.Util;
 
@@ -49,7 +50,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private SearchViewAdapter searchViewAdapter;
-    private Context context;
 
     private Button clicked;
     private Button orderClicked;
@@ -73,7 +73,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private List<IItem> itemsList;
     private String searchString;
-    Animations animations= new Animations(context);
+    IAnimations animations= new Animations(SearchActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,9 +129,10 @@ public class SearchActivity extends AppCompatActivity {
                 if (sortByExpandedLayout.getVisibility() == View.GONE) {
                     sortByExpandedLayout.setVisibility(View.VISIBLE);
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null, AppCompatResources.getDrawable(SearchActivity.this,R.drawable.arrow_up),null);
-                    slideDownAnim(sortByExpandedLayout);
+                    animations.setSlideDownAnimation(sortByExpandedLayout);
                 }
                 else {
+                    animations.setSlideUpAnimation(sortByExpandedLayout);
                     sortByExpandedLayout.setVisibility(View.GONE);
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(SearchActivity.this,R.drawable.arrow_down),null);
                 }
@@ -250,10 +251,7 @@ public class SearchActivity extends AppCompatActivity {
             searchViewAdapter.sortName(order);
         }
     }
-    public void slideDownAnim(View view) {
-        Animation slideDown = AnimationUtils.loadAnimation(context, R.anim.slide_down);
-        view.startAnimation(slideDown);
-    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onStart() {
