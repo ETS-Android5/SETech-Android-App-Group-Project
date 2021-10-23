@@ -34,4 +34,10 @@
     <string name="default_cores">default cores</string>
     <string name="clock_speed">Clock speed</string>
     <string name="default_hz">default Hz</string>
+    <string name="form_factor">Form Factor</string>
+    <string name="default_form_factor">default form factor</string>
+    <string name="mb_socket">MB Socket</string>
+    <string name="default_mb_socket">default mb socket</string>
+    <string name="chipset">Chipset</string>
+    <string name="default_chipset">default chipset</string>
 </resources>

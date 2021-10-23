@@ -32,4 +32,7 @@
     <dimen name="cpuPriceName">12sp</dimen>
     <dimen name="cpuPriceNum">11sp</dimen>
     <dimen name="defaultCardSize">11sp</dimen>
+    <dimen name="gpuCardTitle">12sp</dimen>
+    <dimen name="motherboardPriceTitle">13sp</dimen>
+    <dimen name="motherboardPriceNum">12sp</dimen>
 </resources>
