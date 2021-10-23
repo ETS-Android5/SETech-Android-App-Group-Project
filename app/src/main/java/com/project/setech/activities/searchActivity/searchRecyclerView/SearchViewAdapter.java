@@ -27,6 +27,8 @@ import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.G
 import com.project.setech.activities.listActivity.listRecyclerView.viewHolders.MotherboardViewHolder;
 import com.project.setech.model.IItem;
 import com.project.setech.model.itemType.CPU;
+import com.project.setech.util.Animations.Animations;
+import com.project.setech.util.Animations.IAnimations;
 import com.project.setech.util.CategoryType;
 
 import java.util.ArrayList;
@@ -43,13 +45,17 @@ public class SearchViewAdapter extends RecyclerView.Adapter implements Filterabl
     private CategoryType type;
     private List<IItem> itemListFull;
     private String order;
+    private IAnimations animations;
 
     public SearchViewAdapter(Context context, List<IItem> itemList, CategoryType type) {
         this.context = context;
         this.itemList = itemList;
         this.type = type;
         itemListFull = new ArrayList<>(itemList);
+        animations = new Animations(context);
     }
+
+    //Animations animations = new Animations(context);
 
     @NonNull
     @Override
@@ -67,12 +73,7 @@ public class SearchViewAdapter extends RecyclerView.Adapter implements Filterabl
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((BaseItemViewHolder) holder).bind(itemList.get(position));
 
-        animateView(holder.itemView);
-    }
-
-    private void animateView(View view) {
-        Animation slideDown = AnimationUtils.loadAnimation(context, R.anim.item_animation_fall_down);
-        view.startAnimation(slideDown);
+        animations.setFallDownAnimation(holder.itemView);
     }
 
     @Override

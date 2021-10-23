@@ -8,6 +8,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,6 +35,8 @@ import com.project.setech.model.ItemFactory;
 import com.project.setech.model.NewItemFactory;
 import com.project.setech.repository.IRepository;
 import com.project.setech.repository.Repository;
+import com.project.setech.util.Animations.Animations;
+import com.project.setech.util.Animations.IAnimations;
 import com.project.setech.util.CategoryType;
 import com.project.setech.util.Util;
 
@@ -70,6 +73,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private List<IItem> itemsList;
     private String searchString;
+    IAnimations animations= new Animations(SearchActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,9 +129,10 @@ public class SearchActivity extends AppCompatActivity {
                 if (sortByExpandedLayout.getVisibility() == View.GONE) {
                     sortByExpandedLayout.setVisibility(View.VISIBLE);
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null, AppCompatResources.getDrawable(SearchActivity.this,R.drawable.arrow_up),null);
-                    slideDownAnim(sortByExpandedLayout);
+                    animations.setSlideDownAnimation(sortByExpandedLayout);
                 }
                 else {
+                    animations.setSlideUpAnimation(sortByExpandedLayout);
                     sortByExpandedLayout.setVisibility(View.GONE);
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(SearchActivity.this,R.drawable.arrow_down),null);
                 }
@@ -278,32 +283,6 @@ public class SearchActivity extends AppCompatActivity {
 
             selectSortButton(nameSortButton, true);
             selectOrderSortButton(increasingSortButton, true);
-        });
-    }
-
-    private void slideDownAnim(View view) {
-        Animation slideDown = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.slide_down);
-        view.startAnimation(slideDown);
-    }
-
-    private void slideUpAnim(View view) {
-        Animation slideDown = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.slide_up);
-        view.startAnimation(slideDown);
-        slideDown.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                sortByExpandedLayout.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
         });
     }
 

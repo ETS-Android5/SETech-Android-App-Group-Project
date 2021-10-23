@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -33,6 +33,8 @@ import com.project.setech.model.IItem;
 import com.project.setech.model.NewItemFactory;
 import com.project.setech.repository.IRepository;
 import com.project.setech.repository.Repository;
+import com.project.setech.util.Animations.Animations;
+import com.project.setech.util.Animations.IAnimations;
 import com.project.setech.util.CategoryType;
 
 import java.util.ArrayList;
@@ -42,6 +44,7 @@ public class ListActivity extends AppCompatActivity {
 
     private IRepository repository;
 
+    private Context context;
     private RecyclerView recyclerView;
     private ListViewAdapter listViewAdapter;
 
@@ -64,6 +67,8 @@ public class ListActivity extends AppCompatActivity {
     private ProgressBar listRecyclerProgressBar;
 
     private List<IItem> itemsList;
+
+    private IAnimations animations = new Animations(ListActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +106,25 @@ public class ListActivity extends AppCompatActivity {
                 if (sortByExpandedLayout.getVisibility() == View.GONE) {
                     sortByExpandedLayout.setVisibility(View.VISIBLE);
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_up),null);
-                    slideDownAnim(sortByExpandedLayout);
+                    animations.setSlideDownAnimation(sortByExpandedLayout);
                 }
                 else {
-                    slideUpAnim(sortByExpandedLayout);
+                    animations.setSlideUpAnimation(sortByExpandedLayout).setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            sortByExpandedLayout.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });;
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_down),null);
                 }
             }
@@ -155,33 +175,6 @@ public class ListActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void slideDownAnim(View view) {
-        Animation slideDown = AnimationUtils.loadAnimation(ListActivity.this, R.anim.slide_down);
-        view.startAnimation(slideDown);
-    }
-
-    private void slideUpAnim(View view) {
-        Animation slideDown = AnimationUtils.loadAnimation(ListActivity.this, R.anim.slide_up);
-        view.startAnimation(slideDown);
-        slideDown.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                sortByExpandedLayout.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void selectSortButton(Button sortBtn, boolean first) {
         priceSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));

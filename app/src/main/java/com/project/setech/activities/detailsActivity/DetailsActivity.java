@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,8 @@ import com.project.setech.model.NewItemFactory;
 import com.project.setech.repository.IRepository;
 import com.project.setech.repository.ISingleItemCallBack;
 import com.project.setech.repository.Repository;
+import com.project.setech.util.Animations.Animations;
+import com.project.setech.util.Animations.IAnimations;
 import com.project.setech.util.CategoryType;
 import com.project.setech.util.Util;
 
@@ -47,7 +50,7 @@ public class DetailsActivity extends AppCompatActivity {
     private boolean searchBoolean = false;
     private boolean fromMainScreen = false;
     private String queryString;
-
+    private Context context;
     private IItem item;
     private CategoryType categoryType;
 
@@ -76,6 +79,8 @@ public class DetailsActivity extends AppCompatActivity {
     private List<IItem> topItemsList;
 
     private int currentlySelectedImageIndex = 0;
+
+    IAnimations animations = new Animations(DetailsActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +117,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         topItemsList = new ArrayList<>();
         recyclerView = findViewById(R.id.detailsRecyclerView);
-        ;
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -171,7 +176,7 @@ public class DetailsActivity extends AppCompatActivity {
                 specValue.setText(specifications.get(key));
 
                 specificationsLayout.addView(specRow);
-                setFadeAnimation(specRow);
+                animations.setFadeAnimation(specRow);
             }
 
             populateTopItemPicks(categoryType);
@@ -209,18 +214,12 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void setFadeAnimation(View view) {
-        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(500);
-        view.startAnimation(anim);
-    }
-
     private void onImageRightArrowClick() {
         currentlySelectedImageIndex = (currentlySelectedImageIndex + 1) % 3;
         itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
         highlightImageCircle();
 
-        setFadeAnimation(itemImage);
+        animations.setFadeAnimation(itemImage);
     }
 
     private void onImageLeftArrowClick() {
@@ -231,7 +230,7 @@ public class DetailsActivity extends AppCompatActivity {
         itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
         highlightImageCircle();
 
-        setFadeAnimation(itemImage);
+        animations.setFadeAnimation(itemImage);
     }
 
     private void onImageButtonClick(int index) {
@@ -239,7 +238,7 @@ public class DetailsActivity extends AppCompatActivity {
         itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
         highlightImageCircle();
 
-        setFadeAnimation(itemImage);
+        animations.setFadeAnimation(itemImage);
     }
 
     private void highlightImageCircle() {
