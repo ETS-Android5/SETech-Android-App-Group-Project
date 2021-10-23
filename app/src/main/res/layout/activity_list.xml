@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.listActivity.ListActivity"
-    android:layout_marginLeft="@dimen/screenPadding"
-    android:layout_marginRight="@dimen/screenPadding">
+    tools:context=".activities.listActivity.ListActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -22,7 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            tools:visibility="visible">
+            tools:visibility="visible"
+            android:layout_marginLeft="@dimen/screenPadding"
+            android:layout_marginRight="@dimen/screenPadding">
 
             <Button
                 android:id="@+id/sortByOpenButton"

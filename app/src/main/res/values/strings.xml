@@ -30,4 +30,8 @@
     <string name="defaultCategoryCardName">Category card name</string>
     <string name="categoryCardDescription">Category card description</string>
     <string name="categoryImageViewDescription">Category Image</string>
+    <string name="number_of_cores">Number of Cores</string>
+    <string name="default_cores">default cores</string>
+    <string name="clock_speed">Clock speed</string>
+    <string name="default_hz">default Hz</string>
 </resources>
