@@ -1,8 +1,8 @@
 # SOFTENG 306 Project 2: SETECH Team 5
 
 ## Background
-This project is about creating an Android app that can be used to showcase/sell some products and items. we as Team 5 would present you
-with our computer parts showcase application SETECH.
+In this project, we as Team 5 created an Android app that can be used to showcase/sell some products and items. We would present you 
+our computer parts showcase application SETECH.
 
 ## Group Members
 - Marcus Li
