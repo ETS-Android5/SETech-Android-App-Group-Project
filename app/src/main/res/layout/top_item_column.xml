@@ -37,8 +37,9 @@
                 android:id="@+id/itemImage"
                 android:layout_width="@dimen/smallItemImageSize"
                 android:layout_height="@dimen/smallItemImageSize"
-                tools:srcCompat="@tools:sample/avatars"
-                android:contentDescription="@string/detailsDefaultContentDescription" />
+                android:contentDescription="@string/detailsDefaultContentDescription"
+                tools:ignore="ImageContrastCheck"
+                tools:srcCompat="@tools:sample/avatars" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -46,7 +47,7 @@
     <TextView
         android:id="@+id/itemName"
         android:layout_width="match_parent"
-        android:layout_height="37dp"
+        android:layout_height="38dp"
         android:layout_weight="1"
         android:ellipsize="none"
         android:fontFamily="@font/roboto"

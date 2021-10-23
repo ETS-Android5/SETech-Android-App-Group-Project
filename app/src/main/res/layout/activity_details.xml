@@ -52,7 +52,9 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
                     android:contentDescription="@string/left_image_button"
-                    app:srcCompat="@drawable/ic_arrow_left_filled" />
+                    android:minHeight="48dp"
+                    app:srcCompat="@drawable/ic_arrow_left_filled"
+                    tools:ignore="RedundantDescriptionCheck" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -70,7 +72,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
                         android:orientation="horizontal">
@@ -81,7 +83,8 @@
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/white"
                             android:contentDescription="@string/first_image_button"
-                            app:srcCompat="@drawable/ic_circle_filled" />
+                            app:srcCompat="@drawable/ic_circle_filled"
+                            tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
 
                         <ImageButton
                             android:id="@+id/imageCircle2"
@@ -89,7 +92,8 @@
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/white"
                             android:contentDescription="@string/second_image_button"
-                            app:srcCompat="@drawable/ic_circle_hollow" />
+                            app:srcCompat="@drawable/ic_circle_hollow"
+                            tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
 
                         <ImageButton
                             android:id="@+id/imageCircle3"
@@ -97,7 +101,8 @@
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/white"
                             android:contentDescription="@string/third_image_button"
-                            app:srcCompat="@drawable/ic_circle_hollow" />
+                            app:srcCompat="@drawable/ic_circle_hollow"
+                            tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -107,7 +112,9 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
                     android:contentDescription="@string/right_image_button"
-                    app:srcCompat="@drawable/ic_arrow_right_filled" />
+                    android:minHeight="48dp"
+                    app:srcCompat="@drawable/ic_arrow_right_filled"
+                    tools:ignore="RedundantDescriptionCheck" />
 
             </LinearLayout>
 

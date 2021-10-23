@@ -39,4 +39,5 @@
     <dimen name="specValue">12sp</dimen>
     <dimen name="topPicksCardSpacing">12dp</dimen>
     <dimen name="smallItemImageSize">45dp</dimen>
+    <dimen name="landScapeMargin">20dp</dimen>
 </resources>

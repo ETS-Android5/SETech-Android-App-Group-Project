@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginRight="12dp"
+    android:layout_marginEnd="@dimen/topPicksCardSpacing"
     android:orientation="vertical"
     tools:context=".activities.mainActivity.MainActivity"
     android:foreground="?android:attr/selectableItemBackground"
@@ -19,8 +19,8 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="3dp"
+        app:cardCornerRadius="@dimen/cardCornerRadius"
+        app:cardElevation="@dimen/cardElevation"
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,8 +35,10 @@
 
             <ImageView
                 android:id="@+id/itemImage"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="@dimen/smallItemImageSize"
+                android:layout_height="@dimen/smallItemImageSize"
+                android:contentDescription="@string/detailsDefaultContentDescription"
+                tools:ignore="ImageContrastCheck"
                 tools:srcCompat="@tools:sample/avatars" />
 
         </LinearLayout>
@@ -45,20 +47,21 @@
     <TextView
         android:id="@+id/itemName"
         android:layout_width="match_parent"
-        android:layout_height="37dp"
+        android:layout_height="38dp"
         android:layout_weight="1"
         android:ellipsize="none"
         android:fontFamily="@font/roboto"
         android:maxLines="100"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:text="Item name"
+        android:text="@string/detailsDefaultTitle"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="10dp"
+        android:textSize="@dimen/defaultCardSize"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cardView" />
+        app:layout_constraintTop_toTopOf="@+id/cardView"
+        tools:ignore="InefficientWeight" />
 </LinearLayout>
