@@ -21,8 +21,8 @@
 
         <ImageView
             android:id="@+id/motherboardImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/mediumItemImageSize"
+            android:layout_height="@dimen/mediumItemImageSize"
             app:srcCompat="@drawable/mbdgbm57201a"
             android:contentDescription="@string/detailsDefaultContentDescription" />
 

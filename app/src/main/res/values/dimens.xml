@@ -35,4 +35,8 @@
     <dimen name="gpuCardTitle">12sp</dimen>
     <dimen name="motherboardPriceTitle">13sp</dimen>
     <dimen name="motherboardPriceNum">12sp</dimen>
+    <dimen name="specTitle">12sp</dimen>
+    <dimen name="specValue">12sp</dimen>
+    <dimen name="topPicksCardSpacing">12dp</dimen>
+    <dimen name="smallItemImageSize">45dp</dimen>
 </resources>

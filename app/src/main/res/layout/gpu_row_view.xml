@@ -21,8 +21,8 @@
 
         <ImageView
             android:id="@+id/gpuImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/mediumItemImageSize"
+            android:layout_height="@dimen/mediumItemImageSize"
             android:layout_marginTop="10dp"
             app:srcCompat="@drawable/vgaevg3283"
             android:contentDescription="@string/detailsDefaultContentDescription" />

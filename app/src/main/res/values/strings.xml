@@ -40,4 +40,7 @@
     <string name="default_mb_socket">default mb socket</string>
     <string name="chipset">Chipset</string>
     <string name="default_chipset">default chipset</string>
+    <string name="spec_name">Spec Name</string>
+    <string name="spec_value">Spec Value</string>
+    <string name="setech">SETECH</string>
 </resources>
