@@ -4,4 +4,14 @@
     <dimen name="detailsCategory">14sp</dimen>
     <dimen name="detailsPrice">24sp</dimen>
     <dimen name="screenPadding">10dp</dimen>
+    <dimen name="listButtons">12sp</dimen>
+    <dimen name="listNotFoundText">20sp</dimen>
+    <dimen name="listSortButtonsWidth">100dp</dimen>
+    <dimen name="listSortButtonsHeight">48dp</dimen>
+    <dimen name="listSortButtonsMarginStart">2dp</dimen>
+    <dimen name="listSortButtonsMarginEnd">5dp</dimen>
+    <dimen name="listSortByDirectionWidth">130dp</dimen>
+    <dimen name="listSortByDirectionHeight">48dp</dimen>
+    <dimen name="listSortByDirectionMarginStart">2dp</dimen>
+    <dimen name="listSortByDirectionMarginEnd">10dp</dimen>
 </resources>
