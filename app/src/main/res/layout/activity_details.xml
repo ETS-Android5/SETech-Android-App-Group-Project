@@ -9,8 +9,8 @@
     <ProgressBar
         android:id="@+id/detailsProgressBar"
         style="?android:attr/progressBarStyle"
-        android:layout_width="123dp"
-        android:layout_height="109dp"
+        android:layout_width="@dimen/largeProgressBar"
+        android:layout_height="@dimen/largeProgressBar"
         android:indeterminateTint="@color/teal_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

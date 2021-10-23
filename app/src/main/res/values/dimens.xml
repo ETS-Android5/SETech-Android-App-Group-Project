@@ -14,4 +14,9 @@
     <dimen name="listSortByDirectionHeight">48dp</dimen>
     <dimen name="listSortByDirectionMarginStart">2dp</dimen>
     <dimen name="listSortByDirectionMarginEnd">10dp</dimen>
+    <dimen name="mainMostViewedText">17sp</dimen>
+    <dimen name="smallProgressBar">40dp</dimen>
+    <dimen name="mainCategoriesText">22sp</dimen>
+    <dimen name="largeProgressBar">120dp</dimen>
+    <dimen name="mediumProgressBar">60dp</dimen>
 </resources>
