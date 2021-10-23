@@ -26,4 +26,10 @@
     <dimen name="categoryName">14sp</dimen>
     <dimen name="categoryCardDescription">11sp</dimen>
     <dimen name="cpuDefaultTitle">11sp</dimen>
+    <dimen name="cardMargin">10dp</dimen>
+    <dimen name="gpuDefaultTitle">12sp</dimen>
+    <dimen name="gpuDefaultPrice">11sp</dimen>
+    <dimen name="cpuPriceName">12sp</dimen>
+    <dimen name="cpuPriceNum">11sp</dimen>
+    <dimen name="defaultCardSize">11sp</dimen>
 </resources>

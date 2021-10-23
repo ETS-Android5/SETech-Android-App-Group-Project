@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/screenPadding"
-    android:layout_marginRight="@dimen/screenPadding"
+    android:layout_marginLeft="@dimen/cardMargin"
+    android:layout_marginRight="@dimen/cardMargin"
     android:padding="0dp"
     app:cardCornerRadius="@dimen/cardCornerRadius"
     app:cardElevation="@dimen/cardElevation"
@@ -62,7 +62,7 @@
                 android:text="@string/detailsDefaultPrice"
                 android:textAlignment="viewStart"
                 android:textColor="@color/teal_dark"
-                android:textSize="12sp"
+                android:textSize="@dimen/cpuPriceName"
                 android:textStyle="bold" />
 
             <TextView
@@ -73,7 +73,7 @@
                 android:text="@string/detailsDefaultPriceNum"
                 android:textAlignment="viewStart"
                 android:textColor="@color/teal_dark"
-                android:textSize="11sp"
+                android:textSize="@dimen/cpuPriceNum"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -95,7 +95,7 @@
                 android:text="@string/number_of_cores"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
-                android:textSize="11sp"
+                android:textSize="@dimen/defaultCardSize"
                 android:textStyle="bold" />
 
             <TextView
@@ -103,12 +103,11 @@
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:ems="10"
                 android:fontFamily="@font/roboto"
                 android:text="@string/default_cores"
                 android:textAlignment="viewEnd"
                 android:textColor="@color/black"
-                android:textSize="11sp" />
+                android:textSize="@dimen/defaultCardSize" />
         </LinearLayout>
 
         <LinearLayout
@@ -129,7 +128,7 @@
                 android:text="@string/clock_speed"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
-                android:textSize="11sp"
+                android:textSize="@dimen/defaultCardSize"
                 android:textStyle="bold" />
 
             <TextView
@@ -141,7 +140,7 @@
                 android:text="@string/default_hz"
                 android:textAlignment="viewEnd"
                 android:textColor="@color/black"
-                android:textSize="11sp" />
+                android:textSize="@dimen/defaultCardSize" />
 
         </LinearLayout>
 
