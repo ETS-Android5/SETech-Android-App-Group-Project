@@ -7,14 +7,17 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-// Source: https://stackoverflow.com/questions/24471109/recyclerview-onclick?page=1&tab=votes#tab-top
+/**
+ * Allows easy on item click listener attachment for a given recycler view
+ * Takes in a context of the Activity, recycler view and the on item click listener to attach
+ *
+ * Source: https://stackoverflow.com/questions/24471109/recyclerview-onclick?page=1&tab=votes#tab-top
+ */
 public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
         public void onItemClick(View view, int position);
-
-//        public void onLongItemClick(View view, int position);
     }
 
     GestureDetector mGestureDetector;
@@ -29,10 +32,6 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
 
             @Override
             public void onLongPress(MotionEvent e) {
-//                View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-//                if (child != null && mListener != null) {
-//                    mListener.onLongItemClick(child, recyclerView.getChildAdapterPosition(child));
-//                }
             }
         });
     }

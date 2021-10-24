@@ -20,6 +20,7 @@ public class CPUViewHolder extends BaseItemViewHolder{
 
 
     public CPUViewHolder(ViewGroup parent) {
+        // Inflate the cpu row view on the recycler view parent
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.cpu_row_view, parent, false));
         this.parent = parent;
 
@@ -32,6 +33,7 @@ public class CPUViewHolder extends BaseItemViewHolder{
 
     @Override
     public void bind(IItem item) {
+        // Cast the item to a CPU and set the view properties based on the item's values
         CPU cpu = (CPU) item;
 
         itemName.setText(cpu.getName());

@@ -4,6 +4,9 @@ import com.project.setech.model.IItem;
 
 import java.util.List;
 
+/**
+ * Interface for the sort by functionality
+ */
 public interface ISortBy {
     public void sortByPrice(List<IItem> itemList,String order);
     public void sortByName(List<IItem> itemList,String order);

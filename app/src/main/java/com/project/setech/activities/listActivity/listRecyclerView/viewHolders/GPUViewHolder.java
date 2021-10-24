@@ -17,6 +17,7 @@ public class GPUViewHolder extends BaseItemViewHolder{
 
 
     public GPUViewHolder(ViewGroup parent) {
+        // Inflate the gpu row view on the recycler view parent
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.gpu_row_view, parent, false));
         this.parent = parent;
 
@@ -27,6 +28,7 @@ public class GPUViewHolder extends BaseItemViewHolder{
 
     @Override
     public void bind(IItem item) {
+        // Cast the item to a GPU and set the view properties based on the item's values
         GPU gpu = (GPU) item;
 
         gpuName.setText(gpu.getName());
