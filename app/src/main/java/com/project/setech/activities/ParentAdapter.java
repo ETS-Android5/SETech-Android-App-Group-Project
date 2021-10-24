@@ -47,7 +47,7 @@ public class ParentAdapter extends RecyclerView.Adapter implements Filterable {
     public IAnimations animations;
     public String adType;
     private ISearchBy searchBy;
-    private ISortBy sortBy;
+    public ISortBy sortBy;
 
     /**
      * Constructor of ParentAdapter
@@ -141,13 +141,7 @@ public class ParentAdapter extends RecyclerView.Adapter implements Filterable {
 
             //sort filtered results
             if(adType == "list") {
-                if(clickedString == "price") {
-                    sortPrice(order);
-                } else if(clickedString == "name") {
-                    sortName(order);
-                } else if(clickedString == "view") {
-                    sortView(order);
-                }
+                sortByType(clickedString,order);
             }
 
             //Text to show no items are found
@@ -161,30 +155,20 @@ public class ParentAdapter extends RecyclerView.Adapter implements Filterable {
         }
     };
 
-    /**
-     * This method sorts the itemList with respect to the name comparator
-     * @param s The order of the sort(increase/decrease)
-     */
-    public void sortName(String s) {
-        sortBy.sortByName(itemList,s);
-        notifyDataSetChanged();
-    }
+    public void sortByType(String sortType,String order) {
+        if(sortType.equals("price")) {
+            sortBy.sortByPrice(itemList,order);
+        } else if(sortType.equals("name")) {
+            sortBy.sortByName(itemList,order);
+        } else if(sortType.equals("views")) {
+            sortBy.sortByView(itemList,order);
+        }
+        else {
+            order = "increase";
+            clickedString = "name";
+            sortBy.sortByName(itemList,order);
+        }
 
-    /**
-     * This method sorts the itemList with respect to the price comparator
-     * @param s The order of the sort(increase/decrease)
-     */
-    public void sortPrice(String s) {
-        sortBy.sortByPrice(itemList,s);
-        notifyDataSetChanged();
-    }
-
-    /**
-     * This method sorts the itemList with respect to the view comparator
-     * @param s The order of the sort(increase/decrease)
-     */
-    public void sortView(String s) {
-        sortBy.sortByView(itemList,s);
         notifyDataSetChanged();
     }
 }

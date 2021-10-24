@@ -144,19 +144,10 @@ public class ListActivity extends ParentActivity {
         super.selectOrderSortButton(sortBtn, first);
 
         if(!first) {
-
-            if (clicked == nameSortButton) {
-                listViewAdapter.sortName(order);
-            } else if (clicked == priceSortButton) {
-                listViewAdapter.sortPrice(order);
-            } else if (clicked == viewsSortButton) {
-                listViewAdapter.sortView(order);
-            }
+            listViewAdapter.sortByType(clicked.getText().toString().toLowerCase().trim(),order);
         } else {
-            order = "increase";
-            clickedString = "name";
             clicked = nameSortButton;
-            listViewAdapter.sortName(order);
+            listViewAdapter.sortByType("",order);
         }
     }
 
@@ -175,18 +166,11 @@ public class ListActivity extends ParentActivity {
                 order = "decrease";
             }
 
-            if (clicked == nameSortButton) {
-                listViewAdapter.sortName(order);
-            } else if (clicked == priceSortButton) {
-                listViewAdapter.sortPrice(order);
-            } else if (clicked == viewsSortButton) {
-                listViewAdapter.sortView(order);
-            }
+            Log.d("test",clicked.getText().toString());
+            listViewAdapter.sortByType(clicked.getText().toString().toLowerCase().trim(),order);
         } else {
-            order = "increase";
-            clickedString = "name";
             clicked = nameSortButton;
-            listViewAdapter.sortName(order);
+            listViewAdapter.sortByType("",order);
         }
     }
 
