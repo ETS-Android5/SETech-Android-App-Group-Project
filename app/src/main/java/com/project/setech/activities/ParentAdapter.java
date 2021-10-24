@@ -145,13 +145,7 @@ public class ParentAdapter extends RecyclerView.Adapter implements Filterable {
             }
 
             //Text to show no items are found
-            TextView noItemsFoundText = (TextView) ((Activity) context).findViewById(R.id.noItemsFoundText);
-
-            if (itemList.size() <= 0) {
-                noItemsFoundText.setVisibility(View.VISIBLE);
-            } else {
-                noItemsFoundText.setVisibility(View.GONE);
-            }
+            setNoItemsFoundText();
         }
     };
 
@@ -161,14 +155,7 @@ public class ParentAdapter extends RecyclerView.Adapter implements Filterable {
             clickedString = "name";
             sortBy.sortByName(itemList,order);
 
-            TextView noItemsFoundText = (TextView) ((Activity) context).findViewById(R.id.noItemsFoundText);
-
-            if (itemList.size() <= 0) {
-                noItemsFoundText.setVisibility(View.VISIBLE);
-            } else {
-                noItemsFoundText.setVisibility(View.GONE);
-            }
-
+            setNoItemsFoundText();
             notifyDataSetChanged();
 
             return;
@@ -187,6 +174,18 @@ public class ParentAdapter extends RecyclerView.Adapter implements Filterable {
             sortBy.sortByName(itemList,order);
         }
 
+
+        setNoItemsFoundText();
         notifyDataSetChanged();
+    }
+
+    public void setNoItemsFoundText() {
+        TextView noItemsFoundText = (TextView) ((Activity) context).findViewById(R.id.noItemsFoundText);
+
+        if (itemList.size() <= 0) {
+            noItemsFoundText.setVisibility(View.VISIBLE);
+        } else {
+            noItemsFoundText.setVisibility(View.GONE);
+        }
     }
 }
