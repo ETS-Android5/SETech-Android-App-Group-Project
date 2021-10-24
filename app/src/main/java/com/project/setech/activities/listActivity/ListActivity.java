@@ -49,6 +49,7 @@ public class ListActivity extends ParentActivity {
         identity = "list";
         super.onCreate(savedInstanceState);
 
+        // Set the header title to the category name
         ab.setTitle(getIntent().getSerializableExtra("CategoryType").toString());
 
         int columns = 2;
@@ -57,13 +58,13 @@ public class ListActivity extends ParentActivity {
             columns = 1;
         }
 
+        // Set the recycler view's layout as grid layout with either 1 or 2 columns depending on if its motherboard or not
         recyclerView.setLayoutManager(new GridLayoutManager(this, columns));
 
+        // For each item add an on click event listener that transfers the user to the details activity page
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(ListActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        Log.d("test", "onItemClick: "+itemsList.get(position).getId());
-
                         Intent newIntent = new Intent(ListActivity.this, DetailsActivity.class);
                         newIntent.putExtra("ItemId", itemsList.get(position).getId());
                         newIntent.putExtra("SearchBoolean", false);
@@ -79,11 +80,15 @@ public class ListActivity extends ParentActivity {
             @Override
             public void onClick(View view) {
                 if (sortByExpandedLayout.getVisibility() == View.GONE) {
+                    // Make it visible and change the arrow icon facing up
                     sortByExpandedLayout.setVisibility(View.VISIBLE);
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_up),null);
+                    // Animate the motion with a slide down animation
                     animations.setSlideDownAnimation(sortByExpandedLayout);
                 }
                 else {
+                    // Closing sort by functionality
+                    // Use the slide up animation and attach an animation listener to it
                     animations.setSlideUpAnimation(sortByExpandedLayout).setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
@@ -92,6 +97,7 @@ public class ListActivity extends ParentActivity {
 
                         @Override
                         public void onAnimationEnd(Animation animation) {
+                            // Only make the layout invisible after the animation is done
                             sortByExpandedLayout.setVisibility(View.GONE);
                         }
 
@@ -100,6 +106,7 @@ public class ListActivity extends ParentActivity {
 
                         }
                     });
+                    // Set the icon facing down
                     sortByOpenButton.setCompoundDrawablesWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ListActivity.this,R.drawable.arrow_down),null);
                 }
             }
@@ -117,18 +124,21 @@ public class ListActivity extends ParentActivity {
         CategoryType categoryType = (CategoryType) getIntent().getSerializableExtra("CategoryType");
         repository = new Repository(ListActivity.this, new NewItemFactory());
 
+        // Fetch all the items that match the category type from the database
         repository.fetchItems(categoryType, items -> {
 
             itemsList = items;
 
             listViewAdapter = new ListViewAdapter(ListActivity.this, itemsList, categoryType);
 
+            // Set up the recycler view with a new adapter
             recyclerView.setAdapter(listViewAdapter);
             listViewAdapter.notifyDataSetChanged();
 
             listRecyclerProgressBar = findViewById(R.id.listRecyclerProgressBar);
             listRecyclerProgressBar.setVisibility(View.GONE);
 
+            // Select the default sorting
             selectSortButton(nameSortButton, true);
             selectOrderSortButton(increasingSortButton, true);
 

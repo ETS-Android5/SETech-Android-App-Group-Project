@@ -1,5 +1,9 @@
 package com.project.setech.util;
 
+/**
+ * Enum used for the all the supported categories by the application
+ * ALL is used whenever a list of items contains all the category types
+ */
 public enum CategoryType {
     CPU {
         @Override

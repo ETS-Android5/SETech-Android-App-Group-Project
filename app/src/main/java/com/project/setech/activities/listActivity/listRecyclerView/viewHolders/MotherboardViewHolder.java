@@ -17,6 +17,7 @@ public class MotherboardViewHolder extends BaseItemViewHolder{
 
 
     public MotherboardViewHolder(ViewGroup parent) {
+        // Inflate the motherboard row view on the recycler view parent
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.motherboard_row_view, parent, false));
         this.parent = parent;
 
@@ -30,6 +31,7 @@ public class MotherboardViewHolder extends BaseItemViewHolder{
 
     @Override
     public void bind(IItem item) {
+        // Cast the item to a motherboard and set the view properties based on the item's values
         Motherboard motherboard = (Motherboard) item;
 
         motherboardName.setText(motherboard.getName());

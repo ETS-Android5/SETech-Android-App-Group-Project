@@ -12,9 +12,11 @@ public class SearchBy implements ISearchBy{
         List<IItem> tempList = new ArrayList<>();
 
         if (searchText.length() == 0) {
+            // If the search query is an empty string then return all the items
             tempList.addAll(itemList);
         } else {
             for (IItem item : itemList) {
+                // Otherwise filter the items out that don't contain the search query in its name
                 if (item.getName().toLowerCase().trim().contains(searchText.toLowerCase().trim())) {
                     tempList.add(item);
                 }
