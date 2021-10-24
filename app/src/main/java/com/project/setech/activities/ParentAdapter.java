@@ -161,6 +161,16 @@ public class ParentAdapter extends RecyclerView.Adapter implements Filterable {
             clickedString = "name";
             sortBy.sortByName(itemList,order);
 
+            TextView noItemsFoundText = (TextView) ((Activity) context).findViewById(R.id.noItemsFoundText);
+
+            if (itemList.size() <= 0) {
+                noItemsFoundText.setVisibility(View.VISIBLE);
+            } else {
+                noItemsFoundText.setVisibility(View.GONE);
+            }
+
+            notifyDataSetChanged();
+
             return;
         }
 

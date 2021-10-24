@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -236,6 +237,7 @@ public class ListActivity extends ParentActivity {
                     listViewAdapter.setButtonAndString(order, clickedString);
                     listViewAdapter.backToFull();
                 }
+                Log.d("test", newText + " =========");
                 return false;
             }
         });
