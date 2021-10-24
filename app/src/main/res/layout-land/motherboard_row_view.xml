@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
+    android:layout_marginLeft="@dimen/landScapeMargin"
+    android:layout_marginRight="@dimen/landScapeMargin"
     android:padding="0dp"
-    app:cardCornerRadius="5dp"
+    app:cardCornerRadius="@dimen/cardCornerRadius"
     app:cardUseCompatPadding="true"
-    app:cardElevation="3dp"
+    app:cardElevation="@dimen/cardElevation"
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
     android:clickable="true"
@@ -22,9 +21,10 @@
 
         <ImageView
             android:id="@+id/motherboardImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:srcCompat="@drawable/mbdgbm57201a" />
+            android:layout_width="@dimen/mediumItemImageSize"
+            android:layout_height="@dimen/mediumItemImageSize"
+            app:srcCompat="@drawable/mbdgbm57201a"
+            android:contentDescription="@string/detailsDefaultContentDescription" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,12 +38,11 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="15dp"
-                android:ems="10"
                 android:fontFamily="@font/roboto"
-                android:text="Title"
+                android:text="@string/detailsDefaultTitle"
                 android:textAlignment="textStart"
-                android:textColor="#000000"
-                android:textSize="11dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/gpuCardTitle"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -59,13 +58,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:fontFamily="@font/roboto"
-                    android:inputType="textPersonName"
-                    android:text="Form Factor"
+                    android:text="@string/form_factor"
                     android:textAlignment="viewStart"
-                    android:textColor="#000000"
-                    android:textSize="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/defaultCardSize"
                     android:textStyle="bold" />
 
                 <TextView
@@ -73,13 +70,11 @@
                     android:layout_width="25dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:fontFamily="@font/roboto"
-                    android:inputType="textPersonName"
-                    android:text="6"
+                    android:text="@string/default_form_factor"
                     android:textAlignment="viewEnd"
-                    android:textColor="#000000"
-                    android:textSize="10dp" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/defaultCardSize" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -94,13 +89,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:fontFamily="@font/roboto"
-                    android:inputType="textPersonName"
-                    android:text="MB Socket"
+                    android:text="@string/mb_socket"
                     android:textAlignment="viewStart"
-                    android:textColor="#000000"
-                    android:textSize="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/defaultCardSize"
                     android:textStyle="bold" />
 
                 <TextView
@@ -108,13 +101,11 @@
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:fontFamily="@font/roboto"
-                    android:inputType="textPersonName"
-                    android:text="6"
+                    android:text="@string/default_mb_socket"
                     android:textAlignment="viewEnd"
-                    android:textColor="#000000"
-                    android:textSize="10dp" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/defaultCardSize" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -128,13 +119,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:fontFamily="@font/roboto"
-                    android:inputType="textPersonName"
-                    android:text="Chipset"
+                    android:text="@string/chipset"
                     android:textAlignment="viewStart"
-                    android:textColor="#000000"
-                    android:textSize="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/defaultCardSize"
                     android:textStyle="bold" />
 
                 <TextView
@@ -142,13 +131,11 @@
                     android:layout_width="25dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:fontFamily="@font/roboto"
-                    android:inputType="textPersonName"
-                    android:text="6"
+                    android:text="@string/default_chipset"
                     android:textAlignment="viewEnd"
-                    android:textColor="#000000"
-                    android:textSize="10dp" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/defaultCardSize" />
             </LinearLayout>
 
 
@@ -156,32 +143,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:gravity="right"
+                android:layout_marginEnd="20dp"
+                android:gravity="end"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:inputType="textPersonName"
-                    android:text="Price"
+                    android:text="@string/detailsDefaultPrice"
                     android:textAlignment="viewEnd"
-                    android:textColor="#0071C5"
-                    android:textSize="13dp"
+                    android:textColor="@color/teal_dark"
+                    android:textSize="@dimen/motherboardPriceTitle"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/detailsItemPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/roboto"
-                    android:inputType="textPersonName"
-                    android:text="Number"
+                    android:text="@string/detailsDefaultPriceNum"
                     android:textAlignment="viewEnd"
-                    android:textColor="#0071C5"
-                    android:textSize="12dp"
+                    android:textColor="@color/teal_dark"
+                    android:textSize="@dimen/motherboardPriceNum"
                     android:textStyle="bold" />
 
             </LinearLayout>

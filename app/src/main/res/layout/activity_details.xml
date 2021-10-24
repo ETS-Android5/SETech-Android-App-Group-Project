@@ -9,9 +9,9 @@
     <ProgressBar
         android:id="@+id/detailsProgressBar"
         style="?android:attr/progressBarStyle"
-        android:layout_width="123dp"
-        android:layout_height="109dp"
-        android:indeterminateTint="#0071C5"
+        android:layout_width="@dimen/largeProgressBar"
+        android:layout_height="@dimen/largeProgressBar"
+        android:indeterminateTint="@color/teal_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,31 +30,34 @@
         <LinearLayout
             android:id="@+id/parentLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="@dimen/screenPadding"
+            android:layout_marginRight="@dimen/screenPadding">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/leftDetailsButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#FFFFFF"
-                    app:srcCompat="@drawable/ic_arrow_left_filled" />
+                    android:backgroundTint="@color/white"
+                    android:contentDescription="@string/left_image_button"
+                    android:minHeight="48dp"
+                    app:srcCompat="@drawable/ic_arrow_left_filled"
+                    tools:ignore="RedundantDescriptionCheck" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
@@ -64,14 +67,13 @@
                         android:id="@+id/detailsItemImage"
                         android:layout_width="140dp"
                         android:layout_height="140dp"
-                        android:layout_weight="1"
+                        android:contentDescription="@string/detailsDefaultContentDescription"
                         app:srcCompat="@drawable/cpui10400f" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -79,22 +81,28 @@
                             android:id="@+id/imageCircle1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="#FFFFFF"
-                            app:srcCompat="@drawable/ic_circle_filled" />
+                            android:backgroundTint="@color/white"
+                            android:contentDescription="@string/first_image_button"
+                            app:srcCompat="@drawable/ic_circle_filled"
+                            tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
 
                         <ImageButton
                             android:id="@+id/imageCircle2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="#FFFFFF"
-                            app:srcCompat="@drawable/ic_circle_hollow" />
+                            android:backgroundTint="@color/white"
+                            android:contentDescription="@string/second_image_button"
+                            app:srcCompat="@drawable/ic_circle_hollow"
+                            tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
 
                         <ImageButton
                             android:id="@+id/imageCircle3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="#FFFFFF"
-                            app:srcCompat="@drawable/ic_circle_hollow" />
+                            android:backgroundTint="@color/white"
+                            android:contentDescription="@string/third_image_button"
+                            app:srcCompat="@drawable/ic_circle_hollow"
+                            tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -102,8 +110,11 @@
                     android:id="@+id/rightDetailsButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#FFFFFF"
-                    app:srcCompat="@drawable/ic_arrow_right_filled" />
+                    android:backgroundTint="@color/white"
+                    android:contentDescription="@string/right_image_button"
+                    android:minHeight="48dp"
+                    app:srcCompat="@drawable/ic_arrow_right_filled"
+                    tools:ignore="RedundantDescriptionCheck" />
 
             </LinearLayout>
 
@@ -112,31 +123,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:orientation="vertical"
-                android:paddingLeft="10dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/detailsItemTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
                     android:fontFamily="@font/roboto"
-                    android:text="Title"
+                    android:text="@string/detailsDefaultTitle"
                     android:textAlignment="textStart"
-                    android:textColor="#000000"
-                    android:textSize="22dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/detailsTitle"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/detailsItemCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
                     android:fontFamily="@font/roboto"
-                    android:text="Title"
+                    android:text="@string/detailsDefaultCategory"
                     android:textAlignment="textStart"
-                    android:textColor="#535353"
-                    android:textSize="14dp"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/detailsCategory"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -144,8 +152,6 @@
                 android:id="@+id/specificationsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginBottom="18dp"
                 android:orientation="vertical">
 
@@ -154,33 +160,29 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:gravity="end"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:inputType="textPersonName"
-                    android:text="Price"
+                    android:text="@string/detailsDefaultPrice"
                     android:textAlignment="viewEnd"
-                    android:textColor="#0071C5"
-                    android:textSize="24dp"
+                    android:textColor="@color/teal_dark"
+                    android:textSize="@dimen/detailsPrice"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/detailsItemPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/roboto"
-                    android:inputType="textPersonName"
-                    android:text="Number"
+                    android:text="@string/detailsDefaultPriceNum"
                     android:textAlignment="viewEnd"
-                    android:textColor="#0071C5"
-                    android:textSize="24dp"
+                    android:textColor="@color/teal_dark"
+                    android:textSize="@dimen/detailsPrice"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -189,14 +191,12 @@
                 android:id="@+id/detailsItemPrice2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/roboto"
-                android:inputType="textPersonName"
-                android:text="Most viewed in category"
+                android:text="@string/detailsMostViewed"
                 android:textAlignment="textStart"
-                android:textColor="#0071C5"
-                android:textSize="14dp"
+                android:textColor="@color/teal_dark"
+                android:textSize="@dimen/detailsCategory"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -204,8 +204,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="55dp"
-                android:paddingLeft="5dp" >
+                android:layout_marginBottom="55dp">
 
             </androidx.recyclerview.widget.RecyclerView>
 

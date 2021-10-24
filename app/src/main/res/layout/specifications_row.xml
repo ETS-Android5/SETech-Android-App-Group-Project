@@ -23,11 +23,10 @@
             android:layout_weight="1"
             android:ems="10"
             android:fontFamily="@font/roboto"
-            android:inputType="textPersonName"
-            android:text="Spec Name"
+            android:text="@string/spec_name"
             android:textAlignment="viewStart"
-            android:textColor="#000000"
-            android:textSize="12dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/specTitle"
             android:textStyle="bold" />
 
         <TextView
@@ -37,10 +36,9 @@
             android:layout_weight="1"
             android:ems="10"
             android:fontFamily="@font/roboto"
-            android:inputType="textPersonName"
-            android:text="Spec Value"
+            android:text="@string/spec_value"
             android:textAlignment="viewEnd"
-            android:textColor="#000000"
-            android:textSize="12dp" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/specValue" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
