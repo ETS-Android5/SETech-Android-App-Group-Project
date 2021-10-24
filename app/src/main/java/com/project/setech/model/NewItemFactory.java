@@ -15,14 +15,30 @@ import com.project.setech.util.Util;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is a factory calss for creating a single Item object
+ */
 public class NewItemFactory implements IItemFactory{
 
+    /**
+     * Empty constructor for the NewItemFactory class
+     */
     public NewItemFactory() {
     }
 
+    /**
+     * This method creates an item.
+     * @param id ID of the item
+     * @param item Specifications of the item
+     * @param context Global information about an application environment
+     * @param categoryType Category type of the item
+     * @return An Item with specific type
+     * @throws InvalidFetchedItem Exception when items are not properly fetched
+     */
     @Override
     public IItem createItem(String id,Map<String,Object> item, Context context, CategoryType categoryType) throws InvalidFetchedItem {
         try {
+            //getting item's name, images, price, view count and specifications
             String name = (String) item.get("name");
             List<Integer> images = Util.formatDrawableStringList((List<String>) item.get("images"), context);
             String price = (String) item.get("price");
@@ -76,6 +92,7 @@ public class NewItemFactory implements IItemFactory{
                             specifications.get("boostClockSpeed")
                     );
                 case ALL:
+                    //for SearchActivity, return CategoryType ALL
                     return new Item(
                             id,
                             name,

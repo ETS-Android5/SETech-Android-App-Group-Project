@@ -2,6 +2,9 @@ package com.project.setech.model;
 
 import java.util.List;
 
+/**
+ * This interface provides methods for the Item class
+ */
 public interface IItem {
     public String getId();
     public String getName();
