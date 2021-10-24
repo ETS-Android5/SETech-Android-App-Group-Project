@@ -212,6 +212,7 @@ public class DetailsActivity extends AppCompatActivity {
      */
     private void populateTopItemPicks(CategoryType type) {
         repository.fetchItems(type, "viewCount", Query.Direction.DESCENDING, 15, items -> {
+            // Sometimes the items are fetched out of order through firestore therefore this is an anti-measure for it
             ISortBy sortBy = new SortBy();
             sortBy.sortByView(items,"decreasing");
 

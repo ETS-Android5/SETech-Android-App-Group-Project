@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         repository = new Repository(MainActivity.this, new NewItemFactory(), new CategoryFactor());
 
         repository.fetchItems("viewCount", Query.Direction.DESCENDING, 15, items -> {
+            // Sometimes the items are fetched out of order through firestore therefore this is an anti-measure for it
             ISortBy sortBy = new SortBy();
             sortBy.sortByView(items,"decreasing");
 
