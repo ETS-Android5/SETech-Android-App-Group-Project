@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -190,6 +191,8 @@ public class ListActivity extends ParentActivity {
         searchView = (SearchView) menuItem.getActionView();
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("Type here to search");
+        EditText test = searchView.findViewById(R.id.search_src_text);
+        test.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 
         //close button("x") on the search view and its listener
         View closeButton = searchView.findViewById(R.id.search_close_btn);
