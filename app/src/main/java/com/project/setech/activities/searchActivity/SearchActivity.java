@@ -131,26 +131,17 @@ public class SearchActivity extends ParentActivity {
     /**
      * This method is used to change appearance for order sort buttons and notify the application this button is selected
      * @param sortBtn The button clicked
-     * @param first ariable to determine if the activity is just being created or not
+     * @param first Variable to determine if the activity is just being created or not
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void selectOrderSortButton(Button sortBtn, boolean first) {
         super.selectOrderSortButton(sortBtn, first);
 
         if(!first) {
-
-            if (clicked == nameSortButton) {
-                searchViewAdapter.sortName(order);
-            } else if (clicked == priceSortButton) {
-                searchViewAdapter.sortPrice(order);
-            } else if (clicked == viewsSortButton) {
-                searchViewAdapter.sortView(order);
-            }
+            searchViewAdapter.sortByType(clicked.getText().toString().toLowerCase().trim(),order);
         } else {
-            order = "increase";
-            clickedString = "name";
             clicked = nameSortButton;
-            searchViewAdapter.sortName(order);
+            searchViewAdapter.sortByType("",order);
         }
     }
 
@@ -169,18 +160,10 @@ public class SearchActivity extends ParentActivity {
                 order = "decrease";
             }
 
-            if (clicked == nameSortButton) {
-                searchViewAdapter.sortName(order);
-            } else if (clicked == priceSortButton) {
-                searchViewAdapter.sortPrice(order);
-            } else if (clicked == viewsSortButton) {
-                searchViewAdapter.sortView(order);
-            }
+            searchViewAdapter.sortByType(clicked.getText().toString().toLowerCase().trim(),order);
         } else {
-            order = "increase";
-            clickedString = "name";
             clicked = nameSortButton;
-            searchViewAdapter.sortName(order);
+            searchViewAdapter.sortByType("",order);
         }
     }
 
