@@ -7,6 +7,9 @@ import com.project.setech.util.CategoryType;
 
 import java.util.List;
 
+/**
+ * Interface for the repository functionality that is required throughout the application
+ */
 public interface IRepository {
     public void fetchItem(String id, ISingleItemCallBack callBack);
 
