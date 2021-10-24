@@ -11,6 +11,11 @@ our computer parts showcase application SETECH.
 
 ## Getting Started
 
+The application was mainly tested on API 30 Pixel 2 however the min SDK version is set to 24
+therefore should support all SDK versions 24 and up.
+
+However if there are any issues please consider using API 30 Pixel 2 to see if it is resolved.
+
 ### Dependencies
 
 Dependencies used in this project are as follows:
