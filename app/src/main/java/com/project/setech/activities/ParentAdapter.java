@@ -156,6 +156,14 @@ public class ParentAdapter extends RecyclerView.Adapter implements Filterable {
     };
 
     public void sortByType(String sortType,String order) {
+        if (sortType == null) {
+            order = "increase";
+            clickedString = "name";
+            sortBy.sortByName(itemList,order);
+
+            return;
+        }
+
         if(sortType.equals("price")) {
             sortBy.sortByPrice(itemList,order);
         } else if(sortType.equals("name")) {
