@@ -15,7 +15,7 @@ our computer parts showcase application SETECH.
 
 Dependencies used in this project are as follows:
 
-[Firebase Cloud Firestore](https://firebase.google.com/docs/firestore)
+* [Firebase Cloud Firestore](https://firebase.google.com/docs/firestore)
 
 ### Building and Installing
 
