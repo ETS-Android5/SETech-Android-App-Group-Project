@@ -35,6 +35,9 @@ import com.project.setech.util.Util;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used to represent the details and images of an item from varying categories.
+ */
 public class DetailsActivity extends AppCompatActivity {
 
     private IRepository repository = new Repository(DetailsActivity.this,new NewItemFactory());
@@ -74,18 +77,22 @@ public class DetailsActivity extends AppCompatActivity {
 
     IAnimations animations = new Animations(DetailsActivity.this);
 
+    /**
+     * This method is called when this activity is created
+     * @param savedInstanceState A mapping from String keys to various Parcelable values.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        //actionbar
+        // Actionbar
         ActionBar actionBar = getSupportActionBar();
 
-        //set back button
+        // Set back button
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
-
+        // Setting fields to views
         parentLayout = findViewById(R.id.parentLayout);
         parentLayout.setVisibility(View.GONE);
 
@@ -138,11 +145,11 @@ public class DetailsActivity extends AppCompatActivity {
                     }
                 })
         );
-
+        // Get specific item specifications nad images
         repository.fetchItem(itemId, (item, categoryType, specifications) -> {
             this.item = item;
             this.categoryType = categoryType;
-
+            // Increment viewCount by 1
             repository.updateItemValue(itemId,"viewCount",Integer.toString(Integer.parseInt(item.getViewCount()) + 1));
 
             progressBar.setVisibility(View.GONE);
@@ -196,6 +203,11 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method retrieves the top viewed items based on viewCount and displays on the bottom of
+     * the screen.
+     * @param type Category type
+     */
     private void populateTopItemPicks(CategoryType type) {
         repository.fetchItems(type, "viewCount", Query.Direction.DESCENDING, 15, items -> {
             topItemsList = items;
@@ -206,6 +218,9 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method switches the displayed image to the image that is after the current image.
+     */
     private void onImageRightArrowClick() {
         currentlySelectedImageIndex = (currentlySelectedImageIndex + 1) % 3;
         itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
@@ -214,6 +229,9 @@ public class DetailsActivity extends AppCompatActivity {
         animations.setFadeAnimation(itemImage);
     }
 
+    /**
+     * This method switches the displayed image to the image that is before the current image.
+     */
     private void onImageLeftArrowClick() {
         currentlySelectedImageIndex = (currentlySelectedImageIndex - 1) % 3;
         if (currentlySelectedImageIndex < 0) {
@@ -225,6 +243,10 @@ public class DetailsActivity extends AppCompatActivity {
         animations.setFadeAnimation(itemImage);
     }
 
+    /**
+     * This method allows for animations to be set when the circle button is clicked.
+     * @param index the index number of the selected image.
+     */
     private void onImageButtonClick(int index) {
         currentlySelectedImageIndex = index;
         itemImage.setImageResource(item.getImages().get(currentlySelectedImageIndex));
@@ -233,6 +255,9 @@ public class DetailsActivity extends AppCompatActivity {
         animations.setFadeAnimation(itemImage);
     }
 
+    /**
+     * This method highlights the circle button that is clicked by the user.
+     */
     private void highlightImageCircle() {
         if (currentlySelectedImageIndex == 0) {
             circle1.setImageResource(R.drawable.ic_circle_filled);
@@ -249,12 +274,20 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method is executed when the back button is clicked.
+     * @return A boolean object
+     */
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
 
+    /**
+     * This method returns the user to the activity that they were previously on before the current
+     * activity.
+     */
     @Override
     public void onBackPressed() {
 

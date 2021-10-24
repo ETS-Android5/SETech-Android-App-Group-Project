@@ -37,6 +37,10 @@ import com.project.setech.util.CategoryType;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is the home screen of the application and shows the categories and top picks of the
+ * items that are on showcase.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private IRepository repository;
@@ -51,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar mainTopPicksProgressBar;
     private ProgressBar mainCategoriesProgressbar;
 
+    /**
+     * This method is called when this activity is created
+     * @param savedInstanceState A mapping from String keys to various Parcelable values.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
         topItemsList = new ArrayList<>();
     }
 
+    /**
+     * This method populates the recycler view that displays the top viewed items.
+     */
     private void initializedRecyclerView() {
         recyclerView = findViewById(R.id.recycler_view);
         ;
@@ -80,7 +91,9 @@ public class MainActivity extends AppCompatActivity {
                 })
         );
     }
-
+    /**
+     * This method is executed when the activity starts
+     */
     protected void onStart() {
         super.onStart();
 
@@ -102,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             mainTopPicksProgressBar.setVisibility(View.GONE);
 
         });
-
+        // Fetch and display the categories
         repository.fetchCategories(categories -> {
             categoriesList = categories;
 
@@ -137,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method redirects the user to the ListActivity screen.
+     * @param type Category type that is clicked by the user
+     */
     public void goToListActivity(CategoryType type) {
         Intent newIntent = new Intent(MainActivity.this, ListActivity.class);
         newIntent.putExtra("CategoryType", type);
@@ -144,6 +161,10 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * This method redirects the user to the SearchActivity screen.
+     * @param searchString The string that the user inputs in the search bar
+     */
     public void goToSearchActivity(String searchString) {
         Intent newIntent = new Intent(MainActivity.this, SearchActivity.class);
         newIntent.putExtra("SearchString", searchString);
@@ -151,6 +172,11 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * This method creates the search button and provides search functionality
+     * @param menu Menu object
+     * @return A boolean object
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
