@@ -131,7 +131,6 @@ public class ParentAdapter extends RecyclerView.Adapter implements Filterable {
             return results;
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults results) {
             //replace itemList with new filtered results

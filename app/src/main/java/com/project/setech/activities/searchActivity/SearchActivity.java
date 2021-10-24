@@ -98,7 +98,6 @@ public class SearchActivity extends ParentActivity {
     /**
      * This method is executed when the activity start
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onStart() {
         super.onStart();
@@ -133,7 +132,6 @@ public class SearchActivity extends ParentActivity {
      * @param sortBtn The button clicked
      * @param first Variable to determine if the activity is just being created or not
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     protected void selectOrderSortButton(Button sortBtn, boolean first) {
         super.selectOrderSortButton(sortBtn, first);
 
@@ -150,7 +148,6 @@ public class SearchActivity extends ParentActivity {
      * @param sortBtn The button clicked
      * @param first Variable to determine if the activity is just being created or not
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     protected void selectSortButton(Button sortBtn, boolean first) {
         super.selectSortButton(sortBtn,first);
         if(!first) {

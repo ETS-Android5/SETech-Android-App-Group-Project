@@ -30,6 +30,8 @@ import com.project.setech.repository.Repository;
 import com.project.setech.util.Animations.Animations;
 import com.project.setech.util.Animations.IAnimations;
 import com.project.setech.util.CategoryType;
+import com.project.setech.util.SortBy.ISortBy;
+import com.project.setech.util.SortBy.SortBy;
 import com.project.setech.util.Util;
 
 import java.util.ArrayList;
@@ -210,6 +212,9 @@ public class DetailsActivity extends AppCompatActivity {
      */
     private void populateTopItemPicks(CategoryType type) {
         repository.fetchItems(type, "viewCount", Query.Direction.DESCENDING, 15, items -> {
+            ISortBy sortBy = new SortBy();
+            sortBy.sortByView(items,"decreasing");
+
             topItemsList = items;
             // Create recycler view
             mainViewAdapter = new MainListViewAdapter(DetailsActivity.this, topItemsList, type);

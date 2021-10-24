@@ -144,7 +144,6 @@ public class ParentActivity extends AppCompatActivity {
     /**
      * This method is executed when the activity start
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onStart() {
         super.onStart();
@@ -159,7 +158,6 @@ public class ParentActivity extends AppCompatActivity {
      * @param sortBtn The button clicked
      * @param first ariable to determine if the activity is just being created or not
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     protected void selectOrderSortButton(Button sortBtn, boolean first) {
         increasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
         decreasingSortButton.setBackground(AppCompatResources.getDrawable(this, R.drawable.sort_button_border_not_highlighted));
@@ -178,7 +176,6 @@ public class ParentActivity extends AppCompatActivity {
      * @param sortBtn The button clicked
      * @param first Variable to determine if the activity is just being created or not
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     protected void selectSortButton(Button sortBtn, boolean first) {
         priceSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));
         nameSortButton.setBackground(AppCompatResources.getDrawable(this,R.drawable.sort_button_border_not_highlighted));

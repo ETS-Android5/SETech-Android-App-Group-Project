@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +34,8 @@ import com.project.setech.model.NewItemFactory;
 import com.project.setech.repository.IRepository;
 import com.project.setech.repository.Repository;
 import com.project.setech.util.CategoryType;
+import com.project.setech.util.SortBy.ISortBy;
+import com.project.setech.util.SortBy.SortBy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
         repository = new Repository(MainActivity.this, new NewItemFactory(), new CategoryFactor());
 
         repository.fetchItems("viewCount", Query.Direction.DESCENDING, 15, items -> {
+            ISortBy sortBy = new SortBy();
+            sortBy.sortByView(items,"decreasing");
+
             topItemsList = items;
 
             // Create recycler view

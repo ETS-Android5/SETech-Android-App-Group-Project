@@ -15,7 +15,6 @@ public class SortBy implements ISortBy{
     /**
      * Sorts the items by price in the provided order using the compareByPrice comparator
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void sortByPrice(List<IItem> itemList, String order) {
         if (order.equals("increase")) {
@@ -28,7 +27,6 @@ public class SortBy implements ISortBy{
     /**
      * Sorts the items by alphabetical order in the provided order using the compareByName comparator
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void sortByName(List<IItem> itemList, String order) {
         if (order.equals("increase")) {
@@ -41,7 +39,6 @@ public class SortBy implements ISortBy{
     /**
      * Sorts the items by view count in the provided order using the compareByView comparator
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void sortByView(List<IItem> itemList, String order) {
         if (order.equals("increase")) {
