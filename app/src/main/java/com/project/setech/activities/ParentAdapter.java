@@ -23,6 +23,10 @@ import com.project.setech.model.IItem;
 import com.project.setech.util.Animations.Animations;
 import com.project.setech.util.Animations.IAnimations;
 import com.project.setech.util.CategoryType;
+import com.project.setech.util.SearchBy.ISearchBy;
+import com.project.setech.util.SearchBy.SearchBy;
+import com.project.setech.util.SortBy.ISortBy;
+import com.project.setech.util.SortBy.SortBy;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +46,8 @@ public class ParentAdapter extends RecyclerView.Adapter implements Filterable {
     public String clickedString;
     public IAnimations animations;
     public String adType;
+    private ISearchBy searchBy;
+    private ISortBy sortBy;
 
     /**
      * Constructor of ParentAdapter
@@ -55,6 +61,8 @@ public class ParentAdapter extends RecyclerView.Adapter implements Filterable {
         this.type = type;
         itemListFull = new ArrayList<>(itemList);
         animations = new Animations(context);
+        searchBy = new SearchBy();
+        sortBy = new SortBy();
     }
 
     /**
@@ -117,24 +125,9 @@ public class ParentAdapter extends RecyclerView.Adapter implements Filterable {
     private Filter FilterItem = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-            //filtering is case insensitive
-            String searchText = charSequence.toString().toLowerCase().trim();
-
-            //create temporary list to hold filtered items
-            List<IItem> tempList = new ArrayList<>();
-            if (searchText.length() == 0 || searchText.isEmpty()) {
-                tempList.addAll(itemListFull);
-            } else {
-                for (IItem item : itemListFull) {
-                    if (item.getName().toLowerCase().trim().contains(searchText)) {
-                        tempList.add(item);
-                    }
-                }
-            }
-
             //create FilteredResults based on tempList
             FilterResults results = new FilterResults();
-            results.values = tempList;
+            results.values = searchBy.filterBySearchText(itemListFull,charSequence.toString());
             return results;
         }
 
@@ -168,42 +161,12 @@ public class ParentAdapter extends RecyclerView.Adapter implements Filterable {
         }
     };
 
-    //comparator used for comparing prices
-    Comparator<IItem> compareByPrice = new Comparator<IItem>() {
-        @Override
-        public int compare(IItem o1, IItem o2) {
-            return Float.compare(Float.parseFloat(o1.getPrice()), (Float.parseFloat(o2.getPrice())));
-        }
-    };
-
-    //comparator used for comparing names
-    Comparator<IItem> compareByName = new Comparator<IItem>() {
-        @Override
-        public int compare(IItem o1, IItem o2) {
-            return o1.getName().compareTo(o2.getName());
-        }
-    };
-
-    //comparator used for comparing views
-    Comparator<IItem> compareByView = new Comparator<IItem>() {
-        @Override
-        public int compare(IItem o1, IItem o2) {
-            return Integer.parseInt(o1.getViewCount()) - Integer.parseInt(o2.getViewCount());
-        }
-    };
-
     /**
      * This method sorts the itemList with respect to the name comparator
      * @param s The order of the sort(increase/decrease)
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void sortName(String s) {
-        order = s;
-        if (order == "increase") {
-            Collections.sort(itemList, compareByName);
-        } else {
-            Collections.sort(itemList, compareByName.reversed());
-        }
+        sortBy.sortByName(itemList,s);
         notifyDataSetChanged();
     }
 
@@ -211,14 +174,8 @@ public class ParentAdapter extends RecyclerView.Adapter implements Filterable {
      * This method sorts the itemList with respect to the price comparator
      * @param s The order of the sort(increase/decrease)
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void sortPrice(String s) {
-        order = s;
-        if (order == "increase") {
-            Collections.sort(itemList, compareByPrice);
-        } else {
-            Collections.sort(itemList, compareByPrice.reversed());
-        }
+        sortBy.sortByPrice(itemList,s);
         notifyDataSetChanged();
     }
 
@@ -226,14 +183,8 @@ public class ParentAdapter extends RecyclerView.Adapter implements Filterable {
      * This method sorts the itemList with respect to the view comparator
      * @param s The order of the sort(increase/decrease)
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void sortView(String s) {
-        order = s;
-        if (order == "increase") {
-            Collections.sort(itemList, compareByView);
-        } else {
-            Collections.sort(itemList, compareByView.reversed());
-        }
+        sortBy.sortByView(itemList,s);
         notifyDataSetChanged();
     }
 }

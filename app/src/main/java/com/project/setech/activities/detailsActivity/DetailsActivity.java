@@ -8,19 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.project.setech.R;
 import com.project.setech.activities.listActivity.ListActivity;
@@ -29,10 +24,8 @@ import com.project.setech.activities.mainActivity.MainActivity;
 import com.project.setech.activities.mainActivity.mainRecyclerView.MainListViewAdapter;
 import com.project.setech.activities.searchActivity.SearchActivity;
 import com.project.setech.model.IItem;
-import com.project.setech.model.ItemFactory;
 import com.project.setech.model.NewItemFactory;
 import com.project.setech.repository.IRepository;
-import com.project.setech.repository.ISingleItemCallBack;
 import com.project.setech.repository.Repository;
 import com.project.setech.util.Animations.Animations;
 import com.project.setech.util.Animations.IAnimations;
@@ -41,7 +34,6 @@ import com.project.setech.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class DetailsActivity extends AppCompatActivity {
 
